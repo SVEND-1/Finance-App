@@ -1,0 +1,22 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/MenuNavigatorMain" android:icon="@drawable/baseline_access_time_filled_24" android:title="Главное"/>
+        <item android:id="@+id/MenuNavigatorProfile" android:icon="@drawable/baseline_access_time_filled_24" android:title="Профиль"/>
+        <item android:id="@+id/MenuNavigatorSettings" android:icon="@drawable/baseline_access_time_filled_24" android:title="Настройки"/>
+    </group>
+    <item android:title="Друзья">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item android:id="@+id/MenuNavigatorFindFriends" android:icon="@drawable/baseline_access_time_filled_24" android:title="Найти друзей"/>
+                <item android:id="@+id/MenuNavigatorMyFriends" android:icon="@drawable/baseline_access_time_filled_24" android:title="Мои друзья"/>
+            </group>
+        </menu>
+    </item>
+    <item android:title="Выход">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item android:id="@+id/MenuNavigatorExit" android:icon="@drawable/baseline_access_time_filled_24" android:title="Выйти с аккаунта"/>
+            </group>
+        </menu>
+    </item>
+</menu>

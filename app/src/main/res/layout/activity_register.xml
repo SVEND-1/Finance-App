@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/fonlogin"
+    tools:context=".Activity.Login.RegisterActivity">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        app:cardCornerRadius="30dp"
+        app:cardElevation="20dp"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <TextView
+                android:layout_width="293dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:text="Регистрация"
+                android:textAlignment="center"
+                android:textSize="20dp" />
+
+            <EditText
+                android:id="@+id/registerLoginET"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="40dp"
+                android:background="#CEE2F2"
+                android:gravity="start"
+                android:hint="Введите логин"
+                android:padding="16dp" />
+
+            <EditText
+                android:id="@+id/registerOnePasswordET"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="20dp"
+                android:background="#CEE2F2"
+                android:gravity="start"
+                android:hint="Введите пароль"
+                android:padding="16dp" />
+
+            <EditText
+                android:id="@+id/registerTwoPasswordET"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="20dp"
+                android:background="#CEE2F2"
+                android:gravity="start"
+                android:hint="Повторите пароль"
+                android:padding="16dp" />
+
+
+            <Button
+                android:id="@+id/registerRegisterBtn"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="20dp"
+                android:text="Зарегистрироваться"
+                android:textSize="18dp"
+                app:cornerRadius="40dp" />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
