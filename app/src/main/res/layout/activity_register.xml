@@ -55,6 +55,8 @@
                 android:layout_marginTop="20dp"
                 android:background="#CEE2F2"
                 android:gravity="start"
+                android:ems="10"
+                android:inputType="textPassword"
                 android:hint="Введите пароль"
                 android:padding="16dp" />
 
@@ -65,6 +67,8 @@
                 android:layout_marginTop="20dp"
                 android:background="#CEE2F2"
                 android:gravity="start"
+                android:ems="10"
+                android:inputType="textPassword"
                 android:hint="Повторите пароль"
                 android:padding="16dp" />
 
@@ -74,6 +78,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginTop="20dp"
+                android:onClick="onClickRegisterBtn"
                 android:text="Зарегистрироваться"
                 android:textSize="18dp"
                 app:cornerRadius="40dp" />
@@ -81,6 +86,7 @@
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

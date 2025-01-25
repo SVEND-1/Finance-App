@@ -3,48 +3,48 @@ package com.example.finance.Model;
 public class Income {
     private String _id;
     private int _amount;
+    private String _description;
     private String _user_id;
     private String _category_id;
 
     public Income() {
     }
 
-    public Income(String _id, int _amount, String _user_id, String _category_id) {
-        this._id = _id;
+    public Income(int _amount, String _user_id, String _category_id) {
         this._amount = _amount;
         this._user_id = _user_id;
         this._category_id = _category_id;
     }
 
-    public String get_id() {
+    public String getId() {
         return _id;
     }
 
-    public void set_id(String _id) {
+    public void setId(String _id) {
         this._id = _id;
     }
 
-    public int get_amount() {
+    public int getAmount() {
         return _amount;
     }
 
-    public void set_amount(int _amount) {
+    public void setAmount(int _amount) {
         this._amount = _amount;
     }
 
-    public String get_user_id() {
+    public String getUserId() {
         return _user_id;
     }
 
-    public void set_user_id(String _user_id) {
+    public void setUserId(String _user_id) {
         this._user_id = _user_id;
     }
 
-    public String get_category_id() {
+    public String getCategoryId() {
         return _category_id;
     }
 
-    public void set_category_id(String _category_id) {
+    public void setCategoryId(String _category_id) {
         this._category_id = _category_id;
     }
 }

@@ -1,61 +1,64 @@
 package com.example.finance.Model;
 
 
+import java.util.List;
+
 public class User {
     private String _id;
     private String _login;
     private String _password;
-    private String _uriImageIcon;
     private int _balance;
+    private List<Friend> _listFriends;
+    private List<Income> _listIncome;
     public User() {
     }
 
-    public User(String _id, String _login, String _password, String _uriImageIcon, int _balance) {
-        this._id = _id;
+    public User(String _login, String _password,  int _balance, List<Friend> _listFriends,List<Income> _listIncome) {
         this._login = _login;
         this._password = _password;
-        this._uriImageIcon = _uriImageIcon;
         this._balance = _balance;
+        this._listFriends = _listFriends;
+        this._listIncome = _listIncome;
     }
 
-    public int get_balance() {
+    public int getBalance() {
         return _balance;
     }
 
-    public void set_balance(int _balance) {
+    public void setBalance(int _balance) {
         this._balance = _balance;
     }
 
-    public String get_uriImageIcon() {
-        return _uriImageIcon;
-    }
 
-    public void set_uriImageIcon(String _uriImageIcon) {
-        this._uriImageIcon = _uriImageIcon;
-    }
-
-    public String get_password() {
+    public String getPassword() {
         return _password;
     }
 
-    public void set_password(String _password) {
+    public void setPassword(String _password) {
         this._password = _password;
     }
 
-    public String get_login() {
+    public String getLogin() {
         return _login;
     }
 
-    public void set_login(String _login) {
+    public void setLogin(String _login) {
         this._login = _login;
     }
 
-    public String get_id() {
+    public String getId() {
         return _id;
     }
 
-    public void set_id(String _id) {
+    public void setId(String _id) {
         this._id = _id;
     }
 
+    public List<Friend> getListFriends() {
+        return _listFriends;
+    }
+
+    public void setListFriends(List<Friend> _listFriends) {
+        this._listFriends = _listFriends;
+    }
 }

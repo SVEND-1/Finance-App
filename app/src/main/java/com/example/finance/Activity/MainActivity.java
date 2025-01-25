@@ -1,8 +1,10 @@
 package com.example.finance.Activity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -17,6 +19,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.example.finance.Activity.Login.RegisterActivity;
 import com.example.finance.MyView.CircleChartView;
 import com.example.finance.R;
 import com.google.android.material.navigation.NavigationView;
@@ -27,11 +30,11 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private TabLayout tabLayout, tabLayoutTime;
-    private CircleChartView circleChartView;
-    private DrawerLayout drawerLayout;
-    private NavigationView navigationView;
-    private Toolbar toolbar;
+    private TabLayout _tabLayout, _tabLayoutTime;
+    private CircleChartView _circleChartView;
+    private DrawerLayout _drawerLayout;
+    private NavigationView _navigationView;
+    private Toolbar _toolbar;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -39,8 +42,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-
-        // Установка отступов для системных панелей
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -53,24 +54,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ClickInTableLayoutTime();
         DrawCircle();
 
-        setSupportActionBar(toolbar);
+        setSupportActionBar(_toolbar);
 
         // Настройка навигации
-        navigationView.bringToFront();
-        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.exit);
-        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        _navigationView.bringToFront();
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, _drawerLayout, _toolbar, R.string.open, R.string.exit);
+        _drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
 
-        navigationView.setNavigationItemSelectedListener(this);
+        _navigationView.setNavigationItemSelectedListener(this);
     }
 
     private void init() {
-        tabLayout = findViewById(R.id.mainTabLayout);
-        tabLayoutTime = findViewById(R.id.mainTabLayoutTime);
-        circleChartView = findViewById(R.id.circleChartView);
-        drawerLayout = findViewById(R.id.main);
-        navigationView = findViewById(R.id.NavigationLeftMenu);
-        toolbar = findViewById(R.id.toolbar);
+        _tabLayout = findViewById(R.id.mainTabLayout);
+        _tabLayoutTime = findViewById(R.id.mainTabLayoutTime);
+        _circleChartView = findViewById(R.id.circleChartView);
+        _drawerLayout = findViewById(R.id.main);
+        _navigationView = findViewById(R.id.NavigationLeftMenu);
+        _toolbar = findViewById(R.id.toolbar);
     }
 
     private void DrawCircle() {
@@ -80,12 +81,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         sectors.add(new CircleChartView.Sector(15f, ContextCompat.getColor(this, android.R.color.holo_green_light)));
         sectors.add(new CircleChartView.Sector(30f, ContextCompat.getColor(this, android.R.color.holo_orange_light)));
 
-        circleChartView.setSectors(sectors);
-        circleChartView.setCenterText("35 245 ₽");
+        _circleChartView.setSectors(sectors);
+        _circleChartView.setCenterText("35 245 ₽");
     }
 
     private void ClickInTableLayout() {
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        _tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(@NonNull TabLayout.Tab tab) {
                 String tabText = tab.getText().toString();
@@ -102,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void ClickInTableLayoutTime() {
-        tabLayoutTime.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        _tabLayoutTime.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 String tabText = tab.getText().toString();
@@ -120,8 +121,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        drawerLayout.closeDrawer(GravityCompat.START);
+        _drawerLayout.closeDrawer(GravityCompat.START);
         // Здесь можно добавить логику для обработки выбора пункта меню
         return true;
+    }
+
+    public void DeleteAfter(View v){
+        Intent intent = new Intent(this, RegisterActivity.class);
+        startActivity(intent);
+    }
+
+    public void onClickToCreateWaste(View v){
+        Intent intent = new Intent(this, AddWasteAndIncomeActivity.class);
+        startActivity(intent);
     }
 }
