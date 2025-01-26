@@ -8,39 +8,63 @@
     android:background="#fee4d5"
     tools:context=".Activity.AddWasteAndIncomeActivity">
 
-    <LinearLayout
-        android:background="@drawable/top_bagr_add_waste"
-        android:id="@+id/addWasteAndIncomeTopLinearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/textView2"
-        app:layout_constraintEnd_toEndOf="parent"
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/addWasteAndIncomeTabLayoutIncomeOrWaste"
+        android:layout_width="0dp"
+        android:layout_height="70dp"
+        android:background="#fee4d5"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-        <TextView
-            android:id="@+id/textView"
+        app:layout_constraintEnd_toEndOf="parent" >
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/addWasteAndIncomeTabWaste"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="150dp"
+            android:text="Расходы" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/addWasteAndIncomeTabIncome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Доходы" />
+    </com.google.android.material.tabs.TabLayout>
+
+    <LinearLayout
+        android:id="@+id/addWasteAndIncomeTopLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/addWasteAndIncomeCategoryText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addWasteAndIncomeTabLayoutIncomeOrWaste">
+
+
+        <TextView
+            android:id="@+id/addWasteAndIncomeSumText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="50dp"
+            android:gravity="center"
             android:text="Сумма(RUB)"
             android:textSize="20sp"
-            android:gravity="center"
-            android:layout_gravity="center"
 
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
         <EditText
             android:id="@+id/addWasteAndIncomeAmoutET"
             android:layout_width="200dp"
             android:layout_height="50dp"
-            android:ems="10"
-            android:inputType="number"
-            android:gravity="center"
             android:layout_gravity="center"
+            android:ems="10"
+            android:gravity="center"
             android:hint="Сумма"
+            android:inputType="number"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
@@ -50,7 +74,7 @@
 
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/addWasteAndIncomeCategoryText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="250dp"
@@ -62,7 +86,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <GridLayout
-        android:id="@+id/gridLayout"
+        android:id="@+id/addWasteAndIncomeGridLayout"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:columnCount="4"
@@ -71,12 +95,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        app:layout_constraintTop_toBottomOf="@+id/addWasteAndIncomeCategoryText"
         app:layout_constraintVertical_bias="0.027">
 
         <androidx.cardview.widget.CardView
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:onClick="ClickGetCategory"
+            android:tooltipText="Еда"
             android:layout_row="0"
             android:layout_rowWeight="1"
             android:layout_column="0"
@@ -87,6 +113,7 @@
             app:cardElevation="32dp">
 
             <LinearLayout
+                android:onClick="ClickGetCategory"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical|center_horizontal"
@@ -109,6 +136,8 @@
         <androidx.cardview.widget.CardView
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:tooltipText="Продуктовый магазин"
+            android:onClick="ClickGetCategory"
             android:layout_row="0"
             android:layout_rowWeight="1"
             android:layout_column="1"
@@ -119,8 +148,9 @@
             app:cardElevation="32dp">
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:onClick="ClickGetCategory"
                 android:layout_gravity="center_vertical|center_horizontal"
                 android:gravity="center"
                 android:orientation="vertical">
@@ -141,6 +171,8 @@
         <androidx.cardview.widget.CardView
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:onClick="ClickGetCategory"
+            android:tooltipText="Одежда"
             android:layout_row="0"
             android:layout_rowWeight="1"
             android:layout_column="2"
@@ -151,8 +183,9 @@
             app:cardElevation="32dp">
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:onClick="ClickGetCategory"
                 android:layout_gravity="center_vertical|center_horizontal"
                 android:gravity="center"
                 android:orientation="vertical">
@@ -173,6 +206,8 @@
         <androidx.cardview.widget.CardView
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:onClick="ClickGetCategory"
+            android:tooltipText="Больница"
             android:layout_row="0"
             android:layout_rowWeight="1"
             android:layout_column="3"
@@ -183,8 +218,9 @@
             app:cardElevation="32dp">
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:onClick="ClickGetCategory"
                 android:layout_gravity="center_vertical|center_horizontal"
                 android:gravity="center"
                 android:orientation="vertical">
@@ -206,6 +242,8 @@
         <androidx.cardview.widget.CardView
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:onClick="ClickGetCategory"
+            android:tooltipText="Спорт"
             android:layout_row="1"
             android:layout_rowWeight="1"
             android:layout_column="0"
@@ -216,8 +254,9 @@
             app:cardElevation="32dp">
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:onClick="ClickGetCategory"
                 android:layout_gravity="center_vertical|center_horizontal"
                 android:gravity="center"
                 android:orientation="vertical">
@@ -238,6 +277,8 @@
         <androidx.cardview.widget.CardView
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:onClick="ClickGetCategory"
+            android:tooltipText="Транспорт"
             android:layout_row="1"
             android:layout_rowWeight="1"
             android:layout_column="1"
@@ -248,8 +289,9 @@
             app:cardElevation="32dp">
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:onClick="ClickGetCategory"
                 android:layout_gravity="center_vertical|center_horizontal"
                 android:gravity="center"
                 android:orientation="vertical">
@@ -271,6 +313,8 @@
         <androidx.cardview.widget.CardView
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:onClick="ClickGetCategory"
+            android:tooltipText="Досуг"
             android:layout_row="1"
             android:layout_rowWeight="1"
             android:layout_column="2"
@@ -281,8 +325,9 @@
             app:cardElevation="32dp">
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:onClick="ClickGetCategory"
                 android:layout_gravity="center_vertical|center_horizontal"
                 android:gravity="center"
                 android:orientation="vertical">
@@ -303,6 +348,8 @@
         <androidx.cardview.widget.CardView
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:onClick="ClickGetCategory"
+            android:tooltipText="Другое"
             android:layout_row="1"
             android:layout_rowWeight="1"
             android:layout_column="3"
@@ -313,8 +360,9 @@
             app:cardElevation="32dp">
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:onClick="ClickGetCategory"
                 android:layout_gravity="center_vertical|center_horizontal"
                 android:gravity="center"
                 android:orientation="vertical">
@@ -337,11 +385,10 @@
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:orientation="vertical"
-
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gridLayout">
+        app:layout_constraintTop_toBottomOf="@+id/addWasteAndIncomeGridLayout">
 
 
         <androidx.cardview.widget.CardView
