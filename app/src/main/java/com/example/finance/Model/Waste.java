@@ -4,16 +4,17 @@ public class Waste {
     private String _id;
     private int _amount;
     private String _description;
-    private String _user_id;
-    private String _category_id;
+    private String _userId;
+    private String _categoryName;
 
     public Waste() {
     }
 
-    public Waste( int _amount, String _user_id, String _category_id) {
-        this._amount = _amount;
-        this._user_id = _user_id;
-        this._category_id = _category_id;
+    public Waste( int amount, String userId, String categoryName,String description) {
+        this._amount = amount;
+        this._userId = userId;
+        this._categoryName = categoryName;
+        this._description = description;
     }
 
     public String getId() {
@@ -33,18 +34,37 @@ public class Waste {
     }
 
     public String getUserId() {
-        return _user_id;
+        return _userId;
     }
 
-    public void setUserId(String _user_id) {
-        this._user_id = _user_id;
+    public void setUserId(String _userId) {
+        this._userId = _userId;
     }
 
     public String getCategoryId() {
-        return _category_id;
+        return _categoryName;
     }
 
-    public void setCategoryId(String _category_id) {
-        this._category_id = _category_id;
+    public void setCategoryId(String _categoryName) {
+        this._categoryName = _categoryName;
+    }
+
+    public String get_description() {
+        return _description;
+    }
+
+    public void set_description(String _description) {
+        this._description = _description;
+    }
+
+    @Override
+    public String toString() {
+        return "Waste{" +
+                "_id='" + _id + '\'' +
+                ", _amount=" + _amount +
+                ", _description='" + _description + '\'' +
+                ", _userId='" + _userId + '\'' +
+                ", _categoryName='" + _categoryName + '\'' +
+                '}';
     }
 }

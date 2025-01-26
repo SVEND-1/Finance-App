@@ -19,7 +19,9 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.example.finance.Activity.Login.LoginActivity;
 import com.example.finance.Activity.Login.RegisterActivity;
+import com.example.finance.Data.SharedPreferences.SPUser;
 import com.example.finance.MyView.CircleChartView;
 import com.example.finance.R;
 import com.google.android.material.navigation.NavigationView;
@@ -35,6 +37,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout _drawerLayout;
     private NavigationView _navigationView;
     private Toolbar _toolbar;
+    private String _wasteOrIncome = "Расходы";
+    private SPUser _userSP;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -72,6 +76,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         _drawerLayout = findViewById(R.id.main);
         _navigationView = findViewById(R.id.NavigationLeftMenu);
         _toolbar = findViewById(R.id.toolbar);
+
+        _userSP = new SPUser(this);
     }
 
     private void DrawCircle() {
@@ -90,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onTabSelected(@NonNull TabLayout.Tab tab) {
                 String tabText = tab.getText().toString();
+                _wasteOrIncome = tabText;
                 Toast.makeText(MainActivity.this, tabText, Toast.LENGTH_SHORT).show();
                 // Здесь можно добавить логику для изменения UI
             }
@@ -122,7 +129,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         _drawerLayout.closeDrawer(GravityCompat.START);
-        // Здесь можно добавить логику для обработки выбора пункта меню
+        if(item.getItemId() == R.id.MenuNavigatorProfile){
+
+        }
+        else if(item.getItemId() == R.id.MenuNavigatorSettings){
+
+        }
+        else if(item.getItemId() == R.id.MenuNavigatorFindFriends){
+
+        }
+        else if(item.getItemId() == R.id.MenuNavigatorMyFriends){
+
+        }
+        else if(item.getItemId() == R.id.MenuNavigatorExit){
+            try {
+                _userSP.delete();
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
+            } finally {
+
+            }
+        }
+
         return true;
     }
 
@@ -132,7 +160,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void onClickToCreateWaste(View v){
-        Intent intent = new Intent(this, AddWasteAndIncomeActivity.class);
+        Intent intent = new Intent(this, AddWasteAndIncomeActivity.class)
+                .putExtra("WasteOrIncome",_wasteOrIncome);
         startActivity(intent);
     }
 }

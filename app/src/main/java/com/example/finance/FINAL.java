@@ -1,8 +1,8 @@
 package com.example.finance;
 
 public class FINAL {
-    public final static String CATEGORY_WASTE_EAT= "Еда";
-    public final static String CATEGORY_WASTE_GROCERY_STORE = "Продуктовый магазин";
+    public final static String CATEGORY_WASTE_EDUCATION= "Образование";
+    public final static String CATEGORY_WASTE_PRODUCTS = "Продукты";
     public final static String CATEGORY_WASTE_CLOTHES = "Одежда";
     public final static String CATEGORY_WASTE_HOSPITAL = "Больница";
     public final static String CATEGORY_WASTE_SPORT = "Спорт";

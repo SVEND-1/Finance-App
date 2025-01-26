@@ -10,15 +10,17 @@ public class User {
     private int _balance;
     private List<Friend> _listFriends;
     private List<Income> _listIncome;
+    private List<Waste> _listWaste;
     public User() {
     }
 
-    public User(String _login, String _password,  int _balance, List<Friend> _listFriends,List<Income> _listIncome) {
-        this._login = _login;
-        this._password = _password;
-        this._balance = _balance;
-        this._listFriends = _listFriends;
-        this._listIncome = _listIncome;
+    public User(String login, String password,  int balance, List<Friend> listFriends,List<Income> listIncome,List<Waste> listWaste) {
+        this._login = login;
+        this._password = password;
+        this._balance = balance;
+        this._listFriends = listFriends;
+        this._listIncome = listIncome;
+        this._listWaste = listWaste;
     }
 
     public int getBalance() {
@@ -60,5 +62,21 @@ public class User {
 
     public void setListFriends(List<Friend> _listFriends) {
         this._listFriends = _listFriends;
+    }
+
+    public List<Income> get_listIncome() {
+        return _listIncome;
+    }
+
+    public void set_listIncome(List<Income> _listIncome) {
+        this._listIncome = _listIncome;
+    }
+
+    public List<Waste> get_listWaste() {
+        return _listWaste;
+    }
+
+    public void set_listWaste(List<Waste> _listWaste) {
+        this._listWaste = _listWaste;
     }
 }

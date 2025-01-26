@@ -143,6 +143,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="30dp"
+            android:onClick="ClickAddWasteAndIncomeSaveBtn"
             android:text="Добавить"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"

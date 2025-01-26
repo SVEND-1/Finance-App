@@ -18,6 +18,33 @@ public class DBUser implements DAO<User,String> {
     public DBUser() {
         databaseReference = FirebaseDatabase.getInstance().getReference("users");
     }
+
+    //Для поиска человека
+    public interface UserCallback {
+        void onCallback(User user);
+    }
+    public void isEmptyUser (String login, UserCallback callback) {
+        databaseReference.orderByChild("login").equalTo(login).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                User user = null; // Локальная переменная для хранения найденного пользователя
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+                        user = userSnapshot.getValue(User.class); // Получаем пользователя
+                    }
+                }
+                // Вызываем обратный вызов с найденным пользователем
+                callback.onCallback(user);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                callback.onCallback(null); // Вызываем обратный вызов с null в случае ошибки
+            }
+        });
+    }
+
+
     @Override
     public boolean insert(User model) {
         String key = databaseReference.push().getKey();

@@ -37,13 +37,13 @@
                     android:id="@+id/mainTabExpenditure"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Расход" />
+                    android:text="Расходы" />
 
                 <com.google.android.material.tabs.TabItem
                     android:id="@+id/mainTabIncome"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Доход" />
+                    android:text="Доходы" />
             </com.google.android.material.tabs.TabLayout>
 
             <com.google.android.material.tabs.TabLayout

@@ -19,9 +19,11 @@ import com.example.finance.Data.DAO;
 import com.example.finance.Data.DataBase.DBCategory;
 import com.example.finance.Data.DataBase.DBIncome;
 import com.example.finance.Data.DataBase.DBUser;
+import com.example.finance.Data.SharedPreferences.SPUser;
 import com.example.finance.Model.Friend;
 import com.example.finance.Model.Income;
 import com.example.finance.Model.User;
+import com.example.finance.Model.Waste;
 import com.example.finance.R;
 
 import java.util.ArrayList;
@@ -32,7 +34,7 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText _loginET,_onePasswordET,_twoPasswordET;
     private String _login,_onePassword,_twoPassword;
     private DAO _userDAO;
-
+    private SPUser _userSP;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +56,7 @@ public class RegisterActivity extends AppCompatActivity {
         _twoPasswordET = findViewById(R.id.registerTwoPasswordET);
 
         _userDAO = new DBUser();
-
+        _userSP = new SPUser(this);
     }
 
     public void onClickRegisterBtn(View v) {
@@ -63,11 +65,13 @@ public class RegisterActivity extends AppCompatActivity {
         _twoPassword = _twoPasswordET.getText().toString().trim();
         List<Friend> friends = new ArrayList<>();
         List<Income> incomes = new ArrayList<>();
+        List<Waste> wastes = new ArrayList<>();
 
         if (_onePassword.equals(_twoPassword)) {
             if (!_login.isEmpty() && !_onePassword.isEmpty() && !_twoPassword.isEmpty()) {
-                User user = new User(_login, _onePassword, 0, friends,incomes);
+                User user = new User(_login, _onePassword, 0, friends,incomes,wastes);
                 _userDAO.insert(user);
+                _userSP.insert(user);
 
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
