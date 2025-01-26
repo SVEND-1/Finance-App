@@ -1,9 +1,5 @@
 package com.example.finance.Activity;
 
-import static androidx.core.view.MenuItemCompat.getTooltipText;
-
-import static com.example.finance.R.color.green;
-
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -12,7 +8,6 @@ import android.widget.FrameLayout;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,7 +19,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.finance.Fragment.AddCategoryIncomeFragment;
-import com.example.finance.Fragment.AddCategotyWasteFragment;
+import com.example.finance.Fragment.AddCategoryWasteFragment;
 import com.example.finance.R;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
@@ -32,10 +27,12 @@ import com.google.android.material.tabs.TabLayout;
 public class AddWasteAndIncomeActivity extends AppCompatActivity {
 
     private TextView _textView;
+    private Fragment fragment = null;
     private LinearLayout _lastClickedLinearLayout = null;
     private TabLayout _tabLayot;
+
     private AutoCompleteTextView _description;
-    private GridLayout _gridLayoutWithCategory;
+
     private TabItem _tabItemWaste,_tabItemIncome;
 
     @Override
@@ -72,7 +69,20 @@ public class AddWasteAndIncomeActivity extends AppCompatActivity {
         _tabLayot.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                String tabText = (String) tab.getText();
+                if ("Расходы".equals(tabText)) {
+                    fragment = new AddCategoryWasteFragment();
+                } else if ("Доходы".equals(tabText)) {
+                    fragment = new AddCategoryIncomeFragment();
+                }
 
+
+                if (fragment != null) {
+                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                    transaction.replace(R.id.addWasteAndIncomeFrameLayout, fragment);
+                    transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                    transaction.commit();
+                }
             }
 
             @Override

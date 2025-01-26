@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import com.example.finance.R;
 
 
-public class AddCategotyWasteFragment extends Fragment {
+public class AddCategoryWasteFragment extends Fragment {
 
 
     @Override

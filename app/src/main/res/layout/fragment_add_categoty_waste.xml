@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".Fragment.AddCategotyWasteFragment">
+    tools:context=".Fragment.AddCategoryWasteFragment">
 
     <GridLayout
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:layout_marginTop="250dp"
         android:columnCount="4"
         android:rowCount="2">
+
     <androidx.cardview.widget.CardView
         android:layout_width="50dp"
         android:layout_height="50dp"
