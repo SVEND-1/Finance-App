@@ -14,15 +14,12 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.finance.Activity.MainActivity;
-import com.example.finance.Data.DAO;
 import com.example.finance.Data.DataBase.DBUser;
 import com.example.finance.Data.SharedPreferences.SPUser;
 import com.example.finance.Model.User;
 import com.example.finance.R;
-import com.google.android.material.tabs.TabItem;
 
 public class LoginActivity extends AppCompatActivity {
-
     private EditText _loginET,_passwordET;
     private SPUser _spUser;
     private DBUser _userDAO;
@@ -40,8 +37,15 @@ public class LoginActivity extends AppCompatActivity {
         init();
 
 
+        String userLogin = _spUser.getUserLogin();
+        String userId = _spUser.getUserId();
 
-
+        // Если логин и ID пользователя не пустые, переходим в MainActivity
+        if (userLogin != null && userId != null) {
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
     private void init(){
@@ -55,25 +59,26 @@ public class LoginActivity extends AppCompatActivity {
     public void ClickOnSinInBtn(View v){
         String login = _loginET.getText().toString().trim();
         String password = _passwordET.getText().toString();
-        Toast.makeText(LoginActivity.this,"1",Toast.LENGTH_SHORT).show();
-        _userDAO.isEmptyUser(login, new DBUser.UserCallback() {
+
+        _userDAO.isEmptyUser (login, new DBUser .UserCallback() {
             @Override
             public void onCallback(User user) {
-                if(user != null){
-                    if(user.getLogin().equals(login) && user.getPassword().equals(password)){
+                if (user != null) {
+                    // Проверяем, что пароль не равен null перед сравнением
+                    if (user.getPassword() != null && user.getPassword().equals(password)) {
                         _spUser.insert(user);
 
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
                         finish();
+                    } else {
+                        Toast.makeText(LoginActivity.this, "Неверный пароль", Toast.LENGTH_SHORT).show();
                     }
-                }
-                else {
-                    Toast.makeText(LoginActivity.this,"Пользователь не найден",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(LoginActivity.this, "Пользователь не найден", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-        Toast.makeText(LoginActivity.this,"2",Toast.LENGTH_SHORT).show();
     }
 
     public void ClickOnToRegister(View v){

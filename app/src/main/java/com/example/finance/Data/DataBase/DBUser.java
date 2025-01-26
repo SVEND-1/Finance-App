@@ -1,8 +1,5 @@
 package com.example.finance.Data.DataBase;
 
-import android.widget.Toast;
-
-import com.example.finance.Activity.Login.RegisterActivity;
 import com.example.finance.Data.DAO;
 import com.example.finance.Model.User;
 import com.google.firebase.database.DataSnapshot;

@@ -146,6 +146,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 _userSP.delete();
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivity(intent);
+                finish();
             } finally {
 
             }
