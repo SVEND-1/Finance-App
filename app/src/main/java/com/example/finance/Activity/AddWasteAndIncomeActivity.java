@@ -22,15 +22,19 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.finance.Data.DAO;
 import com.example.finance.Data.DataBase.DBIncome;
+import com.example.finance.Data.DataBase.DBUser;
 import com.example.finance.Data.DataBase.DBWaste;
 import com.example.finance.Data.SharedPreferences.SPUser;
 import com.example.finance.Fragment.AddCategoryIncomeFragment;
 import com.example.finance.Fragment.AddCategoryWasteFragment;
 import com.example.finance.Model.Income;
+import com.example.finance.Model.User;
 import com.example.finance.Model.Waste;
 import com.example.finance.R;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
+
+import java.util.List;
 
 public class AddWasteAndIncomeActivity extends AppCompatActivity {
 
@@ -41,6 +45,7 @@ public class AddWasteAndIncomeActivity extends AppCompatActivity {
     private AutoCompleteTextView _description;
     private EditText _sumET;
     private DAO _wasteDAO,_incomeDAO;
+    private DBUser _userDAO;
     private SPUser _userSP;
 
     @Override
@@ -64,6 +69,7 @@ public class AddWasteAndIncomeActivity extends AppCompatActivity {
 
         _incomeDAO = new DBIncome();
         _wasteDAO = new DBWaste();
+        _userDAO = new DBUser();
 
         _userSP = new SPUser(this);
     }
@@ -92,6 +98,35 @@ public class AddWasteAndIncomeActivity extends AppCompatActivity {
         }
     }
 
+    private void AddWasteToList(Waste waste){
+        String login = _userSP.getUserLogin();
+        _userDAO.isEmptyUser (login, new DBUser .UserCallback() {
+            @Override
+            public void onCallback(User user) {
+                if (user != null) {
+                    List<Waste> wasteList = user.get_listWaste();
+                    wasteList.add(waste);
+                    user.set_listWaste(wasteList);
+                }
+            }
+        });
+    }
+
+    private void AddIncomeToList(Income income){
+        String login = _userSP.getUserLogin();
+        _userDAO.isEmptyUser (login, new DBUser .UserCallback() {
+            @Override
+            public void onCallback(User user) {
+                if (user != null) {
+                    List<Income> incomeList = user.get_listIncome();
+                    incomeList.add(income);
+                    user.set_listIncome(incomeList);
+                }
+            }
+        });
+    }
+
+
     public void ClickAddWasteAndIncomeSaveBtn(View v) {
         if("Расходы".equals(_wasteOrIncome)){
             addWasteToDataBase();
@@ -108,7 +143,7 @@ public class AddWasteAndIncomeActivity extends AppCompatActivity {
         Waste waste = new Waste(amout,userId,_categoryName,description);
         _wasteDAO.insert(waste);
 
-        Toast.makeText(this,"Добавлен" + waste.toString(),Toast.LENGTH_LONG).show();
+//        AddWasteToList(waste);
     }
     private void addIncomeToDataBase(){
         int amout = Integer.parseInt(_sumET.getText().toString());
@@ -117,7 +152,7 @@ public class AddWasteAndIncomeActivity extends AppCompatActivity {
         Income income = new Income(amout,userId,_categoryName,description);
         _incomeDAO.insert(income);
 
-        Toast.makeText(this,"Добавлен" + income.toString(),Toast.LENGTH_LONG).show();
+//        AddIncomeToList(income);
     }
     public void ClickGetCategory(View v) {
         if (v instanceof LinearLayout) {
