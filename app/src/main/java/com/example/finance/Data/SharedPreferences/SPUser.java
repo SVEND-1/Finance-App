@@ -12,10 +12,27 @@ public class SPUser {
     private static final String KEY_LOGIN = "login";
     private static final String KEY_PASSWORD = "password";
     private static final String KYE_BALANCE = "balance";
+    private static final String KYE_IMAGE_USER_URI= "image_user";
 
     private SharedPreferences sharedPreferences;
     public SPUser(Context context){
         sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+    }
+
+
+    public void saveImageUri(String imageUri) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(KYE_IMAGE_USER_URI, imageUri);
+        editor.apply();
+    }
+
+    public String getImageUri() {
+        return sharedPreferences.getString(KYE_IMAGE_USER_URI, null);
+    }
+    public void removeImageUri(){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove(KYE_IMAGE_USER_URI);
+        editor.apply();
     }
 
     public String getUserId(){

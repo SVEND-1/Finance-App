@@ -98,33 +98,34 @@ public class AddWasteAndIncomeActivity extends AppCompatActivity {
         }
     }
 
-    private void AddWasteToList(Waste waste){
+    private void AddWasteToList(Waste waste) {
         String login = _userSP.getUserLogin();
         _userDAO.isEmptyUser (login, new DBUser .UserCallback() {
             @Override
             public void onCallback(User user) {
                 if (user != null) {
-                    List<Waste> wasteList = user.get_listWaste();
-                    wasteList.add(waste);
-                    user.set_listWaste(wasteList);
+//                    List<String> wasteList = user.get_listWaste();
+//                    wasteList.add(waste.getId()); // Добавляем идентификатор нового Waste
+//                    user.set_listWaste(wasteList);
+//                    _userDAO.update(user); // Обновляем пользователя в базе данных
                 }
             }
         });
     }
 
-    private void AddIncomeToList(Income income){
-        String login = _userSP.getUserLogin();
-        _userDAO.isEmptyUser (login, new DBUser .UserCallback() {
-            @Override
-            public void onCallback(User user) {
-                if (user != null) {
-                    List<Income> incomeList = user.get_listIncome();
-                    incomeList.add(income);
-                    user.set_listIncome(incomeList);
-                }
-            }
-        });
-    }
+//    private void AddIncomeToList(Income income){
+//        String login = _userSP.getUserLogin();
+//        _userDAO.isEmptyUser (login, new DBUser .UserCallback() {
+//            @Override
+//            public void onCallback(User user) {
+////                if (user != null) {
+////                    List<Income> incomeList = user.get_listIncome();
+////                    incomeList.add(income);
+////                    user.set_listIncome(incomeList);
+//                }
+//            }
+//        });
+//    }
 
 
     public void ClickAddWasteAndIncomeSaveBtn(View v) {
@@ -143,7 +144,7 @@ public class AddWasteAndIncomeActivity extends AppCompatActivity {
         Waste waste = new Waste(amout,userId,_categoryName,description);
         _wasteDAO.insert(waste);
 
-//        AddWasteToList(waste);
+        AddWasteToList(waste);
     }
     private void addIncomeToDataBase(){
         int amout = Integer.parseInt(_sumET.getText().toString());

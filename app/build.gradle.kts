@@ -33,7 +33,8 @@ android {
 }
 
 dependencies {
-    implementation("com.github.clans:fab:1.6.4")
+    implementation("com.github.clans:fab:1.6.4")//Кнопка специальная
+    implementation ("com.github.bumptech.glide:glide:4.14.2")//Для отрисовки картинки
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)

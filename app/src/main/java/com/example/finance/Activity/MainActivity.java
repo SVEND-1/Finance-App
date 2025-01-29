@@ -26,6 +26,7 @@ import com.example.finance.Activity.Login.RegisterActivity;
 import com.example.finance.Adapter.AdapterIncome;
 import com.example.finance.Adapter.AdapterWaste;
 import com.example.finance.Data.DataBase.DBUser;
+import com.example.finance.Data.DataBase.DBWaste;
 import com.example.finance.Data.SharedPreferences.SPUser;
 import com.example.finance.Model.Income;
 import com.example.finance.Model.User;
@@ -34,6 +35,11 @@ import com.example.finance.MyView.CircleChartView;
 import com.example.finance.R;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,6 +75,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //Получение пользователя и заполнение лист
         getUserFromDataBase();
 
+
         ClickInTableLayout();
         ClickInTableLayoutTime();
         DrawCircle();
@@ -89,13 +96,39 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void getUserFromDataBase(){
         String login = _userSP.getUserLogin();
-        _userDAO.isEmptyUser (login, new DBUser .UserCallback() {
+        _userDAO.isEmptyUser(login, new DBUser.UserCallback() {
             @Override
             public void onCallback(User user) {
                 if (user != null) {
-                   _incomeList = user.get_listIncome();
-                   _wasteList = user.get_listWaste();
+                    //_incomeList = user.get_listIncome();
+                    //_wasteListId = user.get_listWaste();
+                    getWasteByUserId(user.getId());
+
                 }
+            }
+        });
+    }
+    private void getWasteByUserId(String userId) {
+        // Получаем ссылку на коллекцию Waste
+        DatabaseReference  databaseReference = FirebaseDatabase.getInstance().getReference("waste");;
+        DatabaseReference wasteRef = databaseReference.child("waste");
+
+        // Запрос для получения всех Waste, у которых userId равен переданному userId
+        wasteRef.orderByChild("userId").equalTo(userId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot wasteSnapshot : dataSnapshot.getChildren()) {
+                    Waste waste = wasteSnapshot.getValue(Waste.class);
+                    _wasteList.add(waste); // Добавляем каждое найденное Waste в список
+                }
+                // Здесь вы можете использовать wasteList, например, передать его в callback
+                // callback.onSuccess(wasteList);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Обработка ошибки
+                // callback.onError(databaseError.toException());
             }
         });
     }
@@ -126,18 +159,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void createRecycleView(){
-//        if(_wasteOrIncome.equals("Расходы")){
-//            ArrayList<Waste> wastes = new ArrayList<>(_wasteList);
-//            Waste waste = new Waste(1,"da","das","das");
-//            Waste waste2 = new Waste(132,"da","das","das");
-//            wastes.add(waste);
-//            wastes.add(waste2);
-//
+        if(_wasteOrIncome.equals("Расходы")){
+//            ArrayList<Waste> wastes = new ArrayList<>(_wasteList); // // Убедитесь, что _wasteList содержит актуальные данные
 //            AdapterWaste adapterWaste = new AdapterWaste(wastes);
 //            _recyclerView.setHasFixedSize(true);
 //            _recyclerView.setLayoutManager(new LinearLayoutManager(this));
 //            _recyclerView.setAdapter(adapterWaste);
-//        }
+        }
 //        else if (_wasteOrIncome.equals("Доходы")) {
 //            ArrayList<Income> incomes = new ArrayList<>(_incomeList);
 //            Income income = new Income(132,"da","das","das");
@@ -196,7 +224,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             startActivity(intent);
         }
         else if(item.getItemId() == R.id.MenuNavigatorSettings){
-
+            Intent intent = new Intent(this, ProfileActivity.class);
+            startActivity(intent);
         }
         else if(item.getItemId() == R.id.MenuNavigatorFindFriends){
 

@@ -63,13 +63,11 @@ public class RegisterActivity extends AppCompatActivity {
         _login = _loginET.getText().toString().trim();
         _onePassword = _onePasswordET.getText().toString().trim();
         _twoPassword = _twoPasswordET.getText().toString().trim();
-        List<Friend> friends = new ArrayList<>();
-        List<Income> incomes = new ArrayList<>();
-        List<Waste> wastes = new ArrayList<>();
+
 
         if (_onePassword.equals(_twoPassword)) {
             if (!_login.isEmpty() && !_onePassword.isEmpty() && !_twoPassword.isEmpty()) {
-                User user = new User(_login, _onePassword, 0, friends,incomes,wastes);
+                User user = new User(_login, _onePassword, 0);
                 _userDAO.insert(user);
                 _userSP.insert(user);
 

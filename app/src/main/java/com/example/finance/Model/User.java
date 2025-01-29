@@ -8,19 +8,14 @@ public class User {
     private String _login;
     private String _password;
     private int _balance;
-    private List<Friend> _listFriends;
-    private List<Income> _listIncome;
-    private List<Waste> _listWaste;
+
     public User() {
     }
 
-    public User(String login, String password,  int balance, List<Friend> listFriends,List<Income> listIncome,List<Waste> listWaste) {
+    public User(String login, String password,  int balance) {
         this._login = login;
         this._password = password;
         this._balance = balance;
-        this._listFriends = listFriends;
-        this._listIncome = listIncome;
-        this._listWaste = listWaste;
     }
 
     public int getBalance() {
@@ -56,27 +51,27 @@ public class User {
         this._id = _id;
     }
 
-    public List<Friend> getListFriends() {
-        return _listFriends;
-    }
-
-    public void setListFriends(List<Friend> _listFriends) {
-        this._listFriends = _listFriends;
-    }
-
-    public List<Income> get_listIncome() {
-        return _listIncome;
-    }
-
-    public void set_listIncome(List<Income> _listIncome) {
-        this._listIncome = _listIncome;
-    }
-
-    public List<Waste> get_listWaste() {
-        return _listWaste;
-    }
-
-    public void set_listWaste(List<Waste> _listWaste) {
-        this._listWaste = _listWaste;
-    }
+//    public List<Friend> getListFriends() {
+//        return _listFriends;
+//    }
+//
+//    public void setListFriends(List<Friend> _listFriends) {
+//        this._listFriends = _listFriends;
+//    }
+//
+//    public List<Income> get_listIncome() {
+//        return _listIncome;
+//    }
+//
+//    public void set_listIncome(List<Income> _listIncome) {
+//        this._listIncome = _listIncome;
+//    }
+//
+//    public List<String> get_listWaste() {
+//        return _listWasteId;
+//    }
+//
+//    public void set_listWaste(List<String> _listWasteId) {
+//        this._listWasteId = _listWasteId;
+//    }
 }
