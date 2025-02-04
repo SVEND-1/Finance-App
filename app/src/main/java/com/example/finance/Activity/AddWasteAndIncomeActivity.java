@@ -34,6 +34,7 @@ import com.example.finance.R;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AddWasteAndIncomeActivity extends AppCompatActivity {
@@ -44,9 +45,11 @@ public class AddWasteAndIncomeActivity extends AppCompatActivity {
     private String _wasteOrIncome,_categoryName;
     private AutoCompleteTextView _description;
     private EditText _sumET;
-    private DAO _wasteDAO,_incomeDAO;
+    private DBWaste _wasteDAO;
+    private DBIncome _incomeDAO;
     private DBUser _userDAO;
     private SPUser _userSP;
+    private List<Waste> _userWastes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,18 +102,39 @@ public class AddWasteAndIncomeActivity extends AppCompatActivity {
     }
 
     private void AddWasteToList(Waste waste) {
-        String login = _userSP.getUserLogin();
-        _userDAO.isEmptyUser (login, new DBUser .UserCallback() {
-            @Override
-            public void onCallback(User user) {
-                if (user != null) {
-//                    List<String> wasteList = user.get_listWaste();
-//                    wasteList.add(waste.getId()); // Добавляем идентификатор нового Waste
-//                    user.set_listWaste(wasteList);
-//                    _userDAO.update(user); // Обновляем пользователя в базе данных
-                }
-            }
-        });
+//        String login = _userSP.getUserLogin();
+//        _userDAO.isEmptyUser(login, new DBUser.UserCallback() {
+//            @Override
+//            public void onCallback(User user) {
+//                if (user != null) {
+//                    // Получаем список всех Waste объектов (предположим, что у вас есть метод для этого)
+//                    List<Waste> allWastes = _wasteDAO.getWasteForUser(user.getId(), new DBWaste.DataCallback<List<Waste>>() {
+//                        @Override
+//                        public void onSuccess(List<Waste> data) {
+//
+//                        }
+//
+//                        @Override
+//                        public void onError(Exception e) {
+//
+//                        }
+//                    });
+//
+//                    // Создаем список для хранения отфильтрованных Waste объектов
+//                    List<Waste> userWastes = new ArrayList<>();
+//
+//                    // Фильтруем Waste объекты по userId
+//                    for (Waste w : allWastes) {
+//                        if (w.getUserId().equals(user.getId())) {
+//                            userWastes.add(w);
+//                        }
+//                    }
+//
+//                    // Теперь userWastes содержит все Waste объекты, которые относятся к текущему пользователю
+//                    // Вы можете использовать этот список по своему усмотрению
+//                }
+//            }
+//        });
     }
 
 //    private void AddIncomeToList(Income income){

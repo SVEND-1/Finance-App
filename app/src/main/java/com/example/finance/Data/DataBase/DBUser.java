@@ -8,6 +8,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+
 public class DBUser implements DAO<User,String> {
 
     private DatabaseReference databaseReference;
@@ -20,7 +22,7 @@ public class DBUser implements DAO<User,String> {
     public interface UserCallback {
         void onCallback(User user);
     }
-    public void isEmptyUser (String login, UserCallback callback) {
+    public void isEmptyUser(String login, UserCallback callback) {
         databaseReference.orderByChild("login").equalTo(login).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -41,6 +43,35 @@ public class DBUser implements DAO<User,String> {
         });
     }
 
+    public interface UsersCallback {
+        void onCallback(ArrayList<User> users);
+    }
+
+    public void getAllUsers(UsersCallback callback) {
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<User> users = new ArrayList<>();
+
+                // Проходим по всем данным в базе
+                for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+                    User user = userSnapshot.getValue(User.class); // Получаем пользователя
+                    if (user != null) {
+                        users.add(user); // Добавляем пользователя в список
+                    }
+                }
+
+                // Вызываем обратный вызов с полученным списком пользователей
+                callback.onCallback(users);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // В случае ошибки вызываем обратный вызов с пустым списком
+                callback.onCallback(new ArrayList<>());
+            }
+        });
+    }
 
     @Override
     public boolean insert(User model) {

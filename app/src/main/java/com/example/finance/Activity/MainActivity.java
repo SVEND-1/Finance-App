@@ -25,6 +25,7 @@ import com.example.finance.Activity.Login.LoginActivity;
 import com.example.finance.Activity.Login.RegisterActivity;
 import com.example.finance.Adapter.AdapterIncome;
 import com.example.finance.Adapter.AdapterWaste;
+import com.example.finance.Data.DataBase.DBIncome;
 import com.example.finance.Data.DataBase.DBUser;
 import com.example.finance.Data.DataBase.DBWaste;
 import com.example.finance.Data.SharedPreferences.SPUser;
@@ -33,6 +34,7 @@ import com.example.finance.Model.User;
 import com.example.finance.Model.Waste;
 import com.example.finance.MyView.CircleChartView;
 import com.example.finance.R;
+import com.example.finance.WasteActivity;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.database.DataSnapshot;
@@ -54,9 +56,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private String _wasteOrIncome = "Расходы";
     private SPUser _userSP;
     private DBUser _userDAO;
+    private DBWaste _wasteDAO;
+    private DBIncome _dbIncome;
     private RecyclerView _recyclerView;
     private List<Income> _incomeList;
     private List<Waste> _wasteList;
+    private AdapterWaste _adapterWaste;
+    private AdapterIncome _adapterIncome;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -102,36 +108,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if (user != null) {
                     //_incomeList = user.get_listIncome();
                     //_wasteListId = user.get_listWaste();
-                    getWasteByUserId(user.getId());
+                    
 
                 }
             }
         });
     }
-    private void getWasteByUserId(String userId) {
-        // Получаем ссылку на коллекцию Waste
-        DatabaseReference  databaseReference = FirebaseDatabase.getInstance().getReference("waste");;
-        DatabaseReference wasteRef = databaseReference.child("waste");
 
-        // Запрос для получения всех Waste, у которых userId равен переданному userId
-        wasteRef.orderByChild("userId").equalTo(userId).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot wasteSnapshot : dataSnapshot.getChildren()) {
-                    Waste waste = wasteSnapshot.getValue(Waste.class);
-                    _wasteList.add(waste); // Добавляем каждое найденное Waste в список
-                }
-                // Здесь вы можете использовать wasteList, например, передать его в callback
-                // callback.onSuccess(wasteList);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // Обработка ошибки
-                // callback.onError(databaseError.toException());
-            }
-        });
-    }
 
     private void init() {
         _tabLayout = findViewById(R.id.mainTabLayout);
@@ -142,9 +125,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         _toolbar = findViewById(R.id.toolbar);
         _recyclerView = findViewById(R.id.mainRecycle);
 
-
         _userDAO = new DBUser();
+        _wasteDAO = new DBWaste();
+        _dbIncome = new DBIncome();
         _userSP = new SPUser(this);
+        _dbIncome = new DBIncome();
+
+        _wasteList = new ArrayList<>();
+        _incomeList = new ArrayList<>();
+
+        _adapterWaste = new AdapterWaste(_wasteList);
+        _adapterIncome = new AdapterIncome(_incomeList);
+
+        _recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     private void DrawCircle() {
@@ -158,26 +151,45 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         _circleChartView.setCenterText("35 245 ₽");
     }
 
+    private void loadWasteData() {
+        _wasteDAO.getWasteForUser(_userSP.getUserId(), new DBWaste.DataCallback<List<Waste>>() {
+            @Override
+            public void onSuccess(List<Waste> wastes) {
+                _wasteList.clear();
+                _wasteList.addAll(wastes);
+                _adapterWaste.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onError(Exception e) {
+
+            }
+        });
+    }
+    private void loadIncomeData(){
+        _dbIncome.getIncomeForUser(_userSP.getUserId(), new DBIncome.DataCallback<List<Income>>() {
+            @Override
+            public void onSuccess(List<Income> data) {
+                _incomeList.clear();
+                _incomeList.addAll(data);
+                _adapterIncome.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onError(Exception e) {
+
+            }
+        });
+    }
     private void createRecycleView(){
         if(_wasteOrIncome.equals("Расходы")){
-//            ArrayList<Waste> wastes = new ArrayList<>(_wasteList); // // Убедитесь, что _wasteList содержит актуальные данные
-//            AdapterWaste adapterWaste = new AdapterWaste(wastes);
-//            _recyclerView.setHasFixedSize(true);
-//            _recyclerView.setLayoutManager(new LinearLayoutManager(this));
-//            _recyclerView.setAdapter(adapterWaste);
+            _recyclerView.setAdapter(_adapterWaste);
+            loadWasteData();
         }
-//        else if (_wasteOrIncome.equals("Доходы")) {
-//            ArrayList<Income> incomes = new ArrayList<>(_incomeList);
-//            Income income = new Income(132,"da","das","das");
-//            Income income2 = new Income(1322,"da","das","das");
-//            incomes.add(income);
-//            incomes.add(income2);
-//
-//            AdapterIncome adapterIncome = new AdapterIncome(incomes);
-//            _recyclerView.setHasFixedSize(true);
-//            _recyclerView.setLayoutManager(new LinearLayoutManager(this));
-//            _recyclerView.setAdapter(adapterIncome);
-//        }
+        else if (_wasteOrIncome.equals("Доходы")) {
+            _recyclerView.setAdapter(_adapterIncome);
+            loadIncomeData();
+        }
     }
 
     private void ClickInTableLayout() {
@@ -228,10 +240,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             startActivity(intent);
         }
         else if(item.getItemId() == R.id.MenuNavigatorFindFriends){
-
+            Intent intent = new Intent(this, WasteActivity.class);
+            startActivity(intent);
         }
         else if(item.getItemId() == R.id.MenuNavigatorMyFriends){
-
+            Intent intent = new Intent(this, MyFriendActivity.class);
+            startActivity(intent);
         }
         else if(item.getItemId() == R.id.MenuNavigatorExit){
             try {

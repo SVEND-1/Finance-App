@@ -14,47 +14,48 @@ import com.example.finance.Model.Waste;
 import com.example.finance.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class AdapterWaste extends RecyclerView.Adapter<AdapterWaste.ViewHolder> {
+public class AdapterWaste extends RecyclerView.Adapter<AdapterWaste.WasteViewHolder> {
 
-    private ArrayList<Waste> _listWaste;
+    private List<Waste> wasteList;
 
-    public AdapterWaste(ArrayList<Waste> listWaste){
-        this._listWaste = listWaste;
+    public AdapterWaste(List<Waste> wasteList) {
+        this.wasteList = wasteList;
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View listItem = inflater.inflate(R.layout.item_waste, parent, false);
-        return new ViewHolder(listItem);
+    public WasteViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_waste, parent, false);
+        return new WasteViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Waste waste = _listWaste.get(position);
-
-        holder._category.setText(waste.getCategoryId());
-        holder._price.setText(String.valueOf(waste.getAmount()));
-        holder._imageView.setImageResource(R.drawable.baseline_account_circle_24);
+    public void onBindViewHolder(@NonNull WasteViewHolder holder, int position) {
+        Waste waste = wasteList.get(position);
+        holder.bind(waste);
     }
 
     @Override
     public int getItemCount() {
-        return _listWaste.size();
+        return wasteList.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        public ImageView _imageView;
-        public TextView _category;
-        public TextView _price;
+    public static class WasteViewHolder extends RecyclerView.ViewHolder {
 
-        public ViewHolder(@NonNull View itemView) {
+        private TextView _amountTextView;
+        private TextView _categoryTextView;
+
+        public WasteViewHolder(@NonNull View itemView) {
             super(itemView);
-            this._imageView = itemView.findViewById(R.id.itemWasteImage);
-            this._category = itemView.findViewById(R.id.itemWasteCategory);
-            this._price = itemView.findViewById(R.id.itemWastePrice);
+            _amountTextView = itemView.findViewById(R.id.itemWastePrice);
+            _categoryTextView = itemView.findViewById(R.id.itemWasteCategory);
+        }
+
+        public void bind(Waste waste) {
+            _amountTextView.setText(String.valueOf(waste.getAmount()));
+            _categoryTextView.setText(waste.getCategoryId());
         }
     }
 }

@@ -1,7 +1,5 @@
 package com.example.finance.Data.DataBase;
 
-import android.content.Context;
-
 
 import com.example.finance.Data.DAO;
 import com.example.finance.Model.Waste;
@@ -14,54 +12,54 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DBWaste implements DAO<Waste,String> {
+public class DBWaste implements DAO<Waste, String> {
     private DatabaseReference databaseReference;
-    private Context context;
+
     public DBWaste() {
         databaseReference = FirebaseDatabase.getInstance().getReference("waste");
     }
 
+    // Получение всех Waste для конкретного пользователя
     public void getWasteForUser(String userId, final DataCallback<List<Waste>> callback) {
-        databaseReference.orderByChild("userId").equalTo(userId) // Измените "userId" на фактическое имя поля, по которому вы хотите фильтровать
+        databaseReference.orderByChild("userId").equalTo(userId)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         List<Waste> wasteList = new ArrayList<>();
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                             Waste waste = snapshot.getValue(Waste.class);
+                            waste.setId(snapshot.getKey()); // Устанавливаем ID документа
                             wasteList.add(waste);
                         }
-                        callback.onSuccess(wasteList); // Возврат списка расходов
+                        callback.onSuccess(wasteList);
                     }
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-                        callback.onError(databaseError.toException()); // Обработка ошибки
+                        callback.onError(databaseError.toException());
                     }
                 });
     }
 
-    public void getWasteById(String key, final DataCallback<Waste> callback) {
+    // Получение Waste по ID
+    public void getWasteById(String key, final DataCallback<List<Waste>> callback) {
         databaseReference.child(key).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Waste waste = dataSnapshot.getValue(Waste.class);
-                callback.onSuccess(waste); // Вызов обратного вызова при успешном получении данных
+                if (waste != null) {
+                    waste.setId(dataSnapshot.getKey()); // Устанавливаем ID документа
+                }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                callback.onError(databaseError.toException()); // Обработка ошибки
+                callback.onError(databaseError.toException());
             }
         });
     }
-    public interface DataCallback<T> {
-        void onSuccess(T data);
 
-        void onError(Exception e);
-    }
-
-        @Override
+    @Override
     public boolean insert(Waste model) {
         String key = databaseReference.push().getKey();
         if (key != null) {
@@ -71,20 +69,40 @@ public class DBWaste implements DAO<Waste,String> {
         }
         return false;
     }
+
     @Override
-    public Waste read(String key) {
-        final Waste[] waste = new Waste[1];
-        databaseReference.child(key).addListenerForSingleValueEvent(new ValueEventListener() {
+    public Waste read(String string) {
+        final Waste[] wastes = new Waste[1];
+        databaseReference.child(string).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                waste[0] = dataSnapshot.getValue(Waste.class);
+                wastes[0] = dataSnapshot.getValue(Waste.class);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
+                // Обработка ошибок
             }
         });
-        return waste[0];
+        return wastes[0];
+    }
+
+    public void readOneUser(String key, final DataCallback<Waste> callback) {
+        databaseReference.child(key).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Waste waste = dataSnapshot.getValue(Waste.class);
+                if (waste != null) {
+                    waste.setId(dataSnapshot.getKey()); // Устанавливаем ID документа
+                }
+                callback.onSuccess(waste);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                callback.onError(databaseError.toException());
+            }
+        });
     }
 
     @Override
@@ -103,5 +121,10 @@ public class DBWaste implements DAO<Waste,String> {
             return true;
         }
         return false;
+    }
+
+    public interface DataCallback<T> {
+        void onSuccess(T data);
+        void onError(Exception e);
     }
 }

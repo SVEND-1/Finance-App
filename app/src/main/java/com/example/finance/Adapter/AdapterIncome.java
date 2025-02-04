@@ -15,30 +15,27 @@ import com.example.finance.Model.Waste;
 import com.example.finance.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AdapterIncome extends RecyclerView.Adapter<AdapterIncome.ViewHolder> {
 
-    private ArrayList<Income> _listIncome;
+    private List<Income> _listIncome;
 
-    public AdapterIncome(ArrayList<Income> listIncome) {
+    public AdapterIncome(List<Income> listIncome) {
         this._listIncome = listIncome;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View listItem = inflater.inflate(R.layout.item_income, parent, false);
-        return new ViewHolder(listItem);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_income, parent, false);
+        return new AdapterIncome.ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Income income = _listIncome.get(position);
-
-        holder._category.setText(income.getCategoryId());
-        holder._price.setText(String.valueOf(income.getAmount())); // Преобразование в строку
-        holder._imageView.setImageResource(R.drawable.baseline_account_circle_24);
+        holder.bind(income);
     }
 
     @Override
@@ -56,6 +53,11 @@ public class AdapterIncome extends RecyclerView.Adapter<AdapterIncome.ViewHolder
             this._imageView = itemView.findViewById(R.id.itemIncomeImage);
             this._category = itemView.findViewById(R.id.itemIncomeCategory);
             this._price = itemView.findViewById(R.id.itemIncomePrice); // Убедитесь, что ID правильный
+        }
+
+        public void bind(Income income) {
+            _price.setText(String.valueOf(income.getAmount()));
+            _category.setText(income.getCategoryId());
         }
     }
 }
