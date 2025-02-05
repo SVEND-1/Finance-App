@@ -14,7 +14,9 @@ import com.example.finance.Model.Waste;
 import com.example.finance.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AdapterWaste extends RecyclerView.Adapter<AdapterWaste.WasteViewHolder> {
 
@@ -43,17 +45,36 @@ public class AdapterWaste extends RecyclerView.Adapter<AdapterWaste.WasteViewHol
     }
 
     public static class WasteViewHolder extends RecyclerView.ViewHolder {
-
+        private ImageView _imageView;
         private TextView _amountTextView;
         private TextView _categoryTextView;
-
+        private Map<String,Integer> sourceImagesCategory;
         public WasteViewHolder(@NonNull View itemView) {
             super(itemView);
+            _imageView = itemView.findViewById(R.id.itemWasteImage);
             _amountTextView = itemView.findViewById(R.id.itemWastePrice);
             _categoryTextView = itemView.findViewById(R.id.itemWasteCategory);
+
+            sourceImagesCategory = new HashMap<>();
+            sourceImagesCategory.put("Образование",R.drawable.education);
+            sourceImagesCategory.put("Продукты",R.drawable.products);
+            sourceImagesCategory.put("Одежда",R.drawable.clothes);
+            sourceImagesCategory.put("Больница",R.drawable.hospital);
+            sourceImagesCategory.put("Спорт",R.drawable.sport);
+            sourceImagesCategory.put("Транспорт",R.drawable.transport);
+            sourceImagesCategory.put("Досуг",R.drawable.leisure);
+            sourceImagesCategory.put("Другое",R.drawable.other);
         }
 
         public void bind(Waste waste) {
+            Integer imageResource = sourceImagesCategory.get(waste.getCategoryId());
+
+            if (imageResource != null) {
+                _imageView.setImageResource(imageResource);
+            } else {
+                _imageView.setImageResource(R.drawable.baseline_access_time_filled_24);
+            }
+
             _amountTextView.setText(String.valueOf(waste.getAmount()));
             _categoryTextView.setText(waste.getCategoryId());
         }

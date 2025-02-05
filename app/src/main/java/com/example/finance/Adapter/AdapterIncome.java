@@ -15,14 +15,18 @@ import com.example.finance.Model.Waste;
 import com.example.finance.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AdapterIncome extends RecyclerView.Adapter<AdapterIncome.ViewHolder> {
 
     private List<Income> _listIncome;
 
+
     public AdapterIncome(List<Income> listIncome) {
         this._listIncome = listIncome;
+
     }
 
     @NonNull
@@ -47,15 +51,32 @@ public class AdapterIncome extends RecyclerView.Adapter<AdapterIncome.ViewHolder
         public ImageView _imageView;
         public TextView _category;
         public TextView _price;
-
+        private Map<String,Integer> sourceImagesCategory;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             this._imageView = itemView.findViewById(R.id.itemIncomeImage);
             this._category = itemView.findViewById(R.id.itemIncomeCategory);
             this._price = itemView.findViewById(R.id.itemIncomePrice); // Убедитесь, что ID правильный
+
+            sourceImagesCategory = new HashMap<>();
+            sourceImagesCategory.put("Зарплата",R.drawable.salary);
+            sourceImagesCategory.put("Подарки",R.drawable.gifts);
+            sourceImagesCategory.put("Проценты банка",R.drawable.bank);
+            sourceImagesCategory.put("Гос. выплаты",R.drawable.payments);
+            sourceImagesCategory.put("Акции",R.drawable.stocks);
+            sourceImagesCategory.put("Ценные бумаги",R.drawable.securities);
+            sourceImagesCategory.put("Продажа",R.drawable.sell);
+            sourceImagesCategory.put("Другое",R.drawable.other);
         }
 
         public void bind(Income income) {
+            Integer imageResource = sourceImagesCategory.get(income.getCategoryId());
+
+            if (imageResource != null) {
+                _imageView.setImageResource(imageResource);
+            } else {
+                _imageView.setImageResource(R.drawable.baseline_access_time_filled_24);
+            }
             _price.setText(String.valueOf(income.getAmount()));
             _category.setText(income.getCategoryId());
         }

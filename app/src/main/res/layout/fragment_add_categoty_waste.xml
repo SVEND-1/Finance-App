@@ -20,8 +20,8 @@
             android:layout_columnWeight="1"
             android:layout_gravity="fill"
             android:layout_margin="8dp"
-            app:cardCornerRadius="32dp"
-            app:cardElevation="32dp">
+            app:cardCornerRadius="24dp"
+            app:cardElevation="24dp">
 
             <LinearLayout
                 android:onClick="ClickGetCategory"
@@ -33,9 +33,9 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@android:drawable/btn_star_big_off" />
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/education" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -54,8 +54,8 @@
             android:layout_columnWeight="1"
             android:layout_gravity="fill"
             android:layout_margin="8dp"
-            app:cardCornerRadius="32dp"
-            app:cardElevation="32dp">
+            app:cardCornerRadius="24dp"
+            app:cardElevation="24dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -67,9 +67,9 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@android:drawable/btn_star_big_off" />
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/products" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -88,8 +88,8 @@
             android:layout_columnWeight="1"
             android:layout_gravity="fill"
             android:layout_margin="8dp"
-            app:cardCornerRadius="32dp"
-            app:cardElevation="32dp">
+            app:cardCornerRadius="24dp"
+            app:cardElevation="24dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -101,9 +101,9 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@android:drawable/btn_star_big_off" />
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/clothes" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -122,8 +122,8 @@
             android:layout_columnWeight="1"
             android:layout_gravity="fill"
             android:layout_margin="8dp"
-            app:cardCornerRadius="32dp"
-            app:cardElevation="32dp">
+            app:cardCornerRadius="24dp"
+            app:cardElevation="24dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -135,9 +135,9 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@android:drawable/ic_menu_manage" />
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/hospital" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -157,8 +157,8 @@
             android:layout_columnWeight="1"
             android:layout_gravity="fill"
             android:layout_margin="8dp"
-            app:cardCornerRadius="32dp"
-            app:cardElevation="32dp">
+            app:cardCornerRadius="24dp"
+            app:cardElevation="24dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -170,9 +170,9 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@android:drawable/btn_star_big_off" />
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/sport" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -191,8 +191,8 @@
             android:layout_columnWeight="1"
             android:layout_gravity="fill"
             android:layout_margin="8dp"
-            app:cardCornerRadius="32dp"
-            app:cardElevation="32dp">
+            app:cardCornerRadius="24dp"
+            app:cardElevation="24dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -204,9 +204,9 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@android:drawable/ic_btn_speak_now" />
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/transport" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -226,8 +226,8 @@
             android:layout_columnWeight="1"
             android:layout_gravity="fill"
             android:layout_margin="8dp"
-            app:cardCornerRadius="32dp"
-            app:cardElevation="32dp">
+            app:cardCornerRadius="24dp"
+            app:cardElevation="24dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -239,9 +239,9 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@android:drawable/btn_star_big_off" />
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/leisure" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -260,8 +260,8 @@
             android:layout_columnWeight="1"
             android:layout_gravity="fill"
             android:layout_margin="8dp"
-            app:cardCornerRadius="32dp"
-            app:cardElevation="32dp">
+            app:cardCornerRadius="24dp"
+            app:cardElevation="24dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -273,9 +273,9 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@android:drawable/ic_btn_speak_now" />
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/other" />
 
                 <TextView
                     android:layout_width="wrap_content"

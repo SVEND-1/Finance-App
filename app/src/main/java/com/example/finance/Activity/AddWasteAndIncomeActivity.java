@@ -1,5 +1,8 @@
 package com.example.finance.Activity;
 
+import static android.app.ProgressDialog.show;
+
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -42,7 +45,7 @@ public class AddWasteAndIncomeActivity extends AppCompatActivity {
     private Fragment fragment = null;
     private LinearLayout _lastClickedLinearLayout = null;
     private TabLayout _tabLayot;
-    private String _wasteOrIncome,_categoryName;
+    private String _wasteOrIncome,_categoryName = "";
     private AutoCompleteTextView _description;
     private EditText _sumET;
     private DBWaste _wasteDAO;
@@ -101,83 +104,53 @@ public class AddWasteAndIncomeActivity extends AppCompatActivity {
         }
     }
 
-    private void AddWasteToList(Waste waste) {
-//        String login = _userSP.getUserLogin();
-//        _userDAO.isEmptyUser(login, new DBUser.UserCallback() {
-//            @Override
-//            public void onCallback(User user) {
-//                if (user != null) {
-//                    // Получаем список всех Waste объектов (предположим, что у вас есть метод для этого)
-//                    List<Waste> allWastes = _wasteDAO.getWasteForUser(user.getId(), new DBWaste.DataCallback<List<Waste>>() {
-//                        @Override
-//                        public void onSuccess(List<Waste> data) {
-//
-//                        }
-//
-//                        @Override
-//                        public void onError(Exception e) {
-//
-//                        }
-//                    });
-//
-//                    // Создаем список для хранения отфильтрованных Waste объектов
-//                    List<Waste> userWastes = new ArrayList<>();
-//
-//                    // Фильтруем Waste объекты по userId
-//                    for (Waste w : allWastes) {
-//                        if (w.getUserId().equals(user.getId())) {
-//                            userWastes.add(w);
-//                        }
-//                    }
-//
-//                    // Теперь userWastes содержит все Waste объекты, которые относятся к текущему пользователю
-//                    // Вы можете использовать этот список по своему усмотрению
-//                }
-//            }
-//        });
-    }
-
-//    private void AddIncomeToList(Income income){
-//        String login = _userSP.getUserLogin();
-//        _userDAO.isEmptyUser (login, new DBUser .UserCallback() {
-//            @Override
-//            public void onCallback(User user) {
-////                if (user != null) {
-////                    List<Income> incomeList = user.get_listIncome();
-////                    incomeList.add(income);
-////                    user.set_listIncome(incomeList);
-//                }
-//            }
-//        });
-//    }
 
 
     public void ClickAddWasteAndIncomeSaveBtn(View v) {
+        Intent intent = new Intent(this,MainActivity.class);
         if("Расходы".equals(_wasteOrIncome)){
-            addWasteToDataBase();
+            boolean check = addWasteToDataBase();
+            if(check) {
+                startActivity(intent);
+            }
         }
         else if("Доходы".equals(_wasteOrIncome)){
-            addIncomeToDataBase();
+            boolean check = addIncomeToDataBase();
+            if(check) {
+                startActivity(intent);
+            }
         }
     }
-    private void addWasteToDataBase(){
-        int amout = Integer.parseInt(_sumET.getText().toString());
-        String userId = _userSP.getUserId();
-        String description = _description.getText().toString();
+    private boolean addWasteToDataBase(){
 
-        Waste waste = new Waste(amout,userId,_categoryName,description);
-        _wasteDAO.insert(waste);
+        if(!_sumET.getText().toString().isEmpty() &&  !_description.getText().toString().isEmpty() && !_categoryName.isEmpty() ) {
+            int amout = Integer.parseInt(_sumET.getText().toString());
+            String userId = _userSP.getUserId();
+            String description = _description.getText().toString();
 
-        AddWasteToList(waste);
+            Waste waste = new Waste(amout, userId, _categoryName, description);
+            _wasteDAO.insert(waste);
+            return true;
+        }
+        else{
+            Toast.makeText(this, "Заполните все поля", Toast.LENGTH_SHORT).show();
+            return false;
+        }
     }
-    private void addIncomeToDataBase(){
-        int amout = Integer.parseInt(_sumET.getText().toString());
-        String description = _description.getText().toString();
-        String userId = _userSP.getUserId();
-        Income income = new Income(amout,userId,_categoryName,description);
-        _incomeDAO.insert(income);
+    private boolean addIncomeToDataBase(){
+        if(!_sumET.getText().toString().isEmpty() &&  !_description.getText().toString().isEmpty() && !_categoryName.isEmpty() ) {
+            int amout = Integer.parseInt(_sumET.getText().toString());
+            String description = _description.getText().toString();
+            String userId = _userSP.getUserId();
 
-//        AddIncomeToList(income);
+            Income income = new Income(amout,userId,_categoryName,description);
+            _incomeDAO.insert(income);
+            return true;
+        }
+        else{
+            Toast.makeText(this, "Заполните все поля", Toast.LENGTH_SHORT).show();
+            return false;
+        }
     }
     public void ClickGetCategory(View v) {
         if (v instanceof LinearLayout) {

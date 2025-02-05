@@ -5,153 +5,162 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fee4d5"
+    android:background="@drawable/gradient_background"
     tools:context=".Activity.AddWasteAndIncomeActivity">
 
-
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/addWasteAndIncomeTabLayoutIncomeOrWaste"
-        android:layout_width="0dp"
-        android:layout_height="70dp"
-        android:background="#fee4d5"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" >
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/addWasteAndIncomeTabWaste"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Расходы" />
-
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/addWasteAndIncomeTabIncome"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Доходы" />
-    </com.google.android.material.tabs.TabLayout>
-
-    <LinearLayout
-        android:id="@+id/addWasteAndIncomeTopLinearLayout"
+    <!-- Gradient Background -->
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="180dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/addWasteAndIncomeCategoryText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addWasteAndIncomeTabLayoutIncomeOrWaste">
+        android:layout_height="match_parent"
+        android:background="@drawable/gradient_background">
+
+        <!-- TabLayout -->
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/addWasteAndIncomeTabLayoutIncomeOrWaste"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:background="@drawable/gradient_background"
+            app:tabTextColor="@android:color/white"
+            app:tabSelectedTextColor="@android:color/white"
+            app:tabIndicatorColor="@android:color/white"
+            app:tabIndicatorHeight="4dp"
+            app:tabMode="fixed"
+            app:tabGravity="fill"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/addWasteAndIncomeTabWaste"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Расходы"
+                android:textColor="@android:color/white" />
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/addWasteAndIncomeTabIncome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Доходы"
+                android:textColor="@android:color/white" />
+        </com.google.android.material.tabs.TabLayout>
+
+        <!-- Top LinearLayout -->
+        <LinearLayout
+            android:id="@+id/addWasteAndIncomeTopLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            android:orientation="vertical"
+            android:padding="16dp"
+            app:layout_constraintBottom_toTopOf="@+id/addWasteAndIncomeCategoryText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/addWasteAndIncomeTabLayoutIncomeOrWaste">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:backgroundTint="@android:color/white"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="8dp">
 
 
+                <EditText
+                    android:id="@+id/addWasteAndIncomeAmoutET"
+                    android:layout_width="200dp"
+                    android:layout_height="50dp"
+                    android:ems="10"
+                    android:gravity="center"
+                    android:layout_marginStart="25dp"
+                    android:hint="Сумма"
+                    android:inputType="number"
+                    android:textSize="18sp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp" />
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
+        <!-- Category Text -->
         <TextView
-            android:id="@+id/addWasteAndIncomeSumText"
+            android:id="@+id/addWasteAndIncomeCategoryText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="50dp"
-            android:gravity="center"
-            android:text="Сумма(RUB)"
-            android:textSize="20sp"
-
+            android:layout_marginTop="16dp"
+            android:text="Категории"
+            android:textSize="18sp"
+            android:background="@drawable/gradient_background"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintHorizontal_bias="0.048"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/addWasteAndIncomeTopLinearLayout" />
 
-        <EditText
-            android:id="@+id/addWasteAndIncomeAmoutET"
-            android:layout_width="200dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:ems="10"
-            android:gravity="center"
-            android:hint="Сумма"
-            android:inputType="number"
+        <!-- FrameLayout for Categories -->
+
+        <!-- Bottom LinearLayout -->
+
+        <FrameLayout
+            android:id="@+id/addWasteAndIncomeFrameLayout"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:padding="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/addWasteAndIncomeCategoryText"
+            app:layout_constraintVertical_bias="0.058">
 
-    </LinearLayout>
+            <!-- Add your category views here -->
+        </FrameLayout>
 
-
-    <TextView
-        android:id="@+id/addWasteAndIncomeCategoryText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="250dp"
-        android:text="Категории"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.048"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <FrameLayout
-        android:id="@+id/addWasteAndIncomeFrameLayout"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addWasteAndIncomeCategoryText"
-        app:layout_constraintVertical_bias="0.027">
-
-
-    </FrameLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addWasteAndIncomeFrameLayout">
-
-
-        <androidx.cardview.widget.CardView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_row="1"
-            android:layout_rowWeight="1"
-            android:layout_column="2"
-            android:layout_columnWeight="1"
-            android:layout_gravity="fill"
-            android:layout_margin="8dp"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="16dp">
-            <AutoCompleteTextView
-                android:id="@+id/addWasteAndIncomeDescriptionET"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:hint="Описания"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/gridLayout" />
-
-
-        </androidx.cardview.widget.CardView>
-
-
-        <Button
-            android:id="@+id/addWasteAndIncomeAddBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="30dp"
-            android:onClick="ClickAddWasteAndIncomeSaveBtn"
-            android:text="Добавить"
+            android:orientation="vertical"
+            android:padding="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/addWasteAndIncomeFrameLayout">
 
-    </LinearLayout>
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
 
+                app:cardCornerRadius="16dp"
+                app:cardElevation="8dp">
 
+                <AutoCompleteTextView
+                    android:id="@+id/addWasteAndIncomeDescriptionET"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:hint="Описание"
+                    android:textSize="16sp"
+                    android:padding="8dp" />
+            </androidx.cardview.widget.CardView>
 
+            <Button
+                android:id="@+id/addWasteAndIncomeAddBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/gradient_background"
+                android:onClick="ClickAddWasteAndIncomeSaveBtn"
+                android:text="Добавить"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="parent" />
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

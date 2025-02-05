@@ -78,9 +78,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         init(); // Инициализация всех R.id
 
-        //Получение пользователя и заполнение лист
-        getUserFromDataBase();
-
 
         ClickInTableLayout();
         ClickInTableLayoutTime();
@@ -98,21 +95,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //СПИСОК
         createRecycleView();
-    }
-
-    private void getUserFromDataBase(){
-        String login = _userSP.getUserLogin();
-        _userDAO.isEmptyUser(login, new DBUser.UserCallback() {
-            @Override
-            public void onCallback(User user) {
-                if (user != null) {
-                    //_incomeList = user.get_listIncome();
-                    //_wasteListId = user.get_listWaste();
-                    
-
-                }
-            }
-        });
     }
 
 
@@ -142,11 +124,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void DrawCircle() {
         List<CircleChartView.Sector> sectors = new ArrayList<>();
-        sectors.add(new CircleChartView.Sector(35f, ContextCompat.getColor(this, android.R.color.holo_red_light)));
-        sectors.add(new CircleChartView.Sector(20f, ContextCompat.getColor(this, android.R.color.holo_blue_light)));
-        sectors.add(new CircleChartView.Sector(15f, ContextCompat.getColor(this, android.R.color.holo_green_light)));
-        sectors.add(new CircleChartView.Sector(30f, ContextCompat.getColor(this, android.R.color.holo_orange_light)));
-
+        if(_wasteOrIncome.equals("Расходы")) {
+            sectors.add(new CircleChartView.Sector(35f, ContextCompat.getColor(this, android.R.color.holo_red_light)));
+            sectors.add(new CircleChartView.Sector(20f, ContextCompat.getColor(this, android.R.color.holo_blue_light)));
+            sectors.add(new CircleChartView.Sector(15f, ContextCompat.getColor(this, android.R.color.holo_green_light)));
+            sectors.add(new CircleChartView.Sector(30f, ContextCompat.getColor(this, android.R.color.holo_orange_light)));
+            sectors.add(new CircleChartView.Sector(35f, ContextCompat.getColor(this, android.R.color.holo_red_light)));
+            sectors.add(new CircleChartView.Sector(20f, ContextCompat.getColor(this, android.R.color.holo_blue_light)));
+            sectors.add(new CircleChartView.Sector(15f, ContextCompat.getColor(this, android.R.color.holo_green_light)));
+            sectors.add(new CircleChartView.Sector(30f, ContextCompat.getColor(this, android.R.color.holo_orange_light)));
+        }
+        else if(_wasteOrIncome.equals("Доходы")){
+            sectors.add(new CircleChartView.Sector(20f, ContextCompat.getColor(this, android.R.color.holo_blue_light)));
+            sectors.add(new CircleChartView.Sector(15f, ContextCompat.getColor(this, android.R.color.holo_green_light)));
+            sectors.add(new CircleChartView.Sector(30f, ContextCompat.getColor(this, android.R.color.holo_orange_light)));
+        }
         _circleChartView.setSectors(sectors);
         _circleChartView.setCenterText("35 245 ₽");
     }
@@ -199,10 +191,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 String tabText = tab.getText().toString();
                 _wasteOrIncome = tabText;
                 createRecycleView();
+                DrawCircle();
                 Toast.makeText(MainActivity.this, tabText, Toast.LENGTH_SHORT).show();
-                // Здесь можно добавить логику для изменения UI
             }
-
             @Override
             public void onTabUnselected(@NonNull TabLayout.Tab tab) {}
 
@@ -240,7 +231,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             startActivity(intent);
         }
         else if(item.getItemId() == R.id.MenuNavigatorFindFriends){
-            Intent intent = new Intent(this, WasteActivity.class);
+            Intent intent = new Intent(this, AddFriendActivity.class);
             startActivity(intent);
         }
         else if(item.getItemId() == R.id.MenuNavigatorMyFriends){

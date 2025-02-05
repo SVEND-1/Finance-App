@@ -2,6 +2,7 @@ package com.example.finance.Activity;
 
 import android.os.Bundle;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.finance.Adapter.AdapterAddFriend;
+import com.example.finance.Adapter.AdapterIncome;
 import com.example.finance.Data.DataBase.DBUser;
 import com.example.finance.Model.Friend;
 import com.example.finance.Model.User;
@@ -22,11 +24,11 @@ import java.util.List;
 
 public class AddFriendActivity extends AppCompatActivity {
 
-    private SearchView _searchView;
     private RecyclerView _recyclerView;
-    private ArrayList<User> _userList;
+    private ArrayList<User> _originalUserList; // Список для хранения всех пользователей
     private DBUser _dbUser;
     private AdapterAddFriend _adapter;
+    private SearchView _searchView; // Раскомментировано
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,7 @@ public class AddFriendActivity extends AppCompatActivity {
         });
         init();
 
+        // Убираем фокус с поиска
         _searchView.clearFocus();
 
         _searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -60,27 +63,39 @@ public class AddFriendActivity extends AppCompatActivity {
     }
 
     private void init() {
-        _searchView = findViewById(R.id.addFriendSearch);
+        _searchView = findViewById(R.id.addFriendSearch); // Раскомментировано
         _recyclerView = findViewById(R.id.addFriendrecyclerView);
 
         _dbUser = new DBUser();
+
+        // Получаем всех пользователей из базы данных
         _dbUser.getAllUsers(new DBUser.UsersCallback() {
             @Override
             public void onCallback(ArrayList<User> users) {
-                _userList = new ArrayList<>(users);
-                _adapter = new AdapterAddFriend(AddFriendActivity.this, _userList);
-                _recyclerView.setAdapter(_adapter);
+                _originalUserList = new ArrayList<>(users);
+                _adapter = new AdapterAddFriend(users);
+                _recyclerView.setAdapter(_adapter); // Устанавливаем адаптер
             }
         });
     }
 
     private void searchList(String text) {
         ArrayList<User> searchList = new ArrayList<>();
-        for (User user : _userList) {
-            if (user.getLogin().toLowerCase().contains(text.toLowerCase())) {
-                searchList.add(user);
+
+        if (_originalUserList == null) {
+            return; // Или обработайте это условие по-другому
+        }
+
+        if (text.isEmpty()) {
+            searchList.addAll(_originalUserList);
+        } else {
+            for (User user : _originalUserList) {
+                if (user.getLogin() != null && user.getLogin().toLowerCase().contains(text.toLowerCase())) {
+                    searchList.add(user);
+                }
             }
         }
+
         _adapter.searchDataList(searchList);
     }
 }

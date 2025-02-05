@@ -52,22 +52,17 @@ public class DBUser implements DAO<User,String> {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 ArrayList<User> users = new ArrayList<>();
-
-                // Проходим по всем данным в базе
                 for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
-                    User user = userSnapshot.getValue(User.class); // Получаем пользователя
+                    User user = userSnapshot.getValue(User.class);
                     if (user != null) {
-                        users.add(user); // Добавляем пользователя в список
+                        users.add(user);
                     }
                 }
-
-                // Вызываем обратный вызов с полученным списком пользователей
                 callback.onCallback(users);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                // В случае ошибки вызываем обратный вызов с пустым списком
                 callback.onCallback(new ArrayList<>());
             }
         });
