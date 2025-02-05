@@ -44,7 +44,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -81,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         ClickInTableLayout();
         ClickInTableLayoutTime();
-        DrawCircle();
+        DrawCircleWaste();
 
         setSupportActionBar(_toolbar);
 
@@ -122,25 +124,192 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         _recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
-    private void DrawCircle() {
+    private void DrawCircleWaste() {
         List<CircleChartView.Sector> sectors = new ArrayList<>();
-        if(_wasteOrIncome.equals("Расходы")) {
-            sectors.add(new CircleChartView.Sector(35f, ContextCompat.getColor(this, android.R.color.holo_red_light)));
-            sectors.add(new CircleChartView.Sector(20f, ContextCompat.getColor(this, android.R.color.holo_blue_light)));
-            sectors.add(new CircleChartView.Sector(15f, ContextCompat.getColor(this, android.R.color.holo_green_light)));
-            sectors.add(new CircleChartView.Sector(30f, ContextCompat.getColor(this, android.R.color.holo_orange_light)));
-            sectors.add(new CircleChartView.Sector(35f, ContextCompat.getColor(this, android.R.color.holo_red_light)));
-            sectors.add(new CircleChartView.Sector(20f, ContextCompat.getColor(this, android.R.color.holo_blue_light)));
-            sectors.add(new CircleChartView.Sector(15f, ContextCompat.getColor(this, android.R.color.holo_green_light)));
-            sectors.add(new CircleChartView.Sector(30f, ContextCompat.getColor(this, android.R.color.holo_orange_light)));
+        HashMap<String, Float> wastePercentageOfTheColorInCircle = wasteCircle();
+
+        if (wastePercentageOfTheColorInCircle != null) {
+            addSectorIfNotNull(sectors, "Образование", wastePercentageOfTheColorInCircle.get("Образование"),
+                    ContextCompat.getColor(this, android.R.color.holo_red_light));
+            addSectorIfNotNull(sectors, "Продукты", wastePercentageOfTheColorInCircle.get("Продукты"),
+                    ContextCompat.getColor(this, android.R.color.holo_blue_light));
+            addSectorIfNotNull(sectors, "Одежда", wastePercentageOfTheColorInCircle.get("Одежда"),
+                    ContextCompat.getColor(this, android.R.color.holo_green_light));
+            addSectorIfNotNull(sectors, "Больница", wastePercentageOfTheColorInCircle.get("Больница"),
+                    ContextCompat.getColor(this, android.R.color.holo_orange_light));
+            addSectorIfNotNull(sectors, "Спорт", wastePercentageOfTheColorInCircle.get("Спорт"),
+                    ContextCompat.getColor(this, android.R.color.black));
+            addSectorIfNotNull(sectors, "Транспорт", wastePercentageOfTheColorInCircle.get("Транспорт"),
+                    ContextCompat.getColor(this, android.R.color.darker_gray));
+            addSectorIfNotNull(sectors, "Досуг", wastePercentageOfTheColorInCircle.get("Досуг"),
+                    ContextCompat.getColor(this, android.R.color.system_on_error_dark));
+            addSectorIfNotNull(sectors, "Другое", wastePercentageOfTheColorInCircle.get("Другое"),
+                    ContextCompat.getColor(this, android.R.color.system_accent1_0));
+
+            _circleChartView.setSectors(sectors);
+            _circleChartView.setCenterText(String.valueOf(wastePercentageOfTheColorInCircle.get("Сумма")));
         }
-        else if(_wasteOrIncome.equals("Доходы")){
-            sectors.add(new CircleChartView.Sector(20f, ContextCompat.getColor(this, android.R.color.holo_blue_light)));
-            sectors.add(new CircleChartView.Sector(15f, ContextCompat.getColor(this, android.R.color.holo_green_light)));
-            sectors.add(new CircleChartView.Sector(30f, ContextCompat.getColor(this, android.R.color.holo_orange_light)));
+    }
+
+    private void DrawCircleIncome() {
+        List<CircleChartView.Sector> sectors = new ArrayList<>();
+        HashMap<String, Float> incomePercentageOfTheColorInCircle = incomeCircle();
+
+        if (incomePercentageOfTheColorInCircle != null) {
+            addSectorIfNotNull(sectors, "Зарплата", incomePercentageOfTheColorInCircle.get("Зарплата"),
+                    ContextCompat.getColor(this, android.R.color.holo_red_light));
+            addSectorIfNotNull(sectors, "Подарки", incomePercentageOfTheColorInCircle.get("Подарки"),
+                    ContextCompat.getColor(this, android.R.color.holo_blue_light));
+            addSectorIfNotNull(sectors, "Проценты банка", incomePercentageOfTheColorInCircle.get("Проценты банка"),
+                    ContextCompat.getColor(this, android.R.color.holo_green_light));
+            addSectorIfNotNull(sectors, "Гос. выплаты", incomePercentageOfTheColorInCircle.get("Гос. выплаты"),
+                    ContextCompat.getColor(this, android.R.color.holo_orange_light));
+            addSectorIfNotNull(sectors, "Акции", incomePercentageOfTheColorInCircle.get("Акции"),
+                    ContextCompat.getColor(this, android.R.color.black));
+            addSectorIfNotNull(sectors, "Ценные бумаги", incomePercentageOfTheColorInCircle.get("Ценные бумаги"),
+                    ContextCompat.getColor(this, android.R.color.darker_gray));
+            addSectorIfNotNull(sectors, "Продажа", incomePercentageOfTheColorInCircle.get("Продажа"),
+                    ContextCompat.getColor(this, android.R.color.system_on_error_dark));
+            addSectorIfNotNull(sectors, "Другое", incomePercentageOfTheColorInCircle.get("Другое"),
+                    ContextCompat.getColor(this, android.R.color.system_accent1_0));
+
+            _circleChartView.setSectors(sectors);
+            _circleChartView.setCenterText(String.valueOf(incomePercentageOfTheColorInCircle.get("Сумма")));
         }
-        _circleChartView.setSectors(sectors);
-        _circleChartView.setCenterText("35 245 ₽");
+    }
+
+    private void addSectorIfNotNull(List<CircleChartView.Sector> sectors, String key, Float value, int color) {
+        if (value != null && value > 0) {
+            sectors.add(new CircleChartView.Sector(value, color));
+        }
+    }
+
+
+
+    private HashMap<String, Float> incomeCircle() {
+        HashMap<String, Float> percentageOfTheColorInCircle = new HashMap<>();
+        float salary = 0, gifts = 0, bank = 0, payments = 0, stocks = 0, securities = 0, sell = 0, other = 0;
+        float sum = 0;
+
+        // Подсчет суммы для каждой категории
+        for (Income income : _incomeList) {
+            if (income != null && income.getAmount() > 0 && income.getCategoryId() != null) {
+                sum += income.getAmount();
+                switch (income.getCategoryId()) {
+                    case "Зарплата":
+                        salary += income.getAmount();
+                        break;
+                    case "Подарки":
+                        gifts += income.getAmount();
+                        break;
+                    case "Проценты банка":
+                        bank += income.getAmount();
+                        break;
+                    case "Гос. выплаты":
+                        payments += income.getAmount();
+                        break;
+                    case "Акции":
+                        stocks += income.getAmount();
+                        break;
+                    case "Ценные бумаги":
+                        securities += income.getAmount();
+                        break;
+                    case "Продажа":
+                        sell += income.getAmount();
+                        break;
+                    case "Другое":
+                        other += income.getAmount();
+                        break;
+                    default:
+                }
+            }
+        }
+
+        // Проверка на деление на ноль
+        if (sum > 0) {
+            percentageOfTheColorInCircle.put("Зарплата", (salary * 100.0f) / sum);
+            percentageOfTheColorInCircle.put("Подарки", (gifts * 100.0f) / sum);
+            percentageOfTheColorInCircle.put("Проценты банка", (bank * 100.0f) / sum);
+            percentageOfTheColorInCircle.put("Гос. выплаты", (payments * 100.0f) / sum);
+            percentageOfTheColorInCircle.put("Акции", (stocks * 100.0f) / sum);
+            percentageOfTheColorInCircle.put("Ценные бумаги", (securities * 100.0f) / sum);
+            percentageOfTheColorInCircle.put("Продажа", (sell * 100.0f) / sum);
+            percentageOfTheColorInCircle.put("Другое", (other * 100.0f) / sum);
+        } else {
+            // Если сумма 0, присваиваем 0% всем категориям
+            percentageOfTheColorInCircle.put("Зарплата", 0f);
+            percentageOfTheColorInCircle.put("Подарки", 0f);
+            percentageOfTheColorInCircle.put("Проценты банка", 0f);
+            percentageOfTheColorInCircle.put("Гос. выплаты", 0f);
+            percentageOfTheColorInCircle.put("Акции", 0f);
+            percentageOfTheColorInCircle.put("Ценные бумаги", 0f);
+            percentageOfTheColorInCircle.put("Продажа", 0f);
+            percentageOfTheColorInCircle.put("Другое", 0f);
+        }
+
+        // Добавление суммы
+        percentageOfTheColorInCircle.put("Сумма", sum);
+        return percentageOfTheColorInCircle;
+    }
+    private HashMap<String, Float> wasteCircle() {
+
+        HashMap<String, Float> percentageOfTheColorInCircle = new HashMap<>();
+        float education = 0, product = 0, clothes = 0, hospital = 0, sport = 0, transport = 0, leisure = 0, other = 0;
+        float sum = 0;
+
+        for (Waste waste : _wasteList) {
+            if (waste != null && waste.getAmount() > 0 && waste.getCategoryId() != null) {
+                sum += waste.getAmount();
+                switch (waste.getCategoryId()) {
+                    case "Образование":
+                        education += waste.getAmount();
+                        break;
+                    case "Продукты":
+                        product += waste.getAmount();
+                        break;
+                    case "Одежда":
+                        clothes += waste.getAmount();
+                        break;
+                    case "Больница":
+                        hospital += waste.getAmount();
+                        break;
+                    case "Спорт":
+                        sport += waste.getAmount();
+                        break;
+                    case "Транспорт":
+                        transport += waste.getAmount();
+                        break;
+                    case "Досуг":
+                        leisure += waste.getAmount();
+                        break;
+                    case "Другое":
+                        other += waste.getAmount();
+                        break;
+                }
+            }
+        }
+
+        if (sum > 0) {
+            percentageOfTheColorInCircle.put("Образование", (education * 100.0f) / sum);
+            percentageOfTheColorInCircle.put("Продукты", (product * 100.0f) / sum);
+            percentageOfTheColorInCircle.put("Одежда", (clothes * 100.0f) / sum);
+            percentageOfTheColorInCircle.put("Больница", (hospital * 100.0f) / sum);
+            percentageOfTheColorInCircle.put("Спорт", (sport * 100.0f) / sum);
+            percentageOfTheColorInCircle.put("Транспорт", (transport * 100.0f) / sum);
+            percentageOfTheColorInCircle.put("Досуг", (leisure * 100.0f) / sum);
+            percentageOfTheColorInCircle.put("Другое", (other * 100.0f) / sum);
+        } else {
+            percentageOfTheColorInCircle.put("Образование", 0f);
+            percentageOfTheColorInCircle.put("Продукты", 0f);
+            percentageOfTheColorInCircle.put("Одежда", 0f);
+            percentageOfTheColorInCircle.put("Больница", 0f);
+            percentageOfTheColorInCircle.put("Спорт", 0f);
+            percentageOfTheColorInCircle.put("Транспорт", 0f);
+            percentageOfTheColorInCircle.put("Досуг", 0f);
+            percentageOfTheColorInCircle.put("Другое", 0f);
+        }
+        percentageOfTheColorInCircle.put("Сумма",sum);
+        return percentageOfTheColorInCircle;
     }
 
     private void loadWasteData() {
@@ -177,10 +346,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if(_wasteOrIncome.equals("Расходы")){
             _recyclerView.setAdapter(_adapterWaste);
             loadWasteData();
+            DrawCircleWaste();
         }
         else if (_wasteOrIncome.equals("Доходы")) {
             _recyclerView.setAdapter(_adapterIncome);
             loadIncomeData();
+            DrawCircleIncome();
         }
     }
 
@@ -191,7 +362,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 String tabText = tab.getText().toString();
                 _wasteOrIncome = tabText;
                 createRecycleView();
-                DrawCircle();
                 Toast.makeText(MainActivity.this, tabText, Toast.LENGTH_SHORT).show();
             }
             @Override
@@ -248,7 +418,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             }
         }
-
         return true;
     }
 
