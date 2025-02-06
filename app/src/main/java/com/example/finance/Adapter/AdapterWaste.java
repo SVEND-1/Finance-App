@@ -1,5 +1,7 @@
 package com.example.finance.Adapter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.finance.Activity.Details.DetailsWasteActivity;
+import com.example.finance.Activity.MainActivity;
 import com.example.finance.Model.Income;
 import com.example.finance.Model.Waste;
 import com.example.finance.R;
@@ -36,7 +40,21 @@ public class AdapterWaste extends RecyclerView.Adapter<AdapterWaste.WasteViewHol
     @Override
     public void onBindViewHolder(@NonNull WasteViewHolder holder, int position) {
         Waste waste = wasteList.get(position);
-        holder.bind(waste);
+        int imageSource = holder.bind(waste);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Context context = v.getContext();
+                Intent intent = new Intent(context, DetailsWasteActivity.class);
+
+                intent.putExtra("image",imageSource);
+                intent.putExtra("description",waste.get_description());
+                intent.putExtra("price",waste.getAmount());
+
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -66,17 +84,19 @@ public class AdapterWaste extends RecyclerView.Adapter<AdapterWaste.WasteViewHol
             sourceImagesCategory.put("Другое",R.drawable.other);
         }
 
-        public void bind(Waste waste) {
+        public int bind(Waste waste) {
             Integer imageResource = sourceImagesCategory.get(waste.getCategoryId());
-
-            if (imageResource != null) {
-                _imageView.setImageResource(imageResource);
-            } else {
-                _imageView.setImageResource(R.drawable.baseline_access_time_filled_24);
-            }
 
             _amountTextView.setText(String.valueOf(waste.getAmount()));
             _categoryTextView.setText(waste.getCategoryId());
+
+            if (imageResource != null) {
+                _imageView.setImageResource(imageResource);
+                return imageResource;
+            } else {
+                _imageView.setImageResource(R.drawable.baseline_access_time_filled_24);
+                return R.drawable.baseline_access_time_filled_24;
+            }
         }
     }
 }

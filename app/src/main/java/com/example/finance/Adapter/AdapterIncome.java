@@ -1,5 +1,7 @@
 package com.example.finance.Adapter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.finance.Activity.Details.DetailsIncomeActivity;
+import com.example.finance.Activity.Details.DetailsWasteActivity;
 import com.example.finance.Model.Income;
 import com.example.finance.Model.User;
 import com.example.finance.Model.Waste;
@@ -39,7 +43,21 @@ public class AdapterIncome extends RecyclerView.Adapter<AdapterIncome.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Income income = _listIncome.get(position);
-        holder.bind(income);
+        int imageSource = holder.bind(income);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Context context = v.getContext();
+                Intent intent = new Intent(context, DetailsIncomeActivity.class);
+
+                intent.putExtra("image",imageSource);
+                intent.putExtra("description",income.get_description());
+                intent.putExtra("price",income.getAmount());
+
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -69,16 +87,19 @@ public class AdapterIncome extends RecyclerView.Adapter<AdapterIncome.ViewHolder
             sourceImagesCategory.put("Другое",R.drawable.other);
         }
 
-        public void bind(Income income) {
+        public int bind(Income income) {
             Integer imageResource = sourceImagesCategory.get(income.getCategoryId());
+
+            _price.setText(String.valueOf(income.getAmount()));
+            _category.setText(income.getCategoryId());
 
             if (imageResource != null) {
                 _imageView.setImageResource(imageResource);
+                return imageResource;
             } else {
                 _imageView.setImageResource(R.drawable.baseline_access_time_filled_24);
+                return R.drawable.baseline_access_time_filled_24;
             }
-            _price.setText(String.valueOf(income.getAmount()));
-            _category.setText(income.getCategoryId());
         }
     }
 }

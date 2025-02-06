@@ -16,6 +16,12 @@
         android:theme="@style/Theme.Finance"
         tools:targetApi="31">
         <activity
+            android:name=".Activity.Details.DetailsWasteActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.Details.DetailsIncomeActivity"
+            android:exported="false" />
+        <activity
             android:name=".TestActivity"
             android:exported="false" />
         <activity
