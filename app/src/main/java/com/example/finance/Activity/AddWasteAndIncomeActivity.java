@@ -20,6 +20,7 @@ import androidx.cardview.widget.CardView;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -33,14 +34,16 @@ import com.example.finance.Fragment.AddCategoryWasteFragment;
 import com.example.finance.Model.Income;
 import com.example.finance.Model.User;
 import com.example.finance.Model.Waste;
+import com.example.finance.Other.DataPickerFragment;
 import com.example.finance.R;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-public class AddWasteAndIncomeActivity extends AppCompatActivity {
+public class AddWasteAndIncomeActivity extends AppCompatActivity implements DataPickerFragment.DatePickerListener {
 
     private Fragment fragment = null;
     private LinearLayout _lastClickedLinearLayout = null;
@@ -53,6 +56,7 @@ public class AddWasteAndIncomeActivity extends AppCompatActivity {
     private DBUser _userDAO;
     private SPUser _userSP;
     private List<Waste> _userWastes;
+    private Date date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,6 +109,16 @@ public class AddWasteAndIncomeActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onDatePicked(Date date) {
+        this.date = date;
+    }
+
+    public void ClickOnTimeBtn(View v) {
+        DataPickerFragment dataPickerFragment = new DataPickerFragment();
+        dataPickerFragment.show(getSupportFragmentManager(), "DatePicker");
+    }
+
 
     public void ClickAddWasteAndIncomeSaveBtn(View v) {
         Intent intent = new Intent(this,MainActivity.class);
@@ -122,13 +136,12 @@ public class AddWasteAndIncomeActivity extends AppCompatActivity {
         }
     }
     private boolean addWasteToDataBase(){
-
-        if(!_sumET.getText().toString().isEmpty() &&  !_description.getText().toString().isEmpty() && !_categoryName.isEmpty() ) {
+        if(!_sumET.getText().toString().isEmpty() &&  !_description.getText().toString().isEmpty() && !_categoryName.isEmpty() && date != null) {
             int amout = Integer.parseInt(_sumET.getText().toString());
             String userId = _userSP.getUserId();
             String description = _description.getText().toString();
 
-            Waste waste = new Waste(amout, userId, _categoryName, description);
+            Waste waste = new Waste(amout, userId, _categoryName, description,date);
             _wasteDAO.insert(waste);
             return true;
         }
@@ -138,12 +151,12 @@ public class AddWasteAndIncomeActivity extends AppCompatActivity {
         }
     }
     private boolean addIncomeToDataBase(){
-        if(!_sumET.getText().toString().isEmpty() &&  !_description.getText().toString().isEmpty() && !_categoryName.isEmpty() ) {
+        if(!_sumET.getText().toString().isEmpty() &&  !_description.getText().toString().isEmpty() && !_categoryName.isEmpty() && date != null) {
             int amout = Integer.parseInt(_sumET.getText().toString());
             String description = _description.getText().toString();
             String userId = _userSP.getUserId();
 
-            Income income = new Income(amout,userId,_categoryName,description);
+            Income income = new Income(amout,userId,_categoryName,description,date);
             _incomeDAO.insert(income);
             return true;
         }

@@ -20,15 +20,15 @@
             android:layout_width="0dp"
             android:layout_height="60dp"
             android:background="@drawable/gradient_background"
-            app:tabTextColor="@android:color/white"
-            app:tabSelectedTextColor="@android:color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tabGravity="fill"
             app:tabIndicatorColor="@android:color/white"
             app:tabIndicatorHeight="4dp"
             app:tabMode="fixed"
-            app:tabGravity="fill"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:tabSelectedTextColor="@android:color/white"
+            app:tabTextColor="@android:color/white">
 
             <com.google.android.material.tabs.TabItem
                 android:id="@+id/addWasteAndIncomeTabWaste"
@@ -49,19 +49,19 @@
         <LinearLayout
             android:id="@+id/addWasteAndIncomeTopLinearLayout"
             android:layout_width="match_parent"
-            android:layout_height="130dp"
+            android:layout_height="120dp"
             android:orientation="vertical"
             android:padding="16dp"
-            app:layout_constraintBottom_toTopOf="@+id/addWasteAndIncomeCategoryText"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/addWasteAndIncomeTabLayoutIncomeOrWaste">
+
 
             <androidx.cardview.widget.CardView
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:backgroundTint="@android:color/white"
                 app:cardCornerRadius="24dp"
                 app:cardElevation="8dp">
@@ -71,32 +71,55 @@
                     android:id="@+id/addWasteAndIncomeAmoutET"
                     android:layout_width="200dp"
                     android:layout_height="50dp"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
                     android:ems="10"
                     android:gravity="center"
-                    android:layout_marginStart="25dp"
                     android:hint="Сумма"
                     android:inputType="number"
-                    android:textSize="18sp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="16dp" />
+                    android:textSize="18sp" />
             </androidx.cardview.widget.CardView>
         </LinearLayout>
 
-        <!-- Category Text -->
-        <TextView
-            android:id="@+id/addWasteAndIncomeCategoryText"
-            android:layout_width="wrap_content"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/addWasteAndIncomeTimeCardView"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Категории"
-            android:textSize="18sp"
-            android:background="@drawable/gradient_background"
-            android:textStyle="bold"
+            android:backgroundTint="@android:color/white"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="8dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.048"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/addWasteAndIncomeTopLinearLayout" />
+            app:layout_constraintTop_toBottomOf="@+id/addWasteAndIncomeTopLinearLayout">
 
+            <EditText
+                android:id="@+id/addWasteAndIncomeTimeET"
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginStart="10dp"
+                android:hint="Введите время"
+                />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/addWasteAndIncomeTimeBtn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="230dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginEnd="15dp"
+                android:contentDescription="null"
+                android:onClick="ClickOnTimeBtn"
+                android:src="@drawable/baseline_access_time_filled_24"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/addWasteAndIncomeTopLinearLayout"
+                />
+
+        </androidx.cardview.widget.CardView>
         <!-- FrameLayout for Categories -->
 
         <!-- Bottom LinearLayout -->
@@ -110,7 +133,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/addWasteAndIncomeCategoryText"
+            app:layout_constraintTop_toBottomOf="@+id/addWasteAndIncomeTimeCardView"
             app:layout_constraintVertical_bias="0.058">
 
             <!-- Add your category views here -->
@@ -141,8 +164,8 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="16dp"
                     android:hint="Описание"
-                    android:textSize="16sp"
-                    android:padding="8dp" />
+                    android:padding="8dp"
+                    android:textSize="16sp" />
             </androidx.cardview.widget.CardView>
 
             <Button

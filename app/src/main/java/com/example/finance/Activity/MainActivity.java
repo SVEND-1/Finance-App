@@ -362,7 +362,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 String tabText = tab.getText().toString();
                 _wasteOrIncome = tabText;
                 createRecycleView();
-                Toast.makeText(MainActivity.this, tabText, Toast.LENGTH_SHORT).show();
+               
             }
             @Override
             public void onTabUnselected(@NonNull TabLayout.Tab tab) {}

@@ -1,4 +1,4 @@
-package com.example.finance;
+package com.example.finance.Other;
 
 public class FINAL {
     public final static String CATEGORY_WASTE_EDUCATION= "Образование";

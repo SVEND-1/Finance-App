@@ -1,16 +1,19 @@
 package com.example.finance.Model;
 
+import java.util.Date;
+
 public class Income {
     private String _id;
     private int _amount;
     private String _description;
     private String _userId;
     private String _categoryName;
+    private Date _createdAt;
 
     public Income() {
     }
 
-    public Income(int amount, String userId, String categoryName, String description) {
+    public Income(int amount, String userId, String categoryName, String description,Date _createdAt) {
         this._amount = amount;
         this._userId = userId;
         this._categoryName = categoryName;
@@ -57,6 +60,14 @@ public class Income {
         this._description = _description;
     }
 
+    public Date get_createdAt() {
+        return _createdAt;
+    }
+
+    public void set_createdAt(Date _createdAt) {
+        this._createdAt = _createdAt;
+    }
+
     @Override
     public String toString() {
         return "Income{" +
@@ -65,6 +76,7 @@ public class Income {
                 ", _description='" + _description + '\'' +
                 ", _userId='" + _userId + '\'' +
                 ", _categoryName='" + _categoryName + '\'' +
+                ", _createdAt=" + _createdAt +
                 '}';
     }
 }
