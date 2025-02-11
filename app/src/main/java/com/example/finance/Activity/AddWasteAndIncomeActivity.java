@@ -39,9 +39,11 @@ import com.example.finance.R;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class AddWasteAndIncomeActivity extends AppCompatActivity implements DataPickerFragment.DatePickerListener {
 
@@ -50,7 +52,7 @@ public class AddWasteAndIncomeActivity extends AppCompatActivity implements Data
     private TabLayout _tabLayot;
     private String _wasteOrIncome,_categoryName = "";
     private AutoCompleteTextView _description;
-    private EditText _sumET;
+    private EditText _sumET,_timeET;
     private DBWaste _wasteDAO;
     private DBIncome _incomeDAO;
     private DBUser _userDAO;
@@ -76,6 +78,7 @@ public class AddWasteAndIncomeActivity extends AppCompatActivity implements Data
         _description = findViewById(R.id.addWasteAndIncomeDescriptionET);
         _tabLayot = findViewById(R.id.addWasteAndIncomeTabLayoutIncomeOrWaste);
         _sumET = findViewById(R.id.addWasteAndIncomeAmoutET);
+        _timeET = findViewById(R.id.addWasteAndIncomeTimeET);
 
         _incomeDAO = new DBIncome();
         _wasteDAO = new DBWaste();
@@ -112,6 +115,11 @@ public class AddWasteAndIncomeActivity extends AppCompatActivity implements Data
     @Override
     public void onDatePicked(Date date) {
         this.date = date;
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        String formattedDate = sdf.format(date);
+
+        _timeET.setText(formattedDate);
     }
 
     public void ClickOnTimeBtn(View v) {

@@ -13,11 +13,12 @@ public class Income {
     public Income() {
     }
 
-    public Income(int amount, String userId, String categoryName, String description,Date _createdAt) {
+    public Income(int amount, String userId, String categoryName, String description,Date createdAt) {
         this._amount = amount;
         this._userId = userId;
         this._categoryName = categoryName;
         this._description = description;
+        this._createdAt = createdAt;
     }
 
     public String getId() {

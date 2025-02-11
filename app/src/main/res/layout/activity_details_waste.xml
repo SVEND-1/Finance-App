@@ -58,6 +58,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/detailsWasteCardView" />
 
+    <TextView
+        android:id="@+id/detailsWasteTimeTV"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="85dp"
+        android:text="Время:"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/detailsWasteCardView" />
+
+
     <androidx.cardview.widget.CardView
         android:id="@+id/detailsWasteCardView2"
         android:layout_width="match_parent"

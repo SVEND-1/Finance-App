@@ -18,9 +18,12 @@ import com.example.finance.Model.User;
 import com.example.finance.Model.Waste;
 import com.example.finance.R;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class AdapterIncome extends RecyclerView.Adapter<AdapterIncome.ViewHolder> {
@@ -45,6 +48,17 @@ public class AdapterIncome extends RecyclerView.Adapter<AdapterIncome.ViewHolder
         Income income = _listIncome.get(position);
         int imageSource = holder.bind(income);
 
+        Date date = income.get_createdAt();
+        String formattedDate;
+        if(date != null) {
+            // дату в строку
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+            formattedDate = sdf.format(date);
+        }
+        else {
+            formattedDate = "дата не найдена";
+        }
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,6 +68,7 @@ public class AdapterIncome extends RecyclerView.Adapter<AdapterIncome.ViewHolder
                 intent.putExtra("image",imageSource);
                 intent.putExtra("description",income.get_description());
                 intent.putExtra("price",income.getAmount());
+                intent.putExtra("time", formattedDate);
 
                 context.startActivity(intent);
             }

@@ -17,9 +17,12 @@ import com.example.finance.Model.Income;
 import com.example.finance.Model.Waste;
 import com.example.finance.R;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class AdapterWaste extends RecyclerView.Adapter<AdapterWaste.WasteViewHolder> {
@@ -42,19 +45,34 @@ public class AdapterWaste extends RecyclerView.Adapter<AdapterWaste.WasteViewHol
         Waste waste = wasteList.get(position);
         int imageSource = holder.bind(waste);
 
+        Date date = waste.get_createdAt();
+        String formattedDate;
+        if(date != null) {
+            //дату в строку
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+            formattedDate = sdf.format(date);
+        }
+        else {
+            formattedDate = "дата не найдена";
+        }
+
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Context context = v.getContext();
                 Intent intent = new Intent(context, DetailsWasteActivity.class);
 
-                intent.putExtra("image",imageSource);
-                intent.putExtra("description",waste.get_description());
-                intent.putExtra("price",waste.getAmount());
+                intent.putExtra("image", imageSource);
+                intent.putExtra("description", waste.get_description());
+                intent.putExtra("price", waste.getAmount());
+                intent.putExtra("time", formattedDate);
 
                 context.startActivity(intent);
             }
         });
+
+
     }
 
     @Override

@@ -16,7 +16,7 @@ import com.example.finance.R;
 public class DetailsWasteActivity extends AppCompatActivity {
 
     private ImageView _imageCategory;
-    private TextView _priceText;
+    private TextView _priceText,_timeText;
     private CheckedTextView _descriptionText;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +35,7 @@ public class DetailsWasteActivity extends AppCompatActivity {
         if (bundle != null) {
             _priceText.setText(String.valueOf(bundle.getInt("price", 0)));
             _descriptionText.setText(bundle.getString("description", "Описание не найдено"));
+            _timeText.setText(bundle.getString("time", "Дата не найдена"));
             _imageCategory.setImageResource(bundle.getInt("image",R.drawable.baseline_access_time_filled_24)); // Исправлено
         }
     }
@@ -43,5 +44,6 @@ public class DetailsWasteActivity extends AppCompatActivity {
         _imageCategory = findViewById(R.id.detailsWasteImageCategory);
         _priceText = findViewById(R.id.detailsWastePriceTV);
         _descriptionText = findViewById(R.id.detailsWasteDescriptionText);
+        _timeText = findViewById(R.id.detailsWasteTimeTV);
     }
 }
