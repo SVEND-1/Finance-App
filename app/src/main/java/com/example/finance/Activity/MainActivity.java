@@ -44,6 +44,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout _drawerLayout;
     private NavigationView _navigationView;
     private Toolbar _toolbar;
-    private String _wasteOrIncome = "Расходы";
+    private String _wasteOrIncome = "Расходы",period = "День";
     private SPUser _userSP;
     private DBUser _userDAO;
     private DBWaste _wasteDAO;
@@ -98,7 +101,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //СПИСОК
         createRecycleView();
     }
-
 
     private void init() {
         _tabLayout = findViewById(R.id.mainTabLayout);
@@ -311,7 +313,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         percentageOfTheColorInCircle.put("Сумма",sum);
         return percentageOfTheColorInCircle;
     }
-
     private void loadWasteData() {
         _wasteDAO.getWasteForUser(_userSP.getUserId(), new DBWaste.DataCallback<List<Waste>>() {
             @Override
@@ -342,6 +343,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
     }
+
     private void createRecycleView(){
         if(_wasteOrIncome.equals("Расходы")){
             _recyclerView.setAdapter(_adapterWaste);
@@ -377,8 +379,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 String tabText = tab.getText().toString();
-                Toast.makeText(MainActivity.this, tabText, Toast.LENGTH_SHORT).show();
-                // Здесь можно добавить логику для изменения UI
+
             }
 
             @Override

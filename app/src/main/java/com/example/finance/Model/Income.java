@@ -1,6 +1,7 @@
 package com.example.finance.Model;
 
 import java.util.Date;
+import java.util.Objects;
 
 public class Income {
     private String _id;
@@ -79,5 +80,18 @@ public class Income {
                 ", _categoryName='" + _categoryName + '\'' +
                 ", _createdAt=" + _createdAt +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Income income = (Income) o;
+        return _amount == income._amount && Objects.equals(_id, income._id) && Objects.equals(_description, income._description) && Objects.equals(_userId, income._userId) && Objects.equals(_categoryName, income._categoryName) && Objects.equals(_createdAt, income._createdAt);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(_id, _amount, _description, _userId, _categoryName, _createdAt);
     }
 }

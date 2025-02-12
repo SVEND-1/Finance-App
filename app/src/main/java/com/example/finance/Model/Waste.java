@@ -1,6 +1,7 @@
 package com.example.finance.Model;
 
 import java.util.Date;
+import java.util.Objects;
 
 public class Waste {
     private String _id;
@@ -79,5 +80,18 @@ public class Waste {
                 ", _categoryName='" + _categoryName + '\'' +
                 ", _createdAt=" + _createdAt +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Waste waste = (Waste) o;
+        return _amount == waste._amount && Objects.equals(_id, waste._id) && Objects.equals(_description, waste._description) && Objects.equals(_userId, waste._userId) && Objects.equals(_categoryName, waste._categoryName) && Objects.equals(_createdAt, waste._createdAt);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(_id, _amount, _description, _userId, _categoryName, _createdAt);
     }
 }
