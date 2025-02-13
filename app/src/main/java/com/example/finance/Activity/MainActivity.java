@@ -2,6 +2,7 @@ package com.example.finance.Activity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -43,6 +44,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -313,12 +316,46 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         percentageOfTheColorInCircle.put("Сумма",sum);
         return percentageOfTheColorInCircle;
     }
+
     private void loadWasteData() {
         _wasteDAO.getWasteForUser(_userSP.getUserId(), new DBWaste.DataCallback<List<Waste>>() {
             @Override
             public void onSuccess(List<Waste> wastes) {
                 _wasteList.clear();
-                _wasteList.addAll(wastes);
+                for(Waste waste : wastes){
+                    Date createdAt = waste.get_createdAt();
+                    if (createdAt == null) continue; // Проверка на null
+
+
+                    Calendar wasteCal = Calendar.getInstance();
+                    wasteCal.setTime(createdAt);
+
+                    Calendar todayCal = Calendar.getInstance();
+                    Calendar monthCal = Calendar.getInstance();
+
+
+                    // Обнуляем время чтобы сравнить именно за день
+                    wasteCal.set(Calendar.HOUR_OF_DAY, 0);
+                    wasteCal.set(Calendar.MINUTE, 0);
+                    wasteCal.set(Calendar.SECOND, 0);
+                    wasteCal.set(Calendar.MILLISECOND, 0);
+
+                    todayCal.set(Calendar.HOUR_OF_DAY, 0);
+                    todayCal.set(Calendar.MINUTE, 0);
+                    todayCal.set(Calendar.SECOND, 0);
+                    todayCal.set(Calendar.MILLISECOND, 0);
+
+
+                    if (wasteCal.equals(todayCal) && period.equals("День")) {
+                        _wasteList.add(waste);
+                    }
+                    if(wasteCal.getTime().getMonth() == todayCal.getTime().getMonth() && period.equals("Месяц")){
+                        _wasteList.add(waste);
+                    }
+                    if(wasteCal.getTime().getYear() == todayCal.getTime().getYear() && period.equals("Год")){
+                        _wasteList.add(waste);
+                    }
+                }
                 _adapterWaste.notifyDataSetChanged();
             }
 
@@ -333,7 +370,41 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onSuccess(List<Income> data) {
                 _incomeList.clear();
-                _incomeList.addAll(data);
+
+                for(Income income : data){
+                    Date createdAt = income.get_createdAt();
+                    if (createdAt == null) continue; // Проверка на null
+
+
+                    Calendar incomeCal = Calendar.getInstance();
+                    incomeCal.setTime(createdAt);
+
+                    Calendar todayCal = Calendar.getInstance();
+                    Calendar monthCal = Calendar.getInstance();
+
+
+                    // Обнуляем время чтобы сравнить именно за день
+                    incomeCal.set(Calendar.HOUR_OF_DAY, 0);
+                    incomeCal.set(Calendar.MINUTE, 0);
+                    incomeCal.set(Calendar.SECOND, 0);
+                    incomeCal.set(Calendar.MILLISECOND, 0);
+
+                    todayCal.set(Calendar.HOUR_OF_DAY, 0);
+                    todayCal.set(Calendar.MINUTE, 0);
+                    todayCal.set(Calendar.SECOND, 0);
+                    todayCal.set(Calendar.MILLISECOND, 0);
+
+
+                    if (incomeCal.equals(todayCal) && period.equals("День")) {
+                        _incomeList.add(income);
+                    }
+                    if(incomeCal.getTime().getMonth() == todayCal.getTime().getMonth() && period.equals("Месяц")){
+                        _incomeList.add(income);
+                    }
+                    if(incomeCal.getTime().getYear() == todayCal.getTime().getYear() && period.equals("Год")){
+                        _incomeList.add(income);
+                    }
+                }
                 _adapterIncome.notifyDataSetChanged();
             }
 
@@ -343,7 +414,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
     }
-
+    private void updateData(){
+        if(_wasteOrIncome.equals("Расходы")){
+            _recyclerView.setAdapter(_adapterWaste);
+            loadWasteData();
+            DrawCircleWaste();
+        }
+        else if (_wasteOrIncome.equals("Доходы")) {
+            _recyclerView.setAdapter(_adapterIncome);
+            loadIncomeData();
+            DrawCircleIncome();
+        }
+    }
     private void createRecycleView(){
         if(_wasteOrIncome.equals("Расходы")){
             _recyclerView.setAdapter(_adapterWaste);
@@ -379,7 +461,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 String tabText = tab.getText().toString();
+                period = tabText;
 
+                if(_wasteOrIncome.equals("Расходы")) {
+                    DrawCircleWaste();
+                    loadWasteData();
+                }
+                else if (_wasteOrIncome.equals("Доходы")) {
+                    DrawCircleIncome();
+                    loadIncomeData();
+                }
             }
 
             @Override

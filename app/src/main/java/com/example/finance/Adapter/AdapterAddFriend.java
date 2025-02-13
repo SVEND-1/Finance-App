@@ -11,6 +11,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.finance.Data.DataBase.DBFriend;
+import com.example.finance.Data.SharedPreferences.SPUser;
+import com.example.finance.Model.Friend;
 import com.example.finance.Model.User;
 import com.example.finance.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -18,7 +21,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 
 public class AdapterAddFriend extends RecyclerView.Adapter<AdapterAddFriend.ViewHolder> {
-
 
     private ArrayList<User> _filteredUserList; // Отфильтрованный список
 
@@ -41,13 +43,14 @@ public class AdapterAddFriend extends RecyclerView.Adapter<AdapterAddFriend.View
 
     @Override
     public int getItemCount() {
-        return _filteredUserList.size();
+        return _filteredUserList == null ? 0 : _filteredUserList.size();
     }
 
+    // Метод для обновления списка
     public void searchDataList(ArrayList<User> searchList) {
         _filteredUserList.clear();
         _filteredUserList.addAll(searchList);
-        notifyDataSetChanged();
+        notifyDataSetChanged(); // Уведомляем адаптер об изменениях
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -58,16 +61,21 @@ public class AdapterAddFriend extends RecyclerView.Adapter<AdapterAddFriend.View
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             this._imageView = itemView.findViewById(R.id.itemAddFriendImage);
-            this._name = itemView.findViewById(R.id.itemIncomeCategory);
+            this._name = itemView.findViewById(R.id.itemAddFriendName);
             this._bntAddFriend = itemView.findViewById(R.id.itemAddFriendFloatingBtnAdd);
         }
 
         public void bind(User user) {
             _name.setText(user.getLogin());
+
             _bntAddFriend.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // Логика добавления друга
+                    DBFriend _dbFriend = new DBFriend();
+                    SPUser spUser = new SPUser(itemView.getContext());
+
+                    Friend newFriend = new Friend(spUser.getUserId(), user.getId());
+                    _dbFriend.insert(newFriend);
                 }
             });
         }

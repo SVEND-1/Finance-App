@@ -42,28 +42,28 @@ public class AddFriendActivity extends AppCompatActivity {
         });
         init();
 
-        // Убираем фокус с поиска
-        _searchView.clearFocus();
 
-        _searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
+      //  _searchView.clearFocus();
 
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                searchList(newText);
-                return true;
-            }
-        });
+//        _searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//                searchList(newText);
+//                return true;
+//            }
+//        });
 
         _recyclerView.setHasFixedSize(true);
         _recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     private void init() {
-        _searchView = findViewById(R.id.addFriendSearch); // Раскомментировано
+        //_searchView = findViewById(R.id.addFriendSearch);
         _recyclerView = findViewById(R.id.addFriendrecyclerView);
 
         _dbUser = new DBUser();
@@ -83,7 +83,7 @@ public class AddFriendActivity extends AppCompatActivity {
         ArrayList<User> searchList = new ArrayList<>();
 
         if (_originalUserList == null) {
-            return; // Или обработайте это условие по-другому
+            return;
         }
 
         if (text.isEmpty()) {

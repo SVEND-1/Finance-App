@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".Activity.MyFriendActivity">
     <androidx.appcompat.widget.SearchView
-        android:id="@+id/addFriendSearch"
+        android:id="@+id/myFriendSearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -22,7 +22,7 @@
         tools:ignore="MissingConstraints" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/addFriendrecyclerView"
+        android:id="@+id/myFriendrecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical"
