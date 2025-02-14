@@ -28,7 +28,7 @@ public class AddFriendActivity extends AppCompatActivity {
     private ArrayList<User> _originalUserList; // Список для хранения всех пользователей
     private DBUser _dbUser;
     private AdapterAddFriend _adapter;
-    private SearchView _searchView; // Раскомментировано
+    private SearchView _searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

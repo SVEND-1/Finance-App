@@ -43,6 +43,27 @@ public class DBUser implements DAO<User,String> {
         });
     }
 
+    public void findUserFromId(String id, UserCallback callback) {
+        databaseReference.orderByChild("id").equalTo(id).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                User user = null; // Локальная переменная для хранения найденного пользователя
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+                        user = userSnapshot.getValue(User.class); // Получаем пользователя
+                    }
+                }
+                // Вызываем обратный вызов с найденным пользователем
+                callback.onCallback(user);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                callback.onCallback(null); // Вызываем обратный вызов с null в случае ошибки
+            }
+        });
+    }
+
     public interface UsersCallback {
         void onCallback(ArrayList<User> users);
     }
