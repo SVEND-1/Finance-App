@@ -3,28 +3,24 @@
     android:layout_width="match_parent"
     android:layout_height="200dp"
     android:orientation="vertical"
-    android:background="@color/cardview_dark_background"
+    android:background="@color/lavender"
     android:gravity="bottom"
     android:padding="24sp">
 
     <ImageView
         android:layout_width="75dp"
         android:layout_height="75dp"
-        android:src="@drawable/ic_launcher_background"/>
+        android:src="@drawable/baseline_account_circle_24"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-black"
-        android:text="Text"
+        android:layout_marginStart="10dp"
+        android:text="Ваш навигатор"
         android:textColor="@color/white"
         android:textSize="24sp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-black"
-        android:text="www team"
-        android:textColor="@color/white" />
+
 
 </LinearLayout>

@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -103,6 +104,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //СПИСОК
         createRecycleView();
+
     }
 
     private void init() {
@@ -414,18 +416,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
     }
-    private void updateData(){
-        if(_wasteOrIncome.equals("Расходы")){
-            _recyclerView.setAdapter(_adapterWaste);
-            loadWasteData();
-            DrawCircleWaste();
-        }
-        else if (_wasteOrIncome.equals("Доходы")) {
-            _recyclerView.setAdapter(_adapterIncome);
-            loadIncomeData();
-            DrawCircleIncome();
-        }
-    }
+
     private void createRecycleView(){
         if(_wasteOrIncome.equals("Расходы")){
             _recyclerView.setAdapter(_adapterWaste);

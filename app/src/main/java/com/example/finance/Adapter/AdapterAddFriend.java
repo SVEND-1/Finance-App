@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -71,11 +72,26 @@ public class AdapterAddFriend extends RecyclerView.Adapter<AdapterAddFriend.View
             _bntAddFriend.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    DBFriend _dbFriend = new DBFriend();
+                    DBFriend dbFriend = new DBFriend();
                     SPUser spUser = new SPUser(itemView.getContext());
 
-                    Friend newFriend = new Friend(spUser.getUserId(), user.getId());
-                    _dbFriend.insert(newFriend);
+                    dbFriend.getAllFriends(new DBFriend.FriendsCallback() {
+                        @Override
+                        public void onCallback(ArrayList<Friend> friends) {//Проверка что игрока нету
+                            boolean alreadyAdded = false;
+                            for(Friend friend : friends){
+                                if(friend.getFriendUserId().equals(user.getId()) ){
+                                    alreadyAdded = true;
+                                    Toast.makeText(itemView.getContext(), "Этот пользователь уже добавлен", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                            if(!alreadyAdded) {
+                                Friend newFriend = new Friend(spUser.getUserId(), user.getId());
+                                dbFriend.insert(newFriend);
+                                Toast.makeText(itemView.getContext(),"Пользователь добавлен",Toast.LENGTH_SHORT);
+                            }
+                        }
+                    });
                 }
             });
         }
