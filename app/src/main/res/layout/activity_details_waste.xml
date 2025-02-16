@@ -99,34 +99,4 @@
             app:layout_constraintTop_toBottomOf="@+id/textView" />
     </androidx.cardview.widget.CardView>
 
-    <Button
-        android:id="@+id/detailsWasteUpdateBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="36dp"
-        android:backgroundTint="@color/green"
-        android:text="изменить"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/detailsWasteDeleteBtn"
-        app:layout_constraintHorizontal_bias="0.802"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/detailsWasteCardView2"
-        app:layout_constraintVertical_bias="0.494" />
-
-    <Button
-        android:id="@+id/detailsWasteDeleteBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="36dp"
-        android:backgroundTint="@color/red"
-        android:text="Удалить"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.801"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/detailsWasteCardView2"
-        app:layout_constraintVertical_bias="0.494" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

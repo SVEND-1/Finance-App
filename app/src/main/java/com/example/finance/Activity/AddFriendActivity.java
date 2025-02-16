@@ -1,7 +1,7 @@
 package com.example.finance.Activity;
 
 import android.os.Bundle;
-import android.widget.SearchView;
+import androidx.appcompat.widget.SearchView;
 
 
 import androidx.activity.EdgeToEdge;
@@ -40,27 +40,28 @@ public class AddFriendActivity extends AppCompatActivity {
         init();
 
 
-        //  _searchView.clearFocus();
+        _searchView.clearFocus();
 
-//        _searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//                searchList(newText);
-//                return true;
-//            }
-//        });
+        _searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                searchList(newText);
+                return true;
+            }
+        });
+
 
         _recyclerView.setHasFixedSize(true);
         _recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     private void init() {
-        //_searchView = findViewById(R.id.addFriendSearch);
+        _searchView = findViewById(R.id.addFriendSearch);
         _recyclerView = findViewById(R.id.addFriendrecyclerView);
 
         _dbUser = new DBUser();

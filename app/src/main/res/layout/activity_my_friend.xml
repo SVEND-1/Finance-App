@@ -6,20 +6,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activity.MyFriendActivity">
-    <androidx.appcompat.widget.SearchView
-        android:id="@+id/myFriendSearch"
+
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="12dp"
-        android:background="@drawable/lavander_stroke_panel"
-        app:iconifiedByDefault="false"
-        app:searchHintIcon="@null"
-        app:queryHint="Поиск..."
-        app:closeIcon = "@android:drawable/ic_menu_delete"
-        app:searchIcon="@android:drawable/ic_search_category_default"
-        tools:ignore="MissingConstraints" />
+        android:layout_height="80dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:backgroundTint="@color/teal_700">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/arbutus"
+            android:layout_gravity="center"
+            android:text="Your Friend"
+            android:textAlignment="center"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:layout_editor_absoluteY="2dp" />
+
+    </androidx.cardview.widget.CardView>
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/myFriendrecyclerView"

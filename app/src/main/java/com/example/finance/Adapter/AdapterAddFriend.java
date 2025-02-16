@@ -20,8 +20,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 
 public class AdapterAddFriend extends RecyclerView.Adapter<AdapterAddFriend.ViewHolder> {
-
-    private ArrayList<User> _filteredUserList; // Отфильтрованный список
+    private ArrayList<User> _filteredUserList;
 
     public AdapterAddFriend(ArrayList<User> userList) {
         this._filteredUserList = new ArrayList<>(userList);
@@ -49,7 +48,7 @@ public class AdapterAddFriend extends RecyclerView.Adapter<AdapterAddFriend.View
     public void searchDataList(ArrayList<User> searchList) {
         _filteredUserList.clear();
         _filteredUserList.addAll(searchList);
-        notifyDataSetChanged();
+        notifyDataSetChanged(); // Уведомляем адаптер об изменении данных
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -75,7 +74,7 @@ public class AdapterAddFriend extends RecyclerView.Adapter<AdapterAddFriend.View
 
                     dbFriend.getAllFriends(new DBFriend.FriendsCallback() {
                         @Override
-                        public void onCallback(ArrayList<Friend> friends) {//Проверка что игрока нету
+                        public void onCallback(ArrayList<Friend> friends) {
                             boolean alreadyAdded = false;
                             for (Friend friend : friends) {
                                 if (friend.getFriendUserId().equals(user.getId())) {
