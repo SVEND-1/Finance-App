@@ -12,14 +12,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.finance.Activity.Details.DetailsIncomeActivity;
-import com.example.finance.Activity.Details.DetailsWasteActivity;
 import com.example.finance.Model.Income;
-import com.example.finance.Model.User;
-import com.example.finance.Model.Waste;
 import com.example.finance.R;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -50,12 +46,11 @@ public class AdapterIncome extends RecyclerView.Adapter<AdapterIncome.ViewHolder
 
         Date date = income.getCreatedAt();
         String formattedDate;
-        if(date != null) {
+        if (date != null) {
             // дату в строку
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
             formattedDate = sdf.format(date);
-        }
-        else {
+        } else {
             formattedDate = "дата не найдена";
         }
 
@@ -65,9 +60,9 @@ public class AdapterIncome extends RecyclerView.Adapter<AdapterIncome.ViewHolder
                 Context context = v.getContext();
                 Intent intent = new Intent(context, DetailsIncomeActivity.class);
 
-                intent.putExtra("image",imageSource);
-                intent.putExtra("description",income.getDescription());
-                intent.putExtra("price",income.getAmount());
+                intent.putExtra("image", imageSource);
+                intent.putExtra("description", income.getDescription());
+                intent.putExtra("price", income.getAmount());
                 intent.putExtra("time", formattedDate);
 
                 context.startActivity(intent);
@@ -84,7 +79,8 @@ public class AdapterIncome extends RecyclerView.Adapter<AdapterIncome.ViewHolder
         public ImageView _imageView;
         public TextView _category;
         public TextView _price;
-        private Map<String,Integer> sourceImagesCategory;
+        private Map<String, Integer> sourceImagesCategory;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             this._imageView = itemView.findViewById(R.id.itemIncomeImage);
@@ -92,14 +88,14 @@ public class AdapterIncome extends RecyclerView.Adapter<AdapterIncome.ViewHolder
             this._price = itemView.findViewById(R.id.itemIncomePrice); // Убедитесь, что ID правильный
 
             sourceImagesCategory = new HashMap<>();
-            sourceImagesCategory.put("Зарплата",R.drawable.salary);
-            sourceImagesCategory.put("Подарки",R.drawable.gifts);
-            sourceImagesCategory.put("Проценты банка",R.drawable.bank);
-            sourceImagesCategory.put("Гос. выплаты",R.drawable.payments);
-            sourceImagesCategory.put("Акции",R.drawable.stocks);
-            sourceImagesCategory.put("Ценные бумаги",R.drawable.securities);
-            sourceImagesCategory.put("Продажа",R.drawable.sell);
-            sourceImagesCategory.put("Другое",R.drawable.other);
+            sourceImagesCategory.put("Зарплата", R.drawable.salary);
+            sourceImagesCategory.put("Подарки", R.drawable.gifts);
+            sourceImagesCategory.put("Проценты банка", R.drawable.bank);
+            sourceImagesCategory.put("Гос. выплаты", R.drawable.payments);
+            sourceImagesCategory.put("Акции", R.drawable.stocks);
+            sourceImagesCategory.put("Ценные бумаги", R.drawable.securities);
+            sourceImagesCategory.put("Продажа", R.drawable.sell);
+            sourceImagesCategory.put("Другое", R.drawable.other);
         }
 
         public int bind(Income income) {

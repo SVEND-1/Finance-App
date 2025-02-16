@@ -12,7 +12,6 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.finance.Data.DataBase.DBIncome;
 import com.example.finance.Data.DataBase.DBUser;
 import com.example.finance.Data.DataBase.DBWaste;
-import com.example.finance.Data.SharedPreferences.SPUser;
 import com.example.finance.Model.Income;
 import com.example.finance.Model.User;
 import com.example.finance.Model.Waste;
@@ -27,10 +26,11 @@ public class DetailFriendActivity extends AppCompatActivity {
 
     private DBUser _dbUser;
     private TextView _login;
-    private TextView _wastePerDay,_wastePerMonth,_wastePerYear;
-    private TextView _incomePerDay,_incomePerMonth,_incomePerYear;
+    private TextView _wastePerDay, _wastePerMonth, _wastePerYear;
+    private TextView _incomePerDay, _incomePerMonth, _incomePerYear;
     private DBIncome _dbIncome;
     private DBWaste _dbWaste;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -161,6 +161,7 @@ public class DetailFriendActivity extends AppCompatActivity {
             }
         });
     }
+
     private void loadIncomeData(String userId, DBIncome.DataCallback<List<Integer>> callback) {
         _dbIncome.getIncomeForUser(userId, new DBIncome.DataCallback<List<Income>>() {
             @Override

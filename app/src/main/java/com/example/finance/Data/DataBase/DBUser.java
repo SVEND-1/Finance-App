@@ -10,7 +10,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class DBUser implements DAO<User,String> {
+public class DBUser implements DAO<User, String> {
 
     private DatabaseReference databaseReference;
 
@@ -22,6 +22,7 @@ public class DBUser implements DAO<User,String> {
     public interface UserCallback {
         void onCallback(User user);
     }
+
     public void isEmptyUser(String login, UserCallback callback) {
         databaseReference.orderByChild("login").equalTo(login).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

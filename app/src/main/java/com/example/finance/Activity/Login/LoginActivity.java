@@ -20,9 +20,9 @@ import com.example.finance.Model.User;
 import com.example.finance.R;
 
 public class LoginActivity extends AppCompatActivity {
-    private EditText _loginET,_passwordET;
+    private EditText _loginET, _passwordET;
     private SPUser _spUser;
-    private DBUser _userDAO;
+    private DBUser _dbUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,19 +48,19 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void init(){
+    private void init() {
         _loginET = findViewById(R.id.loginLoginET);
         _passwordET = findViewById(R.id.loginPasswordET);
 
         _spUser = new SPUser(this);
-        _userDAO = new DBUser();
+        _dbUser = new DBUser();
     }
 
-    public void ClickOnSinInBtn(View v){
+    public void ClickOnSinInBtn(View v) {
         String login = _loginET.getText().toString().trim();
         String password = _passwordET.getText().toString();
 
-        _userDAO.isEmptyUser (login, new DBUser .UserCallback() {
+        _dbUser.isEmptyUser(login, new DBUser.UserCallback() {
             @Override
             public void onCallback(User user) {
                 if (user != null) {
@@ -81,12 +81,13 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    public void ClickOnToRegister(View v){
-        Intent intent = new Intent(this,RegisterActivity.class);
+    public void ClickOnToRegister(View v) {
+        Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
     }
-    public void ClickOnToForgotPassword(View v){
-        Intent intent = new Intent(this,ForgotPasswordActivity.class);
+
+    public void ClickOnToForgotPassword(View v) {
+        Intent intent = new Intent(this, ForgotPasswordActivity.class);
         startActivity(intent);
     }
 }

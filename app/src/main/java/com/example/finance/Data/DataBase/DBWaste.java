@@ -125,6 +125,7 @@ public class DBWaste implements DAO<Waste, String> {
 
     public interface DataCallback<T> {
         void onSuccess(T data);
+
         void onError(Exception e);
     }
 }

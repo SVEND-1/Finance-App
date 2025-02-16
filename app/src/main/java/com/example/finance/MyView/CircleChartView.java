@@ -8,7 +8,9 @@ import android.graphics.RectF;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.View;
+
 import androidx.annotation.Nullable;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,14 +51,16 @@ public class CircleChartView extends View {
         textPaint.setTextAlign(Paint.Align.CENTER);
     }
 
-    public void setCenterText(String text){
+    public void setCenterText(String text) {
         this.centerText = text;
         invalidate();
     }
+
     public void setSectors(List<Sector> sectors) {
         this.sectors = sectors;
         invalidate();
     }
+
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
@@ -65,14 +69,15 @@ public class CircleChartView extends View {
         radius = Math.min(w, h) / 2f;
         float padding = 20f;
         float rectSize = radius - padding;
-        circleBounds = new RectF(centerX-rectSize, centerY-rectSize, centerX+rectSize, centerY+rectSize);
+        circleBounds = new RectF(centerX - rectSize, centerY - rectSize, centerX + rectSize, centerY + rectSize);
     }
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         float startAngle = 0f;
-        for(Sector sector : sectors){
-            float sectorAngle = 360f * (sector.getPercentage()/100f);
+        for (Sector sector : sectors) {
+            float sectorAngle = 360f * (sector.getPercentage() / 100f);
             circlePaint.setColor(sector.getColor());
             canvas.drawArc(circleBounds, startAngle, sectorAngle, true, circlePaint);
             startAngle += sectorAngle;
@@ -81,8 +86,9 @@ public class CircleChartView extends View {
         circlePaint.setColor(Color.WHITE);
         canvas.drawCircle(centerX, centerY, innerCircleRadius, circlePaint);
         float textY = centerY - ((textPaint.descent() + textPaint.ascent()) / 2);
-        canvas.drawText(centerText, centerX,textY, textPaint);
+        canvas.drawText(centerText, centerX, textY, textPaint);
     }
+
     public static class Sector {
         private float percentage;
         private int color;
@@ -91,9 +97,11 @@ public class CircleChartView extends View {
             this.percentage = percentage;
             this.color = color;
         }
+
         public float getPercentage() {
             return percentage;
         }
+
         public int getColor() {
             return color;
         }

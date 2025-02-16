@@ -13,7 +13,6 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.finance.Activity.MainActivity;
-import com.example.finance.Data.DAO;
 import com.example.finance.Data.DataBase.DBUser;
 import com.example.finance.Data.SharedPreferences.SPUser;
 import com.example.finance.Model.User;
@@ -21,8 +20,8 @@ import com.example.finance.R;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
 
-    private EditText _loginET,_oldPasswordEt,_newPasswordEt;
-    private DBUser _userDAO;
+    private EditText _loginET, _oldPasswordEt, _newPasswordEt;
+    private DBUser _dbUser;
     private SPUser _userSP;
 
     @Override
@@ -38,31 +37,31 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         init();
     }
 
-    private void init(){
+    private void init() {
         _loginET = findViewById(R.id.forgotLoginET);
         _oldPasswordEt = findViewById(R.id.forgotOldPasswordET);
         _newPasswordEt = findViewById(R.id.forgotNewPasswordET);
 
-        _userDAO = new DBUser();
+        _dbUser = new DBUser();
         _userSP = new SPUser(this);
     }
 
-    public void ClickOnForgotUpdatePasswordBtn(View v){
+    public void ClickOnForgotUpdatePasswordBtn(View v) {
         String login = _loginET.getText().toString();
         String oldPassword = _oldPasswordEt.getText().toString();
         String newPassword = _newPasswordEt.getText().toString();
 
-        _userDAO.isEmptyUser (login, new DBUser .UserCallback() {
+        _dbUser.isEmptyUser(login, new DBUser.UserCallback() {
             @Override
             public void onCallback(User user) {
                 if (user != null) {
                     // Проверяем, что пароль не равен null перед сравнением
                     if (user.getPassword() != null && user.getPassword().equals(oldPassword)
-                        && !(newPassword.isEmpty()) ) {
+                            && !(newPassword.isEmpty())) {
                         user.setPassword(newPassword);
 
                         _userSP.update(user);
-                        _userDAO.update(user);
+                        _dbUser.update(user);
 
                         Intent intent = new Intent(ForgotPasswordActivity.this, MainActivity.class);
                         startActivity(intent);

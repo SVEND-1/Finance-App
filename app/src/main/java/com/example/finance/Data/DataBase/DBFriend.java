@@ -5,7 +5,6 @@ import android.content.Context;
 import com.example.finance.Data.DAO;
 import com.example.finance.Data.SharedPreferences.SPUser;
 import com.example.finance.Model.Friend;
-import com.example.finance.Model.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -14,16 +13,19 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class DBFriend implements DAO<Friend,String> {
+public class DBFriend implements DAO<Friend, String> {
     private DatabaseReference databaseReference;
     private SPUser _userSP;
+
     public DBFriend(Context context) {
         databaseReference = FirebaseDatabase.getInstance().getReference("friends");
         _userSP = new SPUser(context);
     }
+
     public interface FriendsCallback {
         void onCallback(ArrayList<Friend> friends);
     }
+
     public void getAllFriends(DBFriend.FriendsCallback callback) {
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

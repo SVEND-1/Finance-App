@@ -63,7 +63,6 @@ public class IncomeUtils {
     }
 
 
-
     public HashMap<String, Float> incomeCircle() {
         HashMap<String, Float> percentageOfTheColorInCircle = new HashMap<>();
         float salary = 0, gifts = 0, bank = 0, payments = 0, stocks = 0, securities = 0, sell = 0, other = 0;
@@ -130,7 +129,7 @@ public class IncomeUtils {
         return percentageOfTheColorInCircle;
     }
 
-    public void loadIncomeData(CircleChartView circleChartView,AdapterIncome adapterIncome, String period) {
+    public void loadIncomeData(CircleChartView circleChartView, AdapterIncome adapterIncome, String period) {
         SPUser spUser = new SPUser(context);
         _incomeList.clear(); // Очищаем список перед загрузкой новых данных
         adapterIncome.notifyDataSetChanged(); // Уведомляем адаптер об изменении данных
@@ -183,6 +182,7 @@ public class IncomeUtils {
             }
         });
     }
+
     public Income[] mergeSort(Income[] incomes, int left, int right) {//Сортировка слияние O(nlogn)
         if (left < right) {
             int mid = left + (right - left) / 2;

@@ -1,6 +1,5 @@
 package com.example.finance.Activity;
 
-import static android.app.ProgressDialog.show;
 
 import android.content.Intent;
 import android.os.Build;
@@ -8,41 +7,30 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.GridLayout;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.finance.Data.DAO;
 import com.example.finance.Data.DataBase.DBIncome;
-import com.example.finance.Data.DataBase.DBUser;
 import com.example.finance.Data.DataBase.DBWaste;
 import com.example.finance.Data.SharedPreferences.SPUser;
 import com.example.finance.Fragment.AddCategoryIncomeFragment;
 import com.example.finance.Fragment.AddCategoryWasteFragment;
 import com.example.finance.Model.Income;
-import com.example.finance.Model.User;
 import com.example.finance.Model.Waste;
 import com.example.finance.Other.DataPickerFragment;
 import com.example.finance.R;
-import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 public class AddWasteAndIncomeActivity extends AppCompatActivity implements DataPickerFragment.DatePickerListener {
@@ -50,14 +38,12 @@ public class AddWasteAndIncomeActivity extends AppCompatActivity implements Data
     private Fragment fragment = null;
     private LinearLayout _lastClickedLinearLayout = null;
     private TabLayout _tabLayot;
-    private String _wasteOrIncome,_categoryName = "";
+    private String _wasteOrIncome, _categoryName = "";
     private AutoCompleteTextView _description;
-    private EditText _sumET,_timeET;
-    private DBWaste _wasteDAO;
-    private DBIncome _incomeDAO;
-    private DBUser _userDAO;
+    private EditText _sumET, _timeET;
+    private DBWaste _dbWaste;
+    private DBIncome _dbIncome;
     private SPUser _userSP;
-    private List<Waste> _userWastes;
     private Date date;
 
     @Override
@@ -74,22 +60,22 @@ public class AddWasteAndIncomeActivity extends AppCompatActivity implements Data
         ClickTableLayout();
         getIntentFromMain();
     }
-    private void init(){
+
+    private void init() {
         _description = findViewById(R.id.addWasteAndIncomeDescriptionET);
         _tabLayot = findViewById(R.id.addWasteAndIncomeTabLayoutIncomeOrWaste);
         _sumET = findViewById(R.id.addWasteAndIncomeAmoutET);
         _timeET = findViewById(R.id.addWasteAndIncomeTimeET);
 
-        _incomeDAO = new DBIncome();
-        _wasteDAO = new DBWaste();
-        _userDAO = new DBUser();
+        _dbIncome = new DBIncome();
+        _dbWaste = new DBWaste();
 
         _userSP = new SPUser(this);
     }
 
-    private void getIntentFromMain(){
+    private void getIntentFromMain() {
         Bundle bundle = getIntent().getExtras();
-        if(bundle != null){
+        if (bundle != null) {
             _wasteOrIncome = bundle.getString("WasteOrIncome");
             if ("Расходы".equals(_wasteOrIncome)) {
                 fragment = new AddCategoryWasteFragment();
@@ -129,57 +115,57 @@ public class AddWasteAndIncomeActivity extends AppCompatActivity implements Data
 
 
     public void ClickAddWasteAndIncomeSaveBtn(View v) {
-        Intent intent = new Intent(this,MainActivity.class);
-        if("Расходы".equals(_wasteOrIncome)){
+        Intent intent = new Intent(this, MainActivity.class);
+        if ("Расходы".equals(_wasteOrIncome)) {
             boolean check = addWasteToDataBase();
-            if(check) {
+            if (check) {
                 startActivity(intent);
             }
-        }
-        else if("Доходы".equals(_wasteOrIncome)){
+        } else if ("Доходы".equals(_wasteOrIncome)) {
             boolean check = addIncomeToDataBase();
-            if(check) {
+            if (check) {
                 startActivity(intent);
             }
         }
     }
-    private boolean addWasteToDataBase(){
-        if(!_sumET.getText().toString().isEmpty() &&  !_description.getText().toString().isEmpty() && !_categoryName.isEmpty() && date != null) {
+
+    private boolean addWasteToDataBase() {
+        if (!_sumET.getText().toString().isEmpty() && !_description.getText().toString().isEmpty() && !_categoryName.isEmpty() && date != null) {
             int amout = Integer.parseInt(_sumET.getText().toString());
             String userId = _userSP.getUserId();
             String description = _description.getText().toString();
 
-            Waste waste = new Waste(amout, userId, _categoryName, description,date);
-            _wasteDAO.insert(waste);
+            Waste waste = new Waste(amout, userId, _categoryName, description, date);
+            _dbWaste.insert(waste);
             return true;
-        }
-        else{
+        } else {
             Toast.makeText(this, "Заполните все поля", Toast.LENGTH_SHORT).show();
             return false;
         }
     }
-    private boolean addIncomeToDataBase(){
-        if(!_sumET.getText().toString().isEmpty() &&  !_description.getText().toString().isEmpty() && !_categoryName.isEmpty() && date != null) {
+
+    private boolean addIncomeToDataBase() {
+        if (!_sumET.getText().toString().isEmpty() && !_description.getText().toString().isEmpty() && !_categoryName.isEmpty() && date != null) {
             int amout = Integer.parseInt(_sumET.getText().toString());
             String description = _description.getText().toString();
             String userId = _userSP.getUserId();
 
-            Income income = new Income(amout,userId,_categoryName,description,date);
-            _incomeDAO.insert(income);
+            Income income = new Income(amout, userId, _categoryName, description, date);
+            _dbIncome.insert(income);
             return true;
-        }
-        else{
+        } else {
             Toast.makeText(this, "Заполните все поля", Toast.LENGTH_SHORT).show();
             return false;
         }
     }
+
     public void ClickGetCategory(View v) {
         if (v instanceof LinearLayout) {
             handleLinearLayoutClick((LinearLayout) v);
         }
     }
 
-    private void ClickTableLayout(){
+    private void ClickTableLayout() {
         _tabLayot.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -197,10 +183,14 @@ public class AddWasteAndIncomeActivity extends AppCompatActivity implements Data
                     transaction.commit();
                 }
             }
+
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) {}
+            public void onTabUnselected(TabLayout.Tab tab) {
+            }
+
             @Override
-            public void onTabReselected(TabLayout.Tab tab) {}
+            public void onTabReselected(TabLayout.Tab tab) {
+            }
         });
     }
 

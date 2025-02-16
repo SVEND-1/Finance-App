@@ -12,13 +12,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.finance.Activity.Details.DetailsWasteActivity;
-import com.example.finance.Activity.MainActivity;
-import com.example.finance.Model.Income;
 import com.example.finance.Model.Waste;
 import com.example.finance.R;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -47,12 +44,11 @@ public class AdapterWaste extends RecyclerView.Adapter<AdapterWaste.WasteViewHol
 
         Date date = waste.getCreatedAt();
         String formattedDate;
-        if(date != null) {
+        if (date != null) {
             //дату в строку
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
             formattedDate = sdf.format(date);
-        }
-        else {
+        } else {
             formattedDate = "дата не найдена";
         }
 
@@ -84,7 +80,8 @@ public class AdapterWaste extends RecyclerView.Adapter<AdapterWaste.WasteViewHol
         private ImageView _imageView;
         private TextView _amountTextView;
         private TextView _categoryTextView;
-        private Map<String,Integer> sourceImagesCategory;
+        private Map<String, Integer> sourceImagesCategory;
+
         public WasteViewHolder(@NonNull View itemView) {
             super(itemView);
             _imageView = itemView.findViewById(R.id.itemWasteImage);
@@ -92,14 +89,14 @@ public class AdapterWaste extends RecyclerView.Adapter<AdapterWaste.WasteViewHol
             _categoryTextView = itemView.findViewById(R.id.itemWasteCategory);
 
             sourceImagesCategory = new HashMap<>();
-            sourceImagesCategory.put("Образование",R.drawable.education);
-            sourceImagesCategory.put("Продукты",R.drawable.products);
-            sourceImagesCategory.put("Одежда",R.drawable.clothes);
-            sourceImagesCategory.put("Больница",R.drawable.hospital);
-            sourceImagesCategory.put("Спорт",R.drawable.sport);
-            sourceImagesCategory.put("Транспорт",R.drawable.transport);
-            sourceImagesCategory.put("Досуг",R.drawable.leisure);
-            sourceImagesCategory.put("Другое",R.drawable.other);
+            sourceImagesCategory.put("Образование", R.drawable.education);
+            sourceImagesCategory.put("Продукты", R.drawable.products);
+            sourceImagesCategory.put("Одежда", R.drawable.clothes);
+            sourceImagesCategory.put("Больница", R.drawable.hospital);
+            sourceImagesCategory.put("Спорт", R.drawable.sport);
+            sourceImagesCategory.put("Транспорт", R.drawable.transport);
+            sourceImagesCategory.put("Досуг", R.drawable.leisure);
+            sourceImagesCategory.put("Другое", R.drawable.other);
         }
 
         public int bind(Waste waste) {

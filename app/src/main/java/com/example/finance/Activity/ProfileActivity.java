@@ -17,7 +17,6 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -32,8 +31,6 @@ import com.example.finance.Data.DataBase.DBUser;
 import com.example.finance.Data.SharedPreferences.SPUser;
 import com.example.finance.Model.User;
 import com.example.finance.R;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
 public class ProfileActivity extends AppCompatActivity {
@@ -41,9 +38,10 @@ public class ProfileActivity extends AppCompatActivity {
     private ImageButton _profileImageBtn;
     private ActivityResultLauncher<Intent> _pickImageLauncher;
     private SPUser _spUser;
-    private DBUser _userDAO;
+    private DBUser _dbUser;
     private TextView _login;
     private ValueEventListener _eventListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,9 +57,9 @@ public class ProfileActivity extends AppCompatActivity {
         _pickImageLauncher = registerForActivityResult(//ПОЛУЧЕНИЕ КАРТИНКИ
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
-                    if(result.getResultCode() == Activity.RESULT_OK){
+                    if (result.getResultCode() == Activity.RESULT_OK) {
                         Intent data = result.getData();
-                        if (data != null && data.getData() != null){
+                        if (data != null && data.getData() != null) {
                             Uri imageUri = data.getData();
                             String imageUriString = imageUri.toString();
                             _spUser.saveImageUri(imageUriString);
@@ -71,17 +69,18 @@ public class ProfileActivity extends AppCompatActivity {
                 }
         );
     }
-    private void init(){
+
+    private void init() {
         _profileImageBtn = findViewById(R.id.profileImageBtn);
         _spUser = new SPUser(this);
-        _userDAO = new DBUser();
+        _dbUser = new DBUser();
 
         //Получить и обновить логин
         _login = findViewById(R.id.profileLoginText);
         _login.setText(_spUser.getUserLogin());
     }
 
-    public void clickExitFromAccount(View v){
+    public void clickExitFromAccount(View v) {
         try {
             _spUser.delete();
             Intent intent = new Intent(this, LoginActivity.class);
@@ -92,7 +91,7 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
-    public void clickUpdateLogin(View v){
+    public void clickUpdateLogin(View v) {
         LayoutInflater inflater = LayoutInflater.from(ProfileActivity.this);
         View dialogView = inflater.inflate(R.layout.dialog_update_login, null); // Убедитесь, что путь к вашему XML правильный
 
@@ -105,7 +104,7 @@ public class ProfileActivity extends AppCompatActivity {
         String oldLogin = _login.getText().toString();
 
         if (editText == null || cancelButton == null || updateButton == null) {
-            Toast.makeText(ProfileActivity.this,"1",Toast.LENGTH_SHORT).show();
+            Toast.makeText(ProfileActivity.this, "1", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -124,13 +123,13 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String login = editText.getText().toString();
-                _userDAO.isEmptyUser(oldLogin, new DBUser.UserCallback() {
+                _dbUser.isEmptyUser(oldLogin, new DBUser.UserCallback() {
                     @Override
                     public void onCallback(User user) {
                         if (user != null) {
                             user.setLogin(login);
-                            _userDAO.update(user);
-                            _spUser .update(user);
+                            _dbUser.update(user);
+                            _spUser.update(user);
 
                             _login.setText(login); // Обновляем UI с новым логином
                         }
@@ -145,21 +144,24 @@ public class ProfileActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    public void clickBack(View v){
+    public void clickBack(View v) {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 
-    public void clickUpdatePassword(View v){
+    public void clickUpdatePassword(View v) {
         Intent intent = new Intent(this, ForgotPasswordActivity.class);
         startActivity(intent);
     }
-    public void clickSetProfileImage(View v){
+
+    public void clickSetProfileImage(View v) {
         openGallery();
     }
-    public void clickClearImageProfile(View v){
+
+    public void clickClearImageProfile(View v) {
         clearImage();
     }
+
     private void openGallery() {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
@@ -172,6 +174,7 @@ public class ProfileActivity extends AppCompatActivity {
                 .into(_profileImageBtn);
 
     }
+
     private void clearImage() {
         _spUser.removeImageUri();
         _profileImageBtn.setImageResource(baseline_account_circle_24);

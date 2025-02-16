@@ -15,8 +15,9 @@ import com.example.finance.R;
 
 public class DetailsIncomeActivity extends AppCompatActivity {
     private ImageView _imageCategory;
-    private TextView _priceText,_timeText;
+    private TextView _priceText, _timeText;
     private CheckedTextView _descriptionText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,11 +36,11 @@ public class DetailsIncomeActivity extends AppCompatActivity {
             _priceText.setText(String.valueOf(bundle.getInt("price", 0)));
             _descriptionText.setText(bundle.getString("description", "Описание не найдено"));
             _timeText.setText(bundle.getString("time", "Дата не найдена"));
-            _imageCategory.setImageResource(bundle.getInt("image",R.drawable.baseline_access_time_filled_24)); // Исправлено
+            _imageCategory.setImageResource(bundle.getInt("image", R.drawable.baseline_access_time_filled_24)); // Исправлено
         }
     }
 
-    private void init(){
+    private void init() {
         _imageCategory = findViewById(R.id.detailsIncomeImageCategory);
         _priceText = findViewById(R.id.detailsIncomePriceTV);
         _descriptionText = findViewById(R.id.detailsIncomeDescriptionText);

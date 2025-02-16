@@ -2,7 +2,7 @@ package com.example.finance.Activity;
 
 import android.os.Bundle;
 import android.widget.SearchView;
-import android.widget.Toast;
+
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,14 +13,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.finance.Adapter.AdapterAddFriend;
-import com.example.finance.Adapter.AdapterIncome;
 import com.example.finance.Data.DataBase.DBUser;
-import com.example.finance.Model.Friend;
 import com.example.finance.Model.User;
 import com.example.finance.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class AddFriendActivity extends AppCompatActivity {
 
@@ -43,7 +40,7 @@ public class AddFriendActivity extends AppCompatActivity {
         init();
 
 
-      //  _searchView.clearFocus();
+        //  _searchView.clearFocus();
 
 //        _searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 //            @Override

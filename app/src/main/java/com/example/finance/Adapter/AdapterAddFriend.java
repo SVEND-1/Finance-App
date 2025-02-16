@@ -1,10 +1,8 @@
 package com.example.finance.Adapter;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,7 +49,7 @@ public class AdapterAddFriend extends RecyclerView.Adapter<AdapterAddFriend.View
     public void searchDataList(ArrayList<User> searchList) {
         _filteredUserList.clear();
         _filteredUserList.addAll(searchList);
-        notifyDataSetChanged(); // Уведомляем адаптер об изменениях
+        notifyDataSetChanged();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -79,16 +77,16 @@ public class AdapterAddFriend extends RecyclerView.Adapter<AdapterAddFriend.View
                         @Override
                         public void onCallback(ArrayList<Friend> friends) {//Проверка что игрока нету
                             boolean alreadyAdded = false;
-                            for(Friend friend : friends){
-                                if(friend.getFriendUserId().equals(user.getId()) ){
+                            for (Friend friend : friends) {
+                                if (friend.getFriendUserId().equals(user.getId())) {
                                     alreadyAdded = true;
                                     Toast.makeText(itemView.getContext(), "Этот пользователь уже добавлен", Toast.LENGTH_SHORT).show();
                                 }
                             }
-                            if(!alreadyAdded) {
+                            if (!alreadyAdded) {
                                 Friend newFriend = new Friend(spUser.getUserId(), user.getId());
                                 dbFriend.insert(newFriend);
-                                Toast.makeText(itemView.getContext(),"Пользователь добавлен",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(itemView.getContext(), "Пользователь добавлен", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });

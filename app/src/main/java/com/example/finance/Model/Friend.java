@@ -5,8 +5,6 @@ public class Friend {
     private String _myUserId;
     private String _friendUserId;
 
-    public Friend() {
-    }
 
     public Friend(String _myUserId, String _friendUserId) {
         this._myUserId = _myUserId;
@@ -25,15 +23,9 @@ public class Friend {
         return _myUserId;
     }
 
-    public void setMyUserId(String _myUserId) {
-        this._myUserId = _myUserId;
-    }
 
     public String getFriendUserId() {
         return _friendUserId;
     }
 
-    public void setFriendUserId(String _friendUserId) {
-        this._friendUserId = _friendUserId;
-    }
 }

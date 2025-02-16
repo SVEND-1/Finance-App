@@ -7,7 +7,6 @@ import androidx.core.content.ContextCompat;
 import com.example.finance.Adapter.AdapterWaste;
 import com.example.finance.Data.DataBase.DBWaste;
 import com.example.finance.Data.SharedPreferences.SPUser;
-import com.example.finance.Model.Income;
 import com.example.finance.Model.Waste;
 import com.example.finance.MyView.CircleChartView;
 
@@ -118,11 +117,11 @@ public class WasteUtils {
             percentageOfTheColorInCircle.put("Досуг", 0f);
             percentageOfTheColorInCircle.put("Другое", 0f);
         }
-        percentageOfTheColorInCircle.put("Сумма",sum);
+        percentageOfTheColorInCircle.put("Сумма", sum);
         return percentageOfTheColorInCircle;
     }
 
-    public void loadWasteData(CircleChartView circleChartView,AdapterWaste adapterWaste,String period) {
+    public void loadWasteData(CircleChartView circleChartView, AdapterWaste adapterWaste, String period) {
         SPUser userSP = new SPUser(context);
         _wasteList.clear();
         adapterWaste.notifyDataSetChanged();
@@ -132,7 +131,7 @@ public class WasteUtils {
             public void onSuccess(List<Waste> wastes) {
                 _wasteList.clear();
 
-                for(Waste waste : wastes){
+                for (Waste waste : wastes) {
                     Date createdAt = waste.getCreatedAt();
                     if (createdAt == null) continue; // Проверка на null
 
@@ -159,10 +158,10 @@ public class WasteUtils {
                     if (wasteCal.equals(todayCal) && period.equals("День")) {
                         _wasteList.add(waste);
                     }
-                    if(wasteCal.getTime().getMonth() == todayCal.getTime().getMonth() && period.equals("Месяц")){
+                    if (wasteCal.getTime().getMonth() == todayCal.getTime().getMonth() && period.equals("Месяц")) {
                         _wasteList.add(waste);
                     }
-                    if(wasteCal.getTime().getYear() == todayCal.getTime().getYear() && period.equals("Год")){
+                    if (wasteCal.getTime().getYear() == todayCal.getTime().getYear() && period.equals("Год")) {
                         _wasteList.add(waste);
                     }
                 }

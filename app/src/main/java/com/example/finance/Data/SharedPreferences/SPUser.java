@@ -11,10 +11,11 @@ public class SPUser {
     private static final String KEY_ID = "id";
     private static final String KEY_LOGIN = "login";
     private static final String KEY_PASSWORD = "password";
-    private static final String KYE_IMAGE_USER_URI= "image_user";
+    private static final String KYE_IMAGE_USER_URI = "image_user";
 
     private SharedPreferences sharedPreferences;
-    public SPUser(Context context){
+
+    public SPUser(Context context) {
         sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
     }
 
@@ -25,27 +26,26 @@ public class SPUser {
         editor.apply();
     }
 
-    public String getImageUri() {
-        return sharedPreferences.getString(KYE_IMAGE_USER_URI, null);
-    }
-    public void removeImageUri(){
+
+    public void removeImageUri() {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.remove(KYE_IMAGE_USER_URI);
         editor.apply();
     }
 
-    public String getUserId(){
-        return sharedPreferences.getString(KEY_ID,null);
+    public String getUserId() {
+        return sharedPreferences.getString(KEY_ID, null);
     }
-    public String getUserLogin(){
+
+    public String getUserLogin() {
         if (sharedPreferences.contains(KEY_LOGIN)) {
-            return sharedPreferences.getString(KEY_LOGIN,null);
+            return sharedPreferences.getString(KEY_LOGIN, null);
         }
         return null;
     }
 
     public boolean insert(User model) {
-        if(model != null) {
+        if (model != null) {
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString(KEY_ID, model.getId());
             editor.putString(KEY_LOGIN, model.getLogin());
@@ -56,18 +56,9 @@ public class SPUser {
         return false;
     }
 
-    public User read() {
-        User user = null;
-
-        user.setId(sharedPreferences.getString(KEY_ID,null));
-        user.setLogin(sharedPreferences.getString(KEY_LOGIN,null));
-        user.setPassword(sharedPreferences.getString(KEY_PASSWORD,null));
-
-        return user;
-    }
 
     public boolean update(User model) {
-        if(model != null){
+        if (model != null) {
             insert(model);
             return true;
         }

@@ -22,9 +22,9 @@ import java.util.ArrayList;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private EditText _loginET,_onePasswordET,_twoPasswordET;
-    private String _login,_onePassword,_twoPassword;
-    private DBUser _userDAO;
+    private EditText _loginET, _onePasswordET, _twoPasswordET;
+    private String _login, _onePassword, _twoPassword;
+    private DBUser _dbUser;
     private SPUser _userSP;
 
     @Override
@@ -41,12 +41,12 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
-    private void init(){
+    private void init() {
         _loginET = findViewById(R.id.registerLoginET);
         _onePasswordET = findViewById(R.id.registerOnePasswordET);
         _twoPasswordET = findViewById(R.id.registerTwoPasswordET);
 
-        _userDAO = new DBUser();
+        _dbUser = new DBUser();
         _userSP = new SPUser(this);
     }
 
@@ -60,23 +60,22 @@ public class RegisterActivity extends AppCompatActivity {
             if (!_login.isEmpty() && !_onePassword.isEmpty() && !_twoPassword.isEmpty()) {
 
 
-                _userDAO.getAllUsers(new DBUser.UsersCallback() {//Провекра чтобы человек с таким же логином не было
+                _dbUser.getAllUsers(new DBUser.UsersCallback() {//Провекра чтобы человек с таким же логином не было
                     @Override
                     public void onCallback(ArrayList<User> users) {
                         boolean repeatedLogin = false;
-                        for(User user : users){
-                            if(!user.getLogin().equals(_login)){
+                        for (User user : users) {
+                            if (!user.getLogin().equals(_login)) {
                                 repeatedLogin = true;
-                            }
-                            else{
-                                Toast.makeText(RegisterActivity.this,"Пользователь с таким логином уже есть",Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(RegisterActivity.this, "Пользователь с таким логином уже есть", Toast.LENGTH_SHORT).show();
                                 return;
                             }
                         }
-                        if(repeatedLogin){
+                        if (repeatedLogin) {
                             User user = new User(_login, _onePassword);
 
-                            _userDAO.insert(user);
+                            _dbUser.insert(user);
                             _userSP.insert(user);
 
                             Intent intent = new Intent(RegisterActivity.this, MainActivity.class);

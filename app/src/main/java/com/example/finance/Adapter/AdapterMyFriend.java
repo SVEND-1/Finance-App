@@ -13,21 +13,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.finance.Activity.Details.DetailFriendActivity;
-import com.example.finance.Activity.Details.DetailsWasteActivity;
 import com.example.finance.Data.DataBase.DBFriend;
 import com.example.finance.Data.DataBase.DBUser;
-import com.example.finance.Data.SharedPreferences.SPUser;
 import com.example.finance.Model.Friend;
 import com.example.finance.Model.User;
 import com.example.finance.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
 
-public class AdapterMyFriend extends RecyclerView.Adapter<AdapterMyFriend.ViewHolder>{
+public class AdapterMyFriend extends RecyclerView.Adapter<AdapterMyFriend.ViewHolder> {
     private ArrayList<Friend> friends;
 
     public AdapterMyFriend(ArrayList<Friend> friends) {
@@ -45,7 +40,6 @@ public class AdapterMyFriend extends RecyclerView.Adapter<AdapterMyFriend.ViewHo
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Friend friend = friends.get(position);
         holder.bind(friend);
-
 
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -91,7 +85,7 @@ public class AdapterMyFriend extends RecyclerView.Adapter<AdapterMyFriend.ViewHo
                         public void onClick(View v) {
                             DBFriend dbFriend = new DBFriend(itemView.getContext());
                             dbFriend.delete(friend);
-                            Toast.makeText(itemView.getContext(), "Друг удален",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(itemView.getContext(), "Друг удален", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
