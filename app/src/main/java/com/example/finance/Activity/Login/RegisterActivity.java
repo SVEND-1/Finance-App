@@ -1,11 +1,9 @@
 package com.example.finance.Activity.Login;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -15,25 +13,18 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.finance.Activity.MainActivity;
-import com.example.finance.Data.DAO;
-import com.example.finance.Data.DataBase.DBCategory;
-import com.example.finance.Data.DataBase.DBIncome;
 import com.example.finance.Data.DataBase.DBUser;
 import com.example.finance.Data.SharedPreferences.SPUser;
-import com.example.finance.Model.Friend;
-import com.example.finance.Model.Income;
 import com.example.finance.Model.User;
-import com.example.finance.Model.Waste;
 import com.example.finance.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class RegisterActivity extends AppCompatActivity {
 
     private EditText _loginET,_onePasswordET,_twoPasswordET;
     private String _login,_onePassword,_twoPassword;
-    private DAO _userDAO;
+    private DBUser _userDAO;
     private SPUser _userSP;
 
     @Override
@@ -67,12 +58,34 @@ public class RegisterActivity extends AppCompatActivity {
 
         if (_onePassword.equals(_twoPassword)) {
             if (!_login.isEmpty() && !_onePassword.isEmpty() && !_twoPassword.isEmpty()) {
-                User user = new User(_login, _onePassword, 0);
-                _userDAO.insert(user);
-                _userSP.insert(user);
 
-                Intent intent = new Intent(this, MainActivity.class);
-                startActivity(intent);
+
+                _userDAO.getAllUsers(new DBUser.UsersCallback() {//Провекра чтобы человек с таким же логином не было
+                    @Override
+                    public void onCallback(ArrayList<User> users) {
+                        boolean repeatedLogin = false;
+                        for(User user : users){
+                            if(!user.getLogin().equals(_login)){
+                                repeatedLogin = true;
+                            }
+                            else{
+                                Toast.makeText(RegisterActivity.this,"Пользователь с таким логином уже есть",Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                        }
+                        if(repeatedLogin){
+                            User user = new User(_login, _onePassword);
+
+                            _userDAO.insert(user);
+                            _userSP.insert(user);
+
+                            Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                            startActivity(intent);
+                        }
+                    }
+                });
+
+
             } else {
                 Toast.makeText(this, "Не все поля заполнены", Toast.LENGTH_SHORT).show();
             }

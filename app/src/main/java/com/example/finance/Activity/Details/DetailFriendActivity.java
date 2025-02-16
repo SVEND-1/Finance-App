@@ -118,7 +118,7 @@ public class DetailFriendActivity extends AppCompatActivity {
             public void onSuccess(List<Waste> wastes) {
                 int day = 0, month = 0, year = 0;
                 for (Waste waste : wastes) {
-                    Date createdAt = waste.get_createdAt();
+                    Date createdAt = waste.getCreatedAt();
                     if (createdAt == null) continue;
 
                     Calendar wasteCal = Calendar.getInstance();
@@ -167,7 +167,7 @@ public class DetailFriendActivity extends AppCompatActivity {
             public void onSuccess(List<Income> incomes) {
                 int day = 0, month = 0, year = 0;
                 for (Income income : incomes) {
-                    Date createdAt = income.get_createdAt();
+                    Date createdAt = income.getCreatedAt();
                     if (createdAt == null) continue;
 
                     Calendar wasteCal = Calendar.getInstance();

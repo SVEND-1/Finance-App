@@ -43,13 +43,13 @@ public class IncomeUtils {
             addSectorIfNotNull(sectors, "Гос. выплаты", incomePercentageOfTheColorInCircle.get("Гос. выплаты"),
                     ContextCompat.getColor(context, android.R.color.holo_orange_light));
             addSectorIfNotNull(sectors, "Акции", incomePercentageOfTheColorInCircle.get("Акции"),
-                    ContextCompat.getColor(context, android.R.color.black));
+                    ContextCompat.getColor(context, android.R.color.system_on_primary_dark));
             addSectorIfNotNull(sectors, "Ценные бумаги", incomePercentageOfTheColorInCircle.get("Ценные бумаги"),
-                    ContextCompat.getColor(context, android.R.color.darker_gray));
+                    ContextCompat.getColor(context, android.R.color.holo_red_light));
             addSectorIfNotNull(sectors, "Продажа", incomePercentageOfTheColorInCircle.get("Продажа"),
                     ContextCompat.getColor(context, android.R.color.system_on_error_dark));
             addSectorIfNotNull(sectors, "Другое", incomePercentageOfTheColorInCircle.get("Другое"),
-                    ContextCompat.getColor(context, android.R.color.system_accent1_0));
+                    ContextCompat.getColor(context, android.R.color.holo_purple));
 
             circleChartView.setSectors(sectors);
             circleChartView.setCenterText(String.valueOf(incomePercentageOfTheColorInCircle.get("Сумма")));
@@ -130,17 +130,19 @@ public class IncomeUtils {
         return percentageOfTheColorInCircle;
     }
 
-    public void loadIncomeData(AdapterIncome adapterIncome,String period){
+    public void loadIncomeData(CircleChartView circleChartView,AdapterIncome adapterIncome, String period) {
         SPUser spUser = new SPUser(context);
+        _incomeList.clear(); // Очищаем список перед загрузкой новых данных
+        adapterIncome.notifyDataSetChanged(); // Уведомляем адаптер об изменении данных
+
         _dbIncome.getIncomeForUser(spUser.getUserId(), new DBIncome.DataCallback<List<Income>>() {
             @Override
             public void onSuccess(List<Income> data) {
                 _incomeList.clear();
 
-                for(Income income : data){
-                    Date createdAt = income.get_createdAt();
-                    if (createdAt == null) continue; // Проверка на null
-
+                for (Income income : data) {
+                    Date createdAt = income.getCreatedAt();
+                    if (createdAt == null) continue;
 
                     Calendar incomeCal = Calendar.getInstance();
                     incomeCal.setTime(createdAt);
@@ -148,8 +150,6 @@ public class IncomeUtils {
                     Calendar todayCal = Calendar.getInstance();
                     Calendar monthCal = Calendar.getInstance();
 
-
-                    // Обнуляем время чтобы сравнить именно за день
                     incomeCal.set(Calendar.HOUR_OF_DAY, 0);
                     incomeCal.set(Calendar.MINUTE, 0);
                     incomeCal.set(Calendar.SECOND, 0);
@@ -160,23 +160,26 @@ public class IncomeUtils {
                     todayCal.set(Calendar.SECOND, 0);
                     todayCal.set(Calendar.MILLISECOND, 0);
 
-
                     if (incomeCal.equals(todayCal) && period.equals("День")) {
                         _incomeList.add(income);
                     }
-                    if(incomeCal.getTime().getMonth() == todayCal.getTime().getMonth() && period.equals("Месяц")){
+                    if (incomeCal.get(Calendar.MONTH) == todayCal.get(Calendar.MONTH) && period.equals("Месяц")) {
                         _incomeList.add(income);
                     }
-                    if(incomeCal.getTime().getYear() == todayCal.getTime().getYear() && period.equals("Год")){
+                    if (incomeCal.get(Calendar.YEAR) == todayCal.get(Calendar.YEAR) && period.equals("Год")) {
                         _incomeList.add(income);
                     }
                 }
+
+
                 adapterIncome.notifyDataSetChanged();
+                DrawCircleIncome(circleChartView); // Обновляем круг
+
             }
 
             @Override
             public void onError(Exception e) {
-
+                // Обработка ошибки
             }
         });
     }
@@ -202,7 +205,7 @@ public class IncomeUtils {
         int i = 0, j = 0;
         int k = left;
         while (i < n1 && j < n2) {
-            if (leftArray[i].get_createdAt().before(rightArray[j].get_createdAt())) {
+            if (leftArray[i].getCreatedAt().before(rightArray[j].getCreatedAt())) {
                 incomes[k] = leftArray[i];
                 i++;
             } else {

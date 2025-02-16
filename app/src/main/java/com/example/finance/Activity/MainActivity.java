@@ -127,12 +127,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void createRecycleView(){
         if(_wasteOrIncome.equals("Расходы")){
             _recyclerView.setAdapter(_adapterWaste);
-            _wasteUtils.loadWasteData(_adapterWaste,period);
+            _wasteUtils.loadWasteData(_circleChartView,_adapterWaste,period);
             _wasteUtils.DrawCircleWaste(_circleChartView);
         }
         else if (_wasteOrIncome.equals("Доходы")) {
             _recyclerView.setAdapter(_adapterIncome);
-            _incomeUtils.loadIncomeData(_adapterIncome,period);
+            _incomeUtils.loadIncomeData(_circleChartView,_adapterIncome,period);
             _incomeUtils.DrawCircleIncome(_circleChartView);
         }
     }
@@ -162,12 +162,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 period = tabText;
 
                 if(_wasteOrIncome.equals("Расходы")) {
-                    _wasteUtils.DrawCircleWaste(_circleChartView);
-                    _wasteUtils.loadWasteData(_adapterWaste,period);
+                    _wasteList.clear();
+                    _adapterWaste.notifyDataSetChanged();
+                    _wasteUtils.loadWasteData(_circleChartView,_adapterWaste,period);
                 }
                 else if (_wasteOrIncome.equals("Доходы")) {
-                    _incomeUtils.DrawCircleIncome(_circleChartView);
-                    _incomeUtils.loadIncomeData(_adapterIncome,period);
+                    _incomeList.clear(); // Очищаем список доходов
+                    _adapterIncome.notifyDataSetChanged(); // Уведомляем адаптер
+                    _incomeUtils.loadIncomeData(_circleChartView,_adapterIncome, period);
                 }
             }
 

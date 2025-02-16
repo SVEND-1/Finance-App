@@ -88,7 +88,7 @@ public class AdapterAddFriend extends RecyclerView.Adapter<AdapterAddFriend.View
                             if(!alreadyAdded) {
                                 Friend newFriend = new Friend(spUser.getUserId(), user.getId());
                                 dbFriend.insert(newFriend);
-                                Toast.makeText(itemView.getContext(),"Пользователь добавлен",Toast.LENGTH_SHORT);
+                                Toast.makeText(itemView.getContext(),"Пользователь добавлен",Toast.LENGTH_SHORT).show();
                             }
                         }
                     });

@@ -42,13 +42,13 @@ public class WasteUtils {
             addSectorIfNotNull(sectors, "Больница", wastePercentageOfTheColorInCircle.get("Больница"),
                     ContextCompat.getColor(context, android.R.color.holo_orange_light));
             addSectorIfNotNull(sectors, "Спорт", wastePercentageOfTheColorInCircle.get("Спорт"),
-                    ContextCompat.getColor(context, android.R.color.black));
+                    ContextCompat.getColor(context, android.R.color.system_on_primary_dark));
             addSectorIfNotNull(sectors, "Транспорт", wastePercentageOfTheColorInCircle.get("Транспорт"),
-                    ContextCompat.getColor(context, android.R.color.darker_gray));
+                    ContextCompat.getColor(context, android.R.color.holo_red_light));
             addSectorIfNotNull(sectors, "Досуг", wastePercentageOfTheColorInCircle.get("Досуг"),
                     ContextCompat.getColor(context, android.R.color.system_on_error_dark));
             addSectorIfNotNull(sectors, "Другое", wastePercentageOfTheColorInCircle.get("Другое"),
-                    ContextCompat.getColor(context, android.R.color.system_accent1_0));
+                    ContextCompat.getColor(context, android.R.color.holo_purple));
 
             circleChartView.setSectors(sectors);
             circleChartView.setCenterText(String.valueOf(wastePercentageOfTheColorInCircle.get("Сумма")));
@@ -122,14 +122,18 @@ public class WasteUtils {
         return percentageOfTheColorInCircle;
     }
 
-    public void loadWasteData(AdapterWaste adapterWaste,String period) {
+    public void loadWasteData(CircleChartView circleChartView,AdapterWaste adapterWaste,String period) {
         SPUser userSP = new SPUser(context);
+        _wasteList.clear();
+        adapterWaste.notifyDataSetChanged();
+
         _dbWaste.getWasteForUser(userSP.getUserId(), new DBWaste.DataCallback<List<Waste>>() {
             @Override
             public void onSuccess(List<Waste> wastes) {
                 _wasteList.clear();
+
                 for(Waste waste : wastes){
-                    Date createdAt = waste.get_createdAt();
+                    Date createdAt = waste.getCreatedAt();
                     if (createdAt == null) continue; // Проверка на null
 
 
@@ -163,6 +167,7 @@ public class WasteUtils {
                     }
                 }
                 adapterWaste.notifyDataSetChanged();
+                DrawCircleWaste(circleChartView);
             }
 
             @Override
@@ -194,7 +199,7 @@ public class WasteUtils {
         int i = 0, j = 0;
         int k = left;
         while (i < n1 && j < n2) {
-            if (leftArray[i].get_createdAt().before(rightArray[j].get_createdAt())) {
+            if (leftArray[i].getCreatedAt().before(rightArray[j].getCreatedAt())) {
                 wastes[k] = leftArray[i];
                 i++;
             } else {

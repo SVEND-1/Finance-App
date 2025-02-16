@@ -45,7 +45,7 @@ public class AdapterWaste extends RecyclerView.Adapter<AdapterWaste.WasteViewHol
         Waste waste = wasteList.get(position);
         int imageSource = holder.bind(waste);
 
-        Date date = waste.get_createdAt();
+        Date date = waste.getCreatedAt();
         String formattedDate;
         if(date != null) {
             //дату в строку
@@ -64,7 +64,7 @@ public class AdapterWaste extends RecyclerView.Adapter<AdapterWaste.WasteViewHol
                 Intent intent = new Intent(context, DetailsWasteActivity.class);
 
                 intent.putExtra("image", imageSource);
-                intent.putExtra("description", waste.get_description());
+                intent.putExtra("description", waste.getDescription());
                 intent.putExtra("price", waste.getAmount());
                 intent.putExtra("time", formattedDate);
 

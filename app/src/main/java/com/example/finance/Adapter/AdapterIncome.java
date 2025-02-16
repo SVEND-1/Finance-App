@@ -48,7 +48,7 @@ public class AdapterIncome extends RecyclerView.Adapter<AdapterIncome.ViewHolder
         Income income = _listIncome.get(position);
         int imageSource = holder.bind(income);
 
-        Date date = income.get_createdAt();
+        Date date = income.getCreatedAt();
         String formattedDate;
         if(date != null) {
             // дату в строку
@@ -66,7 +66,7 @@ public class AdapterIncome extends RecyclerView.Adapter<AdapterIncome.ViewHolder
                 Intent intent = new Intent(context, DetailsIncomeActivity.class);
 
                 intent.putExtra("image",imageSource);
-                intent.putExtra("description",income.get_description());
+                intent.putExtra("description",income.getDescription());
                 intent.putExtra("price",income.getAmount());
                 intent.putExtra("time", formattedDate);
 
