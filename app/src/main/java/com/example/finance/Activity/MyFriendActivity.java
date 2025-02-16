@@ -46,7 +46,7 @@ public class MyFriendActivity extends AppCompatActivity {
 
     private void init(){
         _recyclerView = findViewById(R.id.myFriendrecyclerView);
-        _dbFriend = new DBFriend();
+        _dbFriend = new DBFriend(this);
 
 
         _dbFriend.getAllFriends(new DBFriend.FriendsCallback() {

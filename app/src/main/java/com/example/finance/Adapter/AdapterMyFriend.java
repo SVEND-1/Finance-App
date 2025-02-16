@@ -89,7 +89,7 @@ public class AdapterMyFriend extends RecyclerView.Adapter<AdapterMyFriend.ViewHo
                     _bntDeleteFriend.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            DBFriend dbFriend = new DBFriend();
+                            DBFriend dbFriend = new DBFriend(itemView.getContext());
                             dbFriend.delete(friend);
                             Toast.makeText(itemView.getContext(), "Друг удален",Toast.LENGTH_SHORT).show();
                         }

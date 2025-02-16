@@ -72,7 +72,7 @@ public class AdapterAddFriend extends RecyclerView.Adapter<AdapterAddFriend.View
             _bntAddFriend.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    DBFriend dbFriend = new DBFriend();
+                    DBFriend dbFriend = new DBFriend(itemView.getContext());
                     SPUser spUser = new SPUser(itemView.getContext());
 
                     dbFriend.getAllFriends(new DBFriend.FriendsCallback() {

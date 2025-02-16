@@ -2,12 +2,9 @@ package com.example.finance.Activity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -32,28 +29,19 @@ import com.example.finance.Data.DataBase.DBUser;
 import com.example.finance.Data.DataBase.DBWaste;
 import com.example.finance.Data.SharedPreferences.SPUser;
 import com.example.finance.Model.Income;
-import com.example.finance.Model.User;
 import com.example.finance.Model.Waste;
 import com.example.finance.MyView.CircleChartView;
 import com.example.finance.R;
-import com.example.finance.WasteActivity;
+import com.example.finance.Utils.IncomeUtils;
+import com.example.finance.Utils.WasteUtils;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -72,6 +60,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private List<Waste> _wasteList;
     private AdapterWaste _adapterWaste;
     private AdapterIncome _adapterIncome;
+    private WasteUtils _wasteUtils;
+    private IncomeUtils _incomeUtils;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -90,7 +80,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         ClickInTableLayout();
         ClickInTableLayoutTime();
-        DrawCircleWaste();
+        _incomeUtils.DrawCircleIncome(_circleChartView);
+        _wasteUtils.DrawCircleWaste(_circleChartView);
 
         setSupportActionBar(_toolbar);
 
@@ -104,7 +95,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //СПИСОК
         createRecycleView();
-
     }
 
     private void init() {
@@ -129,304 +119,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         _adapterIncome = new AdapterIncome(_incomeList);
 
         _recyclerView.setLayoutManager(new LinearLayoutManager(this));
-    }
 
-    private void DrawCircleWaste() {
-        List<CircleChartView.Sector> sectors = new ArrayList<>();
-        HashMap<String, Float> wastePercentageOfTheColorInCircle = wasteCircle();
-
-        if (wastePercentageOfTheColorInCircle != null) {
-            addSectorIfNotNull(sectors, "Образование", wastePercentageOfTheColorInCircle.get("Образование"),
-                    ContextCompat.getColor(this, android.R.color.holo_red_light));
-            addSectorIfNotNull(sectors, "Продукты", wastePercentageOfTheColorInCircle.get("Продукты"),
-                    ContextCompat.getColor(this, android.R.color.holo_blue_light));
-            addSectorIfNotNull(sectors, "Одежда", wastePercentageOfTheColorInCircle.get("Одежда"),
-                    ContextCompat.getColor(this, android.R.color.holo_green_light));
-            addSectorIfNotNull(sectors, "Больница", wastePercentageOfTheColorInCircle.get("Больница"),
-                    ContextCompat.getColor(this, android.R.color.holo_orange_light));
-            addSectorIfNotNull(sectors, "Спорт", wastePercentageOfTheColorInCircle.get("Спорт"),
-                    ContextCompat.getColor(this, android.R.color.black));
-            addSectorIfNotNull(sectors, "Транспорт", wastePercentageOfTheColorInCircle.get("Транспорт"),
-                    ContextCompat.getColor(this, android.R.color.darker_gray));
-            addSectorIfNotNull(sectors, "Досуг", wastePercentageOfTheColorInCircle.get("Досуг"),
-                    ContextCompat.getColor(this, android.R.color.system_on_error_dark));
-            addSectorIfNotNull(sectors, "Другое", wastePercentageOfTheColorInCircle.get("Другое"),
-                    ContextCompat.getColor(this, android.R.color.system_accent1_0));
-
-            _circleChartView.setSectors(sectors);
-            _circleChartView.setCenterText(String.valueOf(wastePercentageOfTheColorInCircle.get("Сумма")));
-        }
-    }
-
-    private void DrawCircleIncome() {
-        List<CircleChartView.Sector> sectors = new ArrayList<>();
-        HashMap<String, Float> incomePercentageOfTheColorInCircle = incomeCircle();
-
-        if (incomePercentageOfTheColorInCircle != null) {
-            addSectorIfNotNull(sectors, "Зарплата", incomePercentageOfTheColorInCircle.get("Зарплата"),
-                    ContextCompat.getColor(this, android.R.color.holo_red_light));
-            addSectorIfNotNull(sectors, "Подарки", incomePercentageOfTheColorInCircle.get("Подарки"),
-                    ContextCompat.getColor(this, android.R.color.holo_blue_light));
-            addSectorIfNotNull(sectors, "Проценты банка", incomePercentageOfTheColorInCircle.get("Проценты банка"),
-                    ContextCompat.getColor(this, android.R.color.holo_green_light));
-            addSectorIfNotNull(sectors, "Гос. выплаты", incomePercentageOfTheColorInCircle.get("Гос. выплаты"),
-                    ContextCompat.getColor(this, android.R.color.holo_orange_light));
-            addSectorIfNotNull(sectors, "Акции", incomePercentageOfTheColorInCircle.get("Акции"),
-                    ContextCompat.getColor(this, android.R.color.black));
-            addSectorIfNotNull(sectors, "Ценные бумаги", incomePercentageOfTheColorInCircle.get("Ценные бумаги"),
-                    ContextCompat.getColor(this, android.R.color.darker_gray));
-            addSectorIfNotNull(sectors, "Продажа", incomePercentageOfTheColorInCircle.get("Продажа"),
-                    ContextCompat.getColor(this, android.R.color.system_on_error_dark));
-            addSectorIfNotNull(sectors, "Другое", incomePercentageOfTheColorInCircle.get("Другое"),
-                    ContextCompat.getColor(this, android.R.color.system_accent1_0));
-
-            _circleChartView.setSectors(sectors);
-            _circleChartView.setCenterText(String.valueOf(incomePercentageOfTheColorInCircle.get("Сумма")));
-        }
-    }
-
-    private void addSectorIfNotNull(List<CircleChartView.Sector> sectors, String key, Float value, int color) {
-        if (value != null && value > 0) {
-            sectors.add(new CircleChartView.Sector(value, color));
-        }
-    }
-
-
-
-    private HashMap<String, Float> incomeCircle() {
-        HashMap<String, Float> percentageOfTheColorInCircle = new HashMap<>();
-        float salary = 0, gifts = 0, bank = 0, payments = 0, stocks = 0, securities = 0, sell = 0, other = 0;
-        float sum = 0;
-
-        // Подсчет суммы для каждой категории
-        for (Income income : _incomeList) {
-            if (income != null && income.getAmount() > 0 && income.getCategoryId() != null) {
-                sum += income.getAmount();
-                switch (income.getCategoryId()) {
-                    case "Зарплата":
-                        salary += income.getAmount();
-                        break;
-                    case "Подарки":
-                        gifts += income.getAmount();
-                        break;
-                    case "Проценты банка":
-                        bank += income.getAmount();
-                        break;
-                    case "Гос. выплаты":
-                        payments += income.getAmount();
-                        break;
-                    case "Акции":
-                        stocks += income.getAmount();
-                        break;
-                    case "Ценные бумаги":
-                        securities += income.getAmount();
-                        break;
-                    case "Продажа":
-                        sell += income.getAmount();
-                        break;
-                    case "Другое":
-                        other += income.getAmount();
-                        break;
-                    default:
-                }
-            }
-        }
-
-        // Проверка на деление на ноль
-        if (sum > 0) {
-            percentageOfTheColorInCircle.put("Зарплата", (salary * 100.0f) / sum);
-            percentageOfTheColorInCircle.put("Подарки", (gifts * 100.0f) / sum);
-            percentageOfTheColorInCircle.put("Проценты банка", (bank * 100.0f) / sum);
-            percentageOfTheColorInCircle.put("Гос. выплаты", (payments * 100.0f) / sum);
-            percentageOfTheColorInCircle.put("Акции", (stocks * 100.0f) / sum);
-            percentageOfTheColorInCircle.put("Ценные бумаги", (securities * 100.0f) / sum);
-            percentageOfTheColorInCircle.put("Продажа", (sell * 100.0f) / sum);
-            percentageOfTheColorInCircle.put("Другое", (other * 100.0f) / sum);
-        } else {
-            // Если сумма 0, присваиваем 0% всем категориям
-            percentageOfTheColorInCircle.put("Зарплата", 0f);
-            percentageOfTheColorInCircle.put("Подарки", 0f);
-            percentageOfTheColorInCircle.put("Проценты банка", 0f);
-            percentageOfTheColorInCircle.put("Гос. выплаты", 0f);
-            percentageOfTheColorInCircle.put("Акции", 0f);
-            percentageOfTheColorInCircle.put("Ценные бумаги", 0f);
-            percentageOfTheColorInCircle.put("Продажа", 0f);
-            percentageOfTheColorInCircle.put("Другое", 0f);
-        }
-
-        // Добавление суммы
-        percentageOfTheColorInCircle.put("Сумма", sum);
-        return percentageOfTheColorInCircle;
-    }
-    private HashMap<String, Float> wasteCircle() {
-
-        HashMap<String, Float> percentageOfTheColorInCircle = new HashMap<>();
-        float education = 0, product = 0, clothes = 0, hospital = 0, sport = 0, transport = 0, leisure = 0, other = 0;
-        float sum = 0;
-
-        for (Waste waste : _wasteList) {
-            if (waste != null && waste.getAmount() > 0 && waste.getCategoryId() != null) {
-                sum += waste.getAmount();
-                switch (waste.getCategoryId()) {
-                    case "Образование":
-                        education += waste.getAmount();
-                        break;
-                    case "Продукты":
-                        product += waste.getAmount();
-                        break;
-                    case "Одежда":
-                        clothes += waste.getAmount();
-                        break;
-                    case "Больница":
-                        hospital += waste.getAmount();
-                        break;
-                    case "Спорт":
-                        sport += waste.getAmount();
-                        break;
-                    case "Транспорт":
-                        transport += waste.getAmount();
-                        break;
-                    case "Досуг":
-                        leisure += waste.getAmount();
-                        break;
-                    case "Другое":
-                        other += waste.getAmount();
-                        break;
-                }
-            }
-        }
-
-        if (sum > 0) {
-            percentageOfTheColorInCircle.put("Образование", (education * 100.0f) / sum);
-            percentageOfTheColorInCircle.put("Продукты", (product * 100.0f) / sum);
-            percentageOfTheColorInCircle.put("Одежда", (clothes * 100.0f) / sum);
-            percentageOfTheColorInCircle.put("Больница", (hospital * 100.0f) / sum);
-            percentageOfTheColorInCircle.put("Спорт", (sport * 100.0f) / sum);
-            percentageOfTheColorInCircle.put("Транспорт", (transport * 100.0f) / sum);
-            percentageOfTheColorInCircle.put("Досуг", (leisure * 100.0f) / sum);
-            percentageOfTheColorInCircle.put("Другое", (other * 100.0f) / sum);
-        } else {
-            percentageOfTheColorInCircle.put("Образование", 0f);
-            percentageOfTheColorInCircle.put("Продукты", 0f);
-            percentageOfTheColorInCircle.put("Одежда", 0f);
-            percentageOfTheColorInCircle.put("Больница", 0f);
-            percentageOfTheColorInCircle.put("Спорт", 0f);
-            percentageOfTheColorInCircle.put("Транспорт", 0f);
-            percentageOfTheColorInCircle.put("Досуг", 0f);
-            percentageOfTheColorInCircle.put("Другое", 0f);
-        }
-        percentageOfTheColorInCircle.put("Сумма",sum);
-        return percentageOfTheColorInCircle;
-    }
-
-    private void loadWasteData() {
-        _wasteDAO.getWasteForUser(_userSP.getUserId(), new DBWaste.DataCallback<List<Waste>>() {
-            @Override
-            public void onSuccess(List<Waste> wastes) {
-                _wasteList.clear();
-                for(Waste waste : wastes){
-                    Date createdAt = waste.get_createdAt();
-                    if (createdAt == null) continue; // Проверка на null
-
-
-                    Calendar wasteCal = Calendar.getInstance();
-                    wasteCal.setTime(createdAt);
-
-                    Calendar todayCal = Calendar.getInstance();
-                    Calendar monthCal = Calendar.getInstance();
-
-
-                    // Обнуляем время чтобы сравнить именно за день
-                    wasteCal.set(Calendar.HOUR_OF_DAY, 0);
-                    wasteCal.set(Calendar.MINUTE, 0);
-                    wasteCal.set(Calendar.SECOND, 0);
-                    wasteCal.set(Calendar.MILLISECOND, 0);
-
-                    todayCal.set(Calendar.HOUR_OF_DAY, 0);
-                    todayCal.set(Calendar.MINUTE, 0);
-                    todayCal.set(Calendar.SECOND, 0);
-                    todayCal.set(Calendar.MILLISECOND, 0);
-
-
-                    if (wasteCal.equals(todayCal) && period.equals("День")) {
-                        _wasteList.add(waste);
-                    }
-                    if(wasteCal.getTime().getMonth() == todayCal.getTime().getMonth() && period.equals("Месяц")){
-                        _wasteList.add(waste);
-                    }
-                    if(wasteCal.getTime().getYear() == todayCal.getTime().getYear() && period.equals("Год")){
-                        _wasteList.add(waste);
-                    }
-                }
-                _adapterWaste.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onError(Exception e) {
-
-            }
-        });
-    }
-    private void loadIncomeData(){
-        _dbIncome.getIncomeForUser(_userSP.getUserId(), new DBIncome.DataCallback<List<Income>>() {
-            @Override
-            public void onSuccess(List<Income> data) {
-                _incomeList.clear();
-
-                for(Income income : data){
-                    Date createdAt = income.get_createdAt();
-                    if (createdAt == null) continue; // Проверка на null
-
-
-                    Calendar incomeCal = Calendar.getInstance();
-                    incomeCal.setTime(createdAt);
-
-                    Calendar todayCal = Calendar.getInstance();
-                    Calendar monthCal = Calendar.getInstance();
-
-
-                    // Обнуляем время чтобы сравнить именно за день
-                    incomeCal.set(Calendar.HOUR_OF_DAY, 0);
-                    incomeCal.set(Calendar.MINUTE, 0);
-                    incomeCal.set(Calendar.SECOND, 0);
-                    incomeCal.set(Calendar.MILLISECOND, 0);
-
-                    todayCal.set(Calendar.HOUR_OF_DAY, 0);
-                    todayCal.set(Calendar.MINUTE, 0);
-                    todayCal.set(Calendar.SECOND, 0);
-                    todayCal.set(Calendar.MILLISECOND, 0);
-
-
-                    if (incomeCal.equals(todayCal) && period.equals("День")) {
-                        _incomeList.add(income);
-                    }
-                    if(incomeCal.getTime().getMonth() == todayCal.getTime().getMonth() && period.equals("Месяц")){
-                        _incomeList.add(income);
-                    }
-                    if(incomeCal.getTime().getYear() == todayCal.getTime().getYear() && period.equals("Год")){
-                        _incomeList.add(income);
-                    }
-                }
-                _adapterIncome.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onError(Exception e) {
-
-            }
-        });
+        _wasteUtils = new WasteUtils(_wasteList,_wasteDAO,this);
+        _incomeUtils = new IncomeUtils(_incomeList,_dbIncome,this);
     }
 
     private void createRecycleView(){
         if(_wasteOrIncome.equals("Расходы")){
             _recyclerView.setAdapter(_adapterWaste);
-            loadWasteData();
-            DrawCircleWaste();
+            _wasteUtils.loadWasteData(_adapterWaste,period);
+            _wasteUtils.DrawCircleWaste(_circleChartView);
         }
         else if (_wasteOrIncome.equals("Доходы")) {
             _recyclerView.setAdapter(_adapterIncome);
-            loadIncomeData();
-            DrawCircleIncome();
+            _incomeUtils.loadIncomeData(_adapterIncome,period);
+            _incomeUtils.DrawCircleIncome(_circleChartView);
         }
     }
 
@@ -455,12 +162,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 period = tabText;
 
                 if(_wasteOrIncome.equals("Расходы")) {
-                    DrawCircleWaste();
-                    loadWasteData();
+                    _wasteUtils.DrawCircleWaste(_circleChartView);
+                    _wasteUtils.loadWasteData(_adapterWaste,period);
                 }
                 else if (_wasteOrIncome.equals("Доходы")) {
-                    DrawCircleIncome();
-                    loadIncomeData();
+                    _incomeUtils.DrawCircleIncome(_circleChartView);
+                    _incomeUtils.loadIncomeData(_adapterIncome,period);
                 }
             }
 

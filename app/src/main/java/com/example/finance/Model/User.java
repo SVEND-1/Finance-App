@@ -52,29 +52,6 @@ public class User {
         this._id = _id;
     }
 
-//    public List<Friend> getListFriends() {
-//        return _listFriends;
-//    }
-//
-//    public void setListFriends(List<Friend> _listFriends) {
-//        this._listFriends = _listFriends;
-//    }
-//
-//    public List<Income> get_listIncome() {
-//        return _listIncome;
-//    }
-//
-//    public void set_listIncome(List<Income> _listIncome) {
-//        this._listIncome = _listIncome;
-//    }
-//
-//    public List<String> get_listWaste() {
-//        return _listWasteId;
-//    }
-//
-//    public void set_listWaste(List<String> _listWasteId) {
-//        this._listWasteId = _listWasteId;
-//    }
 
 
     @Override

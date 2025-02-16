@@ -17,11 +17,11 @@ public class CircleChartView extends View {
     private Paint circlePaint;
     private Paint textPaint;
     private RectF circleBounds;
-    private List<Sector> sectors = new ArrayList<>(); // List of sectors
+    private List<Sector> sectors = new ArrayList<>();
     private int centerX;
     private int centerY;
     private float radius;
-    private float innerRadiusRatio = 0.5f; // радиус внутреннего круга
+    private float innerRadiusRatio = 0.5f;
     private String centerText = "";
 
 
